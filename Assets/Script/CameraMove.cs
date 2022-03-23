@@ -29,12 +29,12 @@ public class CameraMove : MonoBehaviour
 
     // Start is called before the first frame update
     public void Start()
-    {/*
-      todo : 현재 카메라 설정이 orthographic 로 카메라 크기를 구해서 넘어가지 않도록 하는데  카메라 설정이 perspective로 변경할 경우 수치에 오차가 생긴다.
-        perspective 로 변경하더라도 카메라가 background 를 넘어가지 않도록 코드를 재수정 할것
+    {
+      /*
+        orthographic 카메라와 perspective 카메라를 분리하여 2d 카메라와 3d 카메라 를 분리했다.
       */
-        _cameraSize.y = Camera.main.orthographicSize;
-        _cameraSize.x = _cameraSize.y * Camera.main.aspect;
+        _cameraSize.y = transform.GetChild(1).GetComponent<Camera>().orthographicSize;
+        _cameraSize.x = _cameraSize.y * transform.GetChild(1).GetComponent<Camera>().aspect;
 
        
 
@@ -76,7 +76,7 @@ public class CameraMove : MonoBehaviour
     /// <returns>만약 받은 인자 x,y 값이 백그라운드 값을 초과하거나 감소했을경우 최대값, 최소값을 반환해준다.</returns>
     private Vector2 MaxMinSize(Vector2 size)
     {
-        //todo : 위 start 함수 에서 추가되는 부분 , 위 데이터의 방식이 변한다면 여기도 변경, 추가될 가능성이 높음
+        
         return new Vector2(
               Mathf.Clamp(size.x, _minsize.x + (_cameraSize.x +2), _maxsize.x - (_cameraSize.x+2))
             , Mathf.Clamp(size.y, _minsize.y + _cameraSize.y, _maxsize.y - _cameraSize.y)

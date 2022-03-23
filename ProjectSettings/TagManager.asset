@@ -13,14 +13,14 @@ TagManager:
   - UI
   - 
   - 
-  - floor
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - InteractionObj
+  - Wall
+  - Floor
+  - Enemy
+  - Player
+  - P_projectile
+  - E_projectile
   - 
   - 
   - 
@@ -40,4 +40,31 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 4005887273
+    locked: 0
+  - name: InteractionObj
+    uniqueID: 3203730711
+    locked: 0
+  - name: Wall
+    uniqueID: 3752607315
+    locked: 0
+  - name: Floor
+    uniqueID: 3886430455
+    locked: 0
+  - name: Enemy
+    uniqueID: 1858476863
+    locked: 0
+  - name: Player
+    uniqueID: 2959732675
+    locked: 0
+  - name: P_ projectile
+    uniqueID: 2677721101
+    locked: 0
+  - name: E_ projectile
+    uniqueID: 2946901237
+    locked: 0
+  - name: UI
+    uniqueID: 1229254457
     locked: 0

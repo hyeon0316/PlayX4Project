@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);//플레이어 기준으로 아래 방향으로 ray 생성
 
 
-        if(_isFry&&Physics.Raycast(ray,out hit, LayerMask.GetMask("floor")))//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
+        if(_isFry&&Physics.Raycast(ray,out hit, LayerMask.GetMask("Floor")))//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
         {
          //   Debug.Log(hit.distance);
             if (hit.distance < (gameObject.GetComponent<MeshRenderer>().bounds.size.y/2)*1.1f) ChangeFry(false);//floor 와의 거리가 플레이어 y 축의 절반 이하일때 
