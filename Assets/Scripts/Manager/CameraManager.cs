@@ -88,10 +88,10 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v1()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(this.transform.position.x, this.transform.position.y));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y +10));
 
         
-        this.transform.position = new Vector3( playerposition.x, playerposition.y,this.transform.position.z );
+        this.transform.position = new Vector3( playerposition.x, playerposition.y + 10,this.transform.position.z );
     }
 
     /// <summary>
@@ -99,9 +99,9 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v2()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(this.transform.position.x, this.transform.position.y));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 10));
 
         /*todo :  플레이어가 카메라의 일정 이상으로 나갈때 플레이어 쪽으로 이동할 수 있도록*/ 
-        this.transform.position = Vector3.Lerp(Player.transform.position, new Vector3(playerposition.x, playerposition.y, this.transform.position.z),CameraMoveSpeed);
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(playerposition.x, playerposition.y, this.transform.position.z), CameraMoveSpeed );
     }
 }
