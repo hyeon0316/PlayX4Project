@@ -33,6 +33,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+       
+    }
+
+
+    private void FixedUpdate()
+    {
         CheckFry();
         PlayerType();
     }
@@ -115,7 +122,7 @@ public class Player : MonoBehaviour
         PlayerJump();
 
 
-        Vector3 movement = new Vector3(h, 0, 0) * Time.deltaTime * Speed;
+        Vector3 movement = new Vector3(h, 0, 0) * Time.deltaTime * Speed * 5;
 
         //rigidbody 에 가속도 값을 더하여 이동하는 라인
         Rigidbody rigidbody = this.GetComponent<Rigidbody>();
@@ -126,18 +133,30 @@ public class Player : MonoBehaviour
             rigidbody.velocity = new Vector3(MaxSpeed, rigidbody.velocity.y, 0);
         if (rigidbody.velocity.x < -MaxSpeed)
             rigidbody.velocity = new Vector3(-MaxSpeed, rigidbody.velocity.y, 0);
+
+
+        Debug.Log(rigidbody.velocity.x);
     }
 
 
 
     private void PlayerJump()
     {
-        if (!_isFry && Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W))
         {
-
-            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 1 * 15f,0);
+            if (!_isFry) { 
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 15f,0);
+            _doubleJump = true;
             ChangeFry(true);
+            }else if (_doubleJump)
+            {
+                gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 15f, 0);
+                _doubleJump = false;
+            }
         }
+
+
+
     }
 
     /// <summary>
@@ -152,8 +171,11 @@ public class Player : MonoBehaviour
 
         if(_isFry&&Physics.Raycast(ray,out hit, LayerMask.GetMask("Floor")))//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
         {
-         //   Debug.Log(hit.distance);
-            if (hit.distance < (gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*1.1f) ChangeFry(false);//floor 와의 거리가 플레이어 y 축의 절반 이하일때 
+             // Debug.Log(hit.distance);
+            if (hit.distance < transform.GetChild(0).GetComponent<SpriteRenderer>().size.y * 0.7f) {
+                _doubleJump = false;
+                ChangeFry(false);
+               }//floor 와의 거리가 플레이어 y 축의 절반 이하일때 
         }
 
     }
