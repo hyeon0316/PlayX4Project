@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
 
     private bool _isFry = false;
 
+    private bool _doubleJump;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -121,9 +123,9 @@ public class Player : MonoBehaviour
 
         //무한이 가속하는것을 막기 위해 최대속도 이상이 될경우 최대속도로 고정한다.
         if (rigidbody.velocity.x > MaxSpeed)
-            rigidbody.velocity = new Vector3(MaxSpeed, 0, 0);
+            rigidbody.velocity = new Vector3(MaxSpeed, rigidbody.velocity.y, 0);
         if (rigidbody.velocity.x < -MaxSpeed)
-            rigidbody.velocity = new Vector3(-MaxSpeed, 0, 0);
+            rigidbody.velocity = new Vector3(-MaxSpeed, rigidbody.velocity.y, 0);
     }
 
 
@@ -133,7 +135,7 @@ public class Player : MonoBehaviour
         if (!_isFry && Input.GetKeyDown(KeyCode.W))
         {
 
-            gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * 500f);
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 1 * 15f,0);
             ChangeFry(true);
         }
     }
@@ -151,7 +153,7 @@ public class Player : MonoBehaviour
         if(_isFry&&Physics.Raycast(ray,out hit, LayerMask.GetMask("Floor")))//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
         {
          //   Debug.Log(hit.distance);
-            if (hit.distance < (gameObject.GetComponent<MeshRenderer>().bounds.size.y/2)*1.1f) ChangeFry(false);//floor 와의 거리가 플레이어 y 축의 절반 이하일때 
+            if (hit.distance < (gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*1.1f) ChangeFry(false);//floor 와의 거리가 플레이어 y 축의 절반 이하일때 
         }
 
     }
