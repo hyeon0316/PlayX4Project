@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
             rigidbody.velocity = new Vector3(-MaxSpeed, rigidbody.velocity.y, 0);
 
 
-       // Debug.Log(rigidbody.velocity.x);
+        Debug.Log(rigidbody.velocity.x);
     }
 
 

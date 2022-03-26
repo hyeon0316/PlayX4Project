@@ -88,10 +88,10 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v1()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y +10));
 
         
-        this.transform.position = new Vector3( playerposition.x, playerposition.y + 5,this.transform.position.z );
+        this.transform.position = new Vector3( playerposition.x, playerposition.y + 10,this.transform.position.z );
     }
 
     /// <summary>
@@ -99,32 +99,9 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v2()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 10));
 
-        /*todo :  플레이어가 카메라의 일정 이상으로 나갈때 플레이어 쪽으로 이동할 수 있도록*/
-        if (OutPlayertoCamera()) 
-        this.transform.position =
-                Vector3.Lerp(this.transform.position,
-                new Vector3(playerposition.x, this.transform.position.y,this.transform.position.z),
-                CameraMoveSpeed*Time.deltaTime );
+        /*todo :  플레이어가 카메라의 일정 이상으로 나갈때 플레이어 쪽으로 이동할 수 있도록*/ 
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(playerposition.x, playerposition.y, this.transform.position.z), CameraMoveSpeed );
     }
-
-    private bool OutPlayertoCamera()
-    {
-        Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
-        Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
-        Debug.Log("플레이어 위치" + P_position +"카메라 상하좌우" + cameraScale);
-
-        if (P_position.x < cameraScale.x * 0.3f || P_position.x > cameraScale.x * 0.7f)
-            return true;
-        if(P_position.y < cameraScale.y * 0.49f || P_position.y > cameraScale.y * 0.51f)
-            return true;
-
-
-
-        return false ;
-
-    }
-
-
 }
