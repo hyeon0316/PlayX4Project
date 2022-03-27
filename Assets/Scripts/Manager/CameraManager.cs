@@ -88,10 +88,10 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v1()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y +10));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y +2));
 
         
-        this.transform.position = new Vector3( playerposition.x, playerposition.y + 10,this.transform.position.z );
+        this.transform.position = new Vector3( playerposition.x, playerposition.y + 2 ,this.transform.position.z );
     }
 
     /// <summary>
@@ -99,9 +99,50 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v2()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 10));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 2));
 
-        /*todo :  플레이어가 카메라의 일정 이상으로 나갈때 플레이어 쪽으로 이동할 수 있도록*/ 
-        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(playerposition.x, playerposition.y, this.transform.position.z), CameraMoveSpeed );
+        //플레이어가 카메라 화면 좌우로 일정 이상 나간다면 카메라 위치를 다시 잡아주는 라인
+        if(OutPlayertoCameraX())
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(playerposition.x, this.transform.position.y, this.transform.position.z), CameraMoveSpeed * Time.deltaTime );
+
+
+        //플레이어가 카메라 화면 상하로 일정 이상 나간다면 카메라 위치를 다시 잡아주는 라인
+        if(OutPlayertoCameraY())
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, playerposition.y, this.transform.position.z), CameraMoveSpeed * Time.deltaTime);
+
     }
+
+
+    /// <summary>
+    /// 플레이어가 카메라좌우로 일정량 이상 나갔는지 확인하는 함수
+    /// </summary>
+    /// <returns>플레이어가 일정량 이상 나갔다면 true 아니면 false를 반환한다.</returns>
+    private bool OutPlayertoCameraX()
+    {
+        Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
+        Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
+        Debug.Log("플레이어 위치" + P_position + "카메라 상하좌우" + cameraScale);
+
+        if (P_position.x < cameraScale.x * 0.3f || P_position.x > cameraScale.x * 0.7f)
+            return true;
+      
+        return false;
+    }
+
+    /// <summary>
+    /// 플레이어가 카메라 상하로 일정량 이상 나갔는지 확인하는 함수
+    /// </summary>
+    /// <returns>플레이어가 일정량 이상 나갔다면 true 아니면 false를 반환한다.</returns>
+    private bool OutPlayertoCameraY()
+    {
+        Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
+        Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
+
+        if (P_position.y < cameraScale.y * 0.49f || P_position.y > cameraScale.y * 0.51f)
+            return true;
+
+
+        return false;
+    }
+
 }
