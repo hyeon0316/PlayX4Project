@@ -13,17 +13,16 @@ using UnityEngine;
 
 public class Player : Life,I_hp
 {
-   
-
-
-    //v4 에서 velocity 에 값을 입력할때 사용할 최대 속도
-    public float MaxSpeed = 5;
-
-    public int Movetype = 1;
 
     private bool _isFry = false;
 
     private bool _doubleJump;
+
+    private void Awake()
+    {
+        Initdata(30, 10, 5);
+    }
+
 
     private void FixedUpdate()
     {

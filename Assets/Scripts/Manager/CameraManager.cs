@@ -110,6 +110,9 @@ public class CameraManager : MonoBehaviour
         if(OutPlayertoCameraY())
         this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, playerposition.y, this.transform.position.z), CameraMoveSpeed * Time.deltaTime);
 
+
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, Player.transform.position.z - 5), CameraMoveSpeed * Time.deltaTime);
+
     }
 
 

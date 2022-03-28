@@ -80,3 +80,19 @@ public interface I_hp
     /// <returns></returns>
     bool CheckLiving();
 }
+
+public enum Enemystate { Idle, Find, Attack };
+
+public interface I_EnemyControl
+{
+    Enemystate _enemystate { get; set; }
+   
+
+    void EnemyAttack();
+
+
+    void EnemyMove();
+
+
+
+}
