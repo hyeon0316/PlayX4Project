@@ -12,9 +12,14 @@ public class Life :MonoBehaviour
 {
     private int _maxhp;
 
+    public int _Maxhp
+    {
+        get { return _maxhp; }
+    }
+
     private int _hp;
 
-    private float RideoHp
+    public float RideoHp
     {
         get { return _hp / _maxhp; }
     }
@@ -62,7 +67,7 @@ public class Life :MonoBehaviour
         _living = true;
     }
 
-
+     
 }
 
 public interface I_hp
@@ -96,3 +101,5 @@ public interface I_EnemyControl
 
 
 }
+
+

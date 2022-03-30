@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//근거리 적 스크립트
-public class Enemy : Life,I_hp,I_EnemyControl
+//원거리 적 스크립트
+public class FarawayEnemy : Life, I_hp, I_EnemyControl
 {
-    public Enemystate _enemystate {
+    public Enemystate _enemystate
+    {
         get { return _enemystate; }
         set { _enemystate = value; }
     }
@@ -34,18 +35,17 @@ public class Enemy : Life,I_hp,I_EnemyControl
     }
 
     /// <summary>
-    /// 적 이동관련 스크립트
+    /// 적 공격기능 스크립트(원거리)
     /// </summary>
     public void EnemyAttack()
     {
 
     }
     /// <summary>
-    /// 적 행동 관련 스크립트
+    /// 적 이동 관련 스크립트
     /// </summary>
     public void EnemyMove()
     {
 
     }
-
 }
