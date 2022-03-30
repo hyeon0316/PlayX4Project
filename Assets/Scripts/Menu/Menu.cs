@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
+    public GameObject Option_page;
 
-
- public void OnClick()
+    public void OnClick()
     {
         SceneManager.LoadScene("TestScenes");
     }
- 
+
+  
     public void OnClickQuitGame()
     {
        #if UNNITY_EDITOR
