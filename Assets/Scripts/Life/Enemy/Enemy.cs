@@ -12,7 +12,7 @@ public class Enemy : Life,I_hp,I_EnemyControl
 
     public void Awake()
     {
-        Initdata(0, 0, 0);//데이터 입력
+        Initdata(50, 5, 2);//데이터 입력
     }
 
 

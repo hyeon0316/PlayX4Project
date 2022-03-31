@@ -13,14 +13,21 @@ using UnityEngine;
 
 public class Player : Life,I_hp
 {
+    public enum Playerstate { Idle, Attack, Jump, Dash}
+
+    public Playerstate Pstate;
 
     private bool _isFry = false;
 
     private bool _doubleJump;
 
+    private float[] countList;
+
     private void Awake()
     {
+        Pstate = Playerstate.Idle;
         Initdata(30, 10, 3);
+        countList = new float[1];
     }
 
 
@@ -31,7 +38,16 @@ public class Player : Life,I_hp
         PlayerMove_v1();
     }
 
-   
+    public void countListdown()
+    {
+        for(int i = 0; i < countList.Length; ++i)
+        {
+            if(countList[i]>0)
+            countList[i] -= Time.deltaTime;
+        }
+    }
+
+
     public bool Gethit(int Cvalue)
     {
         HP -= Cvalue;
@@ -100,6 +116,7 @@ public class Player : Life,I_hp
             {
                 _doubleJump = true;
                 ChangeFry(true);
+                Pstate = Playerstate.Jump;
             }
 
             if(_isFry && Distance < 0.75f)//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
@@ -107,7 +124,7 @@ public class Player : Life,I_hp
                 Debug.Log("Floor충돌");
                     _doubleJump = false;
                     ChangeFry(false);
-               
+                Pstate = Playerstate.Idle;
             }
         }
     }
@@ -123,6 +140,31 @@ public class Player : Life,I_hp
         _isFry = p_Fry;
     }
 
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Debug.Log(collision.gameObject.layer +","+ LayerMask.NameToLayer("Enemy"));
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Debug.Log("적 충돌");
+
+            if (Pstate == Playerstate.Attack)
+            {
+                Debug.Log("플레이어 공격함");
+                collision.transform.GetComponent<I_hp>().Gethit(Power);
+            }
+
+            if (collision.transform.GetComponent<I_EnemyControl>()._enemystate == Enemystate.Attack)
+            {
+                Debug.Log("플레이어 공격당함");
+                Gethit(collision.transform.GetComponent<Life>().Power);
+            }
+
+
+        }
+    }
+
+    
 
 
 }
