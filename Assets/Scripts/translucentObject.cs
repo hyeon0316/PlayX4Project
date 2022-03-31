@@ -96,7 +96,7 @@ public class translucentObject : MonoBehaviour
     void HitRayTransparentObject(Vector3 start, Vector3 direction, float distance)
     {
         //플레이어와 카메라 사이의 오브젝트들을 변수에 저장
-        HitObject = Physics.RaycastAll(start, direction, distance);
+        HitObject = Physics.RaycastAll(start, direction, distance,LayerMask.GetMask("InteractionObj", "Wall", "Floor"));
         
         //오브젝트가 1개 이상 있다면 실행
         if(HitObject.Length  >= 1)

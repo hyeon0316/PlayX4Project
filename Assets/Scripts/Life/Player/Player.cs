@@ -14,17 +14,23 @@ using UnityEngine;
 public class Player : Life,I_hp
 {
 
+    public enum PlayerstateEnum { Idle, Attack, Dash,Dead}
+
+    public PlayerstateEnum Playerstate;
+
     private bool _isFry = false;
 
-    private bool _doubleJump;
+   
 
     private void Awake()
     {
         Initdata(30, 10, 3);
+        Playerstate = PlayerstateEnum.Idle;
+
     }
 
 
-    private void FixedUpdate()
+private void FixedUpdate()
     {
         CheckFry();
         PlayerJump();
@@ -71,12 +77,8 @@ public class Player : Life,I_hp
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (!_isFry) { 
-            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 7f,0);
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 10f,0);
             
-            }else if (_doubleJump)
-            {
-                gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 7f, 0);
-                _doubleJump = false;
             }
         }
 
@@ -96,16 +98,15 @@ public class Player : Life,I_hp
         if(Physics.Raycast(ray, out hit, LayerMask.GetMask("Floor"))){
             float Distance = hit.distance;
           
-            if(!_isFry && Distance > 1.2f && gameObject.GetComponent<Rigidbody>().velocity.y > 1f)
+            if(!_isFry && Distance > 1.5f && gameObject.GetComponent<Rigidbody>().velocity.y > 1f)
             {
-                _doubleJump = true;
+             
                 ChangeFry(true);
             }
 
-            if(_isFry && Distance < 0.75f)//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
+            if(_isFry && Distance < 1f)//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
             {
                 Debug.Log("Floor충돌");
-                    _doubleJump = false;
                     ChangeFry(false);
                
             }
@@ -123,6 +124,15 @@ public class Player : Life,I_hp
         _isFry = p_Fry;
     }
 
-
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if(Playerstate == PlayerstateEnum.Attack)
+            {
+                collision.transform.GetComponent<I_hp>().Gethit(Power);
+            }
+        }
+    }
 
 }
