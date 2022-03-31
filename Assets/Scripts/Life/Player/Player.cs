@@ -20,7 +20,7 @@ public class Player : Life,I_hp
 
     private void Awake()
     {
-        Initdata(30, 10, 5);
+        Initdata(30, 10, 3);
     }
 
 
@@ -71,12 +71,11 @@ public class Player : Life,I_hp
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (!_isFry) { 
-            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 10f,0);
-            _doubleJump = true;
-            ChangeFry(true);
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 7f,0);
+            
             }else if (_doubleJump)
             {
-                gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 10f, 0);
+                gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 7f, 0);
                 _doubleJump = false;
             }
         }
@@ -94,15 +93,23 @@ public class Player : Life,I_hp
         RaycastHit hit;
         Ray ray = new Ray(transform.position, Vector3.down);//플레이어 기준으로 아래 방향으로 ray 생성
 
+        if(Physics.Raycast(ray, out hit, LayerMask.GetMask("Floor"))){
+            float Distance = hit.distance;
+          
+            if(!_isFry && Distance > 1.2f && gameObject.GetComponent<Rigidbody>().velocity.y > 1f)
+            {
+                _doubleJump = true;
+                ChangeFry(true);
+            }
 
-        if(_isFry&&Physics.Raycast(ray,out hit,2f, LayerMask.GetMask("Floor")))//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
-        {
-            Debug.Log("Floor충돌");
-                _doubleJump = false;
-                ChangeFry(false);
+            if(_isFry && Distance < 0.75f)//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
+            {
+                Debug.Log("Floor충돌");
+                    _doubleJump = false;
+                    ChangeFry(false);
                
+            }
         }
-
     }
 
 
