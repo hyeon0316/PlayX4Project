@@ -20,24 +20,37 @@ public class Player : Life,I_hp
 
     private bool _isFry = false;
 
-   
+    public float[] CountTimeList;
+
+    public Animator PlayerAnimator;
 
     private void Awake()
     {
         Initdata(30, 10, 3);
         Playerstate = PlayerstateEnum.Idle;
-
+        CountTimeList = new float[1];
     }
 
 
-private void FixedUpdate()
+    private void FixedUpdate()
     {
+        countTime();
         CheckFry();
+        PlayerAttack();
         PlayerJump();
         PlayerMove_v1();
     }
 
    
+    private void countTime()
+    {
+        for(int i = 0; i < CountTimeList.Length; ++i)
+        {
+            if(CountTimeList[i] > 0)
+            CountTimeList[i] -= Time.deltaTime;
+        }
+    }
+
     public bool Gethit(int Cvalue)
     {
         HP -= Cvalue;
@@ -74,16 +87,13 @@ private void FixedUpdate()
 
     private void PlayerJump()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKey(KeyCode.C))
         {
             if (!_isFry) { 
             gameObject.GetComponent<Rigidbody>().velocity = new Vector3(gameObject.GetComponent<Rigidbody>().velocity.x, 1 * 10f,0);
             
             }
         }
-
-
-
     }
 
     /// <summary>
@@ -113,6 +123,22 @@ private void FixedUpdate()
         }
     }
 
+    public void PlayerAttack()
+    {
+        //todo : animationManager 에있는 애니매이션 종료 확인 함수를 이용해 플레이어의 상태를 갱신해줘야 한다.
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Playerstate = PlayerstateEnum.Attack;
+            //Playeranimator 에서 Attack 이름의 trigger 실행
+            AnimationManager.Instance.AnimatorControllTrigger(PlayerAnimator, "Attack");
+        }
+
+
+
+    }
+
+
+
 
 
     /// <summary>
@@ -126,11 +152,36 @@ private void FixedUpdate()
 
     public void OnCollisionEnter(Collision collision)
     {
+        //플레이어가 충돌한것이 enemy 레이어에 있다면(근거리기준)
         if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if(Playerstate == PlayerstateEnum.Attack)
+            Debug.Log("Enemy 충돌");
+            if(Playerstate == PlayerstateEnum.Attack)//플레이어가 공격상태이다면
             {
-                collision.transform.GetComponent<I_hp>().Gethit(Power);
+                if (collision.transform.GetComponent<I_hp>().Gethit(Power))//적의 채력을 플레이어의 power 만큼 깍는다.
+                {
+                    //true 가 반환된다면 hp 이 다된 적 삭제
+                    Destroy(collision.gameObject);
+
+                }
+
+               
+            }
+            Debug.Log(collision.transform.GetComponent<I_EnemyControl>()._enemystate);
+            //충돌한 적이 공격상태일때
+            if (collision.transform.GetComponent<I_EnemyControl>()._enemystate == Enemystate.Attack)
+            {
+                //플레이어 무적상태 확인
+                if (CountTimeList[0] <= 0)
+                {
+                    if (Gethit(collision.transform.GetComponent<Life>().Power))
+                    {
+                        //todo : 플레이어 사망 관련 확인
+
+                    }
+                    //무적 타임 1.5 초
+                    CountTimeList[0] = 1.5f;
+                }
             }
         }
     }

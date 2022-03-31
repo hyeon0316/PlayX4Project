@@ -130,7 +130,7 @@ public class CameraManager : MonoBehaviour
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
        
 
-        if (P_position.x < cameraScale.x * 0.2f || P_position.x > cameraScale.x * 0.8f)
+        if (P_position.x < cameraScale.x * 0.35f || P_position.x > cameraScale.x * 0.65f)
             return true;
       
         return false;
