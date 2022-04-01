@@ -2295,7 +2295,7 @@ PrefabInstance:
     - target: {fileID: 307459355053265549, guid: 029ac4ddda38ff34eb2229ada1f07828,
         type: 3}
       propertyPath: Playerstate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 307459355053265549, guid: 029ac4ddda38ff34eb2229ada1f07828,
         type: 3}
