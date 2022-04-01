@@ -1765,6 +1765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a95417236316e49be1e686aa28d5d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Playerstate: 0
 --- !u!65 &1974726100
 BoxCollider:
   m_ObjectHideFlags: 0
