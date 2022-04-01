@@ -14,7 +14,7 @@ public class Enemy : Life,I_hp,I_EnemyControl
 
     public void Awake()
     {
-        Initdata(50, 5, 3);//데이터 입력
+        Initdata(10, 5, 3);//데이터 입력
         Enemystate = Enemystate.Attack;
     }
 

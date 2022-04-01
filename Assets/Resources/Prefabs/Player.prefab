@@ -48,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Playerstate: 0
   CountTimeList: []
-  PlayerAnimator: {fileID: 5188956744197754339}
 --- !u!65 &1317145674460572160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -120,7 +119,7 @@ Animator:
   m_GameObject: {fileID: 8857996014535115257}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2f8e43d666e588b4295bc16402a8a35f, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
