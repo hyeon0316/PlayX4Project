@@ -30,6 +30,8 @@ public class Player : Life,I_hp
 
     private int _atkNum;
     private float _atkDelay;
+    private bool _canAttack = true;
+    private bool _isCheck = false;
 
     private void Awake()
     {
@@ -156,13 +158,29 @@ public class Player : Life,I_hp
 
     public void PlayerAttack()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKey(KeyCode.X) &&_canAttack)
+        {
+            _isCheck = true;
+            AttackAnimation(_atkNum);
+            //Playerstate = PlayerstateEnum.Attack;
+            _canAttack = false;
+        }
+
+        if (_isCheck)
         {
             _atkDelay += Time.deltaTime;
-            AttackAnimation(_atkNum++);
-            //Playerstate = PlayerstateEnum.Attack;
-
         }
+        
+        if (_atkDelay >= 0.5f)
+        {
+            _canAttack = true;
+            _atkNum++;
+            _isCheck = false;
+            _atkDelay = 0f;
+        }
+
+        if (_atkNum > 2)
+            _atkNum = 0;
     }
 
     /// <summary>
@@ -198,8 +216,6 @@ public class Player : Life,I_hp
                     Destroy(collision.gameObject);
 
                 }
-
-               
             }
             Debug.Log(collision.transform.GetComponent<I_EnemyControl>()._enemystate);
             //충돌한 적이 공격상태일때
