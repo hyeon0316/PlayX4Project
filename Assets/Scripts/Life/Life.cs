@@ -66,8 +66,6 @@ public class Life :MonoBehaviour
         _speed = speed;
         _living = true;
     }
-
-     
 }
 
 public interface I_hp
@@ -97,9 +95,6 @@ public interface I_EnemyControl
 
 
     void EnemyMove();
-
-
-
 }
 
 

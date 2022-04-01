@@ -37,8 +37,8 @@ public class CameraManager : MonoBehaviour
       /*
         orthographic 카메라와 perspective 카메라를 분리하여 2d 카메라와 3d 카메라 를 분리했다.
       */
-        _cameraSize.y = transform.GetChild(1).GetComponent<Camera>().orthographicSize;
-        _cameraSize.x = _cameraSize.y * transform.GetChild(1).GetComponent<Camera>().aspect;
+        _cameraSize.y = transform.GetChild(0).GetComponent<Camera>().orthographicSize;
+        _cameraSize.x = _cameraSize.y * transform.GetChild(0).GetComponent<Camera>().aspect;
 
        
 
@@ -103,7 +103,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v2()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 2));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 1.8f));
 
         //플레이어가 카메라 화면 좌우로 일정 이상 나간다면 카메라 위치를 다시 잡아주는 라인
         if(OutPlayertoCameraX())
@@ -115,7 +115,7 @@ public class CameraManager : MonoBehaviour
         this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, playerposition.y, this.transform.position.z), CameraMoveSpeed * Time.deltaTime);
 
 
-        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, Player.transform.position.z - 5), CameraMoveSpeed * Time.deltaTime);
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, Player.transform.position.z - 4.5f), CameraMoveSpeed * Time.deltaTime);
 
     }
 
@@ -130,7 +130,7 @@ public class CameraManager : MonoBehaviour
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
        
 
-        if (P_position.x < cameraScale.x * 0.2f || P_position.x > cameraScale.x * 0.8f)
+        if (P_position.x < cameraScale.x * 0.35f || P_position.x > cameraScale.x * 0.65f)
             return true;
       
         return false;

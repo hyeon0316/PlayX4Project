@@ -5,14 +5,17 @@ using UnityEngine;
 //근거리 적 스크립트
 public class Enemy : Life,I_hp,I_EnemyControl
 {
+    public Enemystate Enemystate;
+
     public Enemystate _enemystate {
-        get { return _enemystate; }
-        set { _enemystate = value; }
+        get { return Enemystate; }
+        set { Enemystate = value; }
     }
 
     public void Awake()
     {
-        Initdata(50, 5, 2);//데이터 입력
+        Initdata(10, 5, 3);//데이터 입력
+        Enemystate = Enemystate.Attack;
     }
 
 
