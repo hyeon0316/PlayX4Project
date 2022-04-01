@@ -28,6 +28,9 @@ public class Player : Life,I_hp
 
     private Rigidbody _rigid;
 
+    private int _atkNum;
+    private float _atkDelay;
+
     private void Awake()
     {
         _playerAnim = GetComponentInChildren<Animator>();
@@ -155,7 +158,10 @@ public class Player : Life,I_hp
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Playerstate = PlayerstateEnum.Attack;
+            _atkDelay += Time.deltaTime;
+            AttackAnimation(_atkNum++);
+            //Playerstate = PlayerstateEnum.Attack;
+
         }
     }
 
