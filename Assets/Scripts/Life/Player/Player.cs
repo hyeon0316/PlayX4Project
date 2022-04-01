@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 /*
 1.public으로 선언 된 변수는 앞글자 대문자로 시작
 2. private는 변수 앞에 "_"붙이고  소문자로 시작
@@ -32,6 +32,7 @@ public class Player : Life,I_hp
     private float _atkDelay;
     private bool _canAttack = true;
     private bool _isCheck = false;
+    private bool _isAgainAttack = false;
 
     private void Awake()
     {
@@ -40,32 +41,29 @@ public class Player : Life,I_hp
         _rigid = GetComponent<Rigidbody>();
         Initdata(30, 10, 3);
         Playerstate = PlayerstateEnum.Idle;
-        CountTimeList = new float[1];
+        CountTimeList = new float[2];
     }
 
 
     private void Update()
     {
-        _playerAnim.SetBool("IsRun", false);
+        
         //방향 전환은 물리기반이 아니기 때문에 Update에서 검사
         if (Input.GetButton("Horizontal"))
         {
             _playerSprite.flipX = Input.GetAxisRaw("Horizontal") == -1;
         }
 
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
-        {
-            _playerAnim.SetBool("IsRun", true);
-        }
+        
     }
 
     private void FixedUpdate()
     {
         countTime();
         CheckFry();
-        PlayerAttack();
         PlayerJump();
         PlayerMove_v1();
+        PlayerAttack();
     }
 
    
@@ -73,7 +71,7 @@ public class Player : Life,I_hp
     {
         for(int i = 0; i < CountTimeList.Length; ++i)
         {
-            if(CountTimeList[i] > 0)
+            if(CountTimeList[i] >= 0)
             CountTimeList[i] -= Time.deltaTime;
         }
     }
@@ -99,16 +97,35 @@ public class Player : Life,I_hp
     /// </summary>
     private void PlayerMove_v1()
     {
-        float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
-        float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
-
-        Vector3 movement = new Vector3(h,0, v * 0.5f) * Time.deltaTime * Speed;
 
        
-        //rigidbody 를 이용해서 이동하는 라인.
+      
+            float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
+            float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
+            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            {
+                if (Playerstate != PlayerstateEnum.Attack)
+                {
+                    _playerAnim.SetBool("IsRun", true);
+                    Playerstate = PlayerstateEnum.Dash;
+                    Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
+                    _rigid.MovePosition(this.transform.position + movement);
 
-        //gameObject.GetComponent<Rigidbody>().AddForce(movement, ForceMode.Impulse);
-        _rigid.MovePosition(this.transform.position + movement);
+                }
+                else
+                {
+                    _playerAnim.SetBool("IsRun", false);
+               // Playerstate = PlayerstateEnum.Attack;
+                }
+             }
+            else
+            {
+                _playerAnim.SetBool("IsRun", false);
+              
+            }
+
+            
+      
     }
 
     private void PlayerJump()
@@ -158,29 +175,74 @@ public class Player : Life,I_hp
 
     public void PlayerAttack()
     {
-        if (Input.GetKey(KeyCode.X) &&_canAttack)
+        if(Playerstate == PlayerstateEnum.Attack && Input.GetKeyUp(KeyCode.X))
         {
-            _isCheck = true;
-            AttackAnimation(_atkNum);
-            //Playerstate = PlayerstateEnum.Attack;
-            _canAttack = false;
+            _isAgainAttack = true;
         }
 
-        if (_isCheck)
+        if (Input.GetKey(KeyCode.X))
         {
-            _atkDelay += Time.deltaTime;
-        }
-        
-        if (_atkDelay >= 0.5f)
-        {
-            _canAttack = true;
-            _atkNum++;
-            _isCheck = false;
-            _atkDelay = 0f;
+            
+            if(Playerstate != PlayerstateEnum.Attack && CountTimeList[1] <= 0) {
+                _atkNum = 0;
+                AttackAnimation(_atkNum);
+                CountTimeList[1] = 2f;
+                Playerstate = PlayerstateEnum.Attack;
+            }
+            else if (_isAgainAttack)
+            {
+                _atkNum = _atkNum + 1 > 2 ? 0 : _atkNum + 1;
+                AttackAnimation(_atkNum);
+                CountTimeList[1] = 1.5f;
+                _isAgainAttack = false;
+                if (_atkNum >= 2)
+                {
+                    Playerstate = PlayerstateEnum.Idle;
+                }
+            }
+
+
         }
 
-        if (_atkNum > 2)
+        if (Playerstate == PlayerstateEnum.Attack && CountTimeList[1] <= 0) {
+            Playerstate = PlayerstateEnum.Idle;
+            _isAgainAttack = false;
             _atkNum = 0;
+        }
+
+
+
+   /*
+        if (Playerstate == PlayerstateEnum.Attack &&(_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 2f && _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f))
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+
+                _atkNum = _atkNum + 1 > 2 ? 0 : _atkNum + 1;
+                Debug.LogFormat("{0},연속공격 성공 , 딜레이 {1}", _atkNum, _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                AttackAnimation(_atkNum);
+                CountTimeList[1] = 0.6f;
+                Playerstate = PlayerstateEnum.Attack;
+            }
+
+           
+        }
+
+        
+        if (Input.GetKey(KeyCode.X) && CountTimeList[1] < 0)
+        {
+            _atkNum = 0;
+            AttackAnimation(_atkNum);
+            CountTimeList[1] = 1f;
+            Playerstate = PlayerstateEnum.Attack;
+
+        }
+      */
+
+
+
+
+
     }
 
     /// <summary>
