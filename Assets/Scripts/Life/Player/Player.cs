@@ -131,7 +131,7 @@ public class Player : Life,I_hp
             if (!_isFry)
             {
                 gameObject.GetComponent<Rigidbody>().velocity =
-                    new Vector3(_rigid.velocity.x, 1 * 10f, 0);
+                    new Vector3(_rigid.velocity.x, 1 * 8.5f, 0);
                 
                 _playerAnim.SetBool("IsJump",true);
             }
@@ -149,13 +149,13 @@ public class Player : Life,I_hp
         if(Physics.Raycast(ray, out hit, LayerMask.GetMask("Floor"))){
             float Distance = hit.distance;
           
-            if(!_isFry && Distance > 1.5f && _rigid.velocity.y > 1f)
+            if(!_isFry && Distance > 1f && _rigid.velocity.y > 0.1f)
             {
                 ChangeFry(true);
                 _playerAnim.SetBool("IsJump", false);
             }
 
-            if (_rigid.velocity.y < -1f)
+            if (_isFry && _rigid.velocity.y < -0.1f)
             {
                 _playerAnim.SetBool("IsFall", true);
             }
@@ -198,7 +198,7 @@ public class Player : Life,I_hp
             }
               
 
-            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2f )
+            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 3f )
             {
                 CountTimeList[1] = 1f;
                 _atkNum = 0;
@@ -284,7 +284,27 @@ public class Player : Life,I_hp
         _isFry = p_Fry;
     }
 
-   
+
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if(other.transform.GetComponent<I_EnemyControl>()._enemystate == Enemystate.Attack)
+            {
+                if (CountTimeList[0] <= 0)
+                {
+                    if (Gethit(other.transform.GetComponent<Life>().Power))
+                    {
+                        //todo : 플레이어 사망 관련 확인
+
+                    }
+                    //무적 타임 1.5 초
+                    CountTimeList[0] = 1.5f;
+                }
+            }
+        }
+    }
 
     public void OnCollisionEnter(Collision collision)
     {
