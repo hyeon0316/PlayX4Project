@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 public class Player : Life,I_hp
 {
-    public enum PlayerstateEnum { Idle, Attack, Dash,Dead}
+    public enum PlayerstateEnum { Idle, Attack,Dead}
 
     public PlayerstateEnum Playerstate;
 
@@ -30,10 +30,10 @@ public class Player : Life,I_hp
 
     private int _atkNum;
     private float _atkDelay;
-    private bool _canAttack = true;
+    private bool _canAttack = false;
     private bool _isCheck = false;
     private bool _isAgainAttack = false;
-
+    private bool _isDash = false;
     private void Awake()
     {
         _playerAnim = GetComponentInChildren<Animator>();
@@ -42,6 +42,7 @@ public class Player : Life,I_hp
         Initdata(30, 10, 3);
         Playerstate = PlayerstateEnum.Idle;
         CountTimeList = new float[2];
+        
     }
 
 
@@ -104,14 +105,17 @@ public class Player : Life,I_hp
             float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
             if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
             {
-                    _playerAnim.SetBool("IsRun", true);
-                    Playerstate = PlayerstateEnum.Dash;
+                _playerAnim.SetBool("IsRun", true);
+                _isDash = true;
+                if (Playerstate != PlayerstateEnum.Attack) { 
+                    
                     Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
                     _rigid.MovePosition(this.transform.position + movement);
-
-             }
+                }
+            }
             else
             {
+                _isDash = false;
                 _playerAnim.SetBool("IsRun", false);
               
             }
@@ -167,12 +171,21 @@ public class Player : Life,I_hp
 
     public void PlayerAttack()
     {
-       
-        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("AttackIdle")) {
 
-            if (Input.GetKeyUp(KeyCode.X))
+        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle")
+            || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        {
+            Playerstate = PlayerstateEnum.Idle;
+        }
+
+        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("AttackIdle")
+            || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Attackrun")) {
+
+            if (Input.GetKeyUp(KeyCode.X) && !_isCheck)
             {
+                Playerstate = PlayerstateEnum.Idle;
                 _isAgainAttack = true;
+                _isCheck = true;
             }
 
             if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
@@ -180,7 +193,8 @@ public class Player : Life,I_hp
                 _playerAnim.SetTrigger("AgainAttack");
                 CountTimeList[1] = 3f;
                 _isAgainAttack = false;
-                _isCheck = false;
+                
+                Playerstate = PlayerstateEnum.Attack;
             }
               
 
@@ -191,10 +205,8 @@ public class Player : Life,I_hp
                 _playerAnim.SetTrigger("AgainAttackreset");
                 _isAgainAttack = false;
                 _isCheck = false;
+                Playerstate = PlayerstateEnum.Idle;
             }
-
-          
-
         }
 
         if (Input.GetKey(KeyCode.X)&& CountTimeList[1] <= 0)
@@ -204,6 +216,7 @@ public class Player : Life,I_hp
             AttackAnimation(_atkNum);
             CountTimeList[1] = 2f;
             _isCheck = false;
+            Playerstate = PlayerstateEnum.Attack;
         }
       
 
@@ -252,6 +265,16 @@ public class Player : Life,I_hp
         
     }
     
+    private void AnimEventcanattack()
+    {
+        _canAttack = true;
+    }
+
+    private void AnimEventendattack()
+    {
+        _canAttack = false;
+    }
+
     /// <summary>
     /// _isFry를 1번째 매개변수로 변경하는 함수
     /// </summary>
@@ -260,6 +283,8 @@ public class Player : Life,I_hp
     {
         _isFry = p_Fry;
     }
+
+   
 
     public void OnCollisionEnter(Collision collision)
     {
