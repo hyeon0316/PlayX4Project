@@ -104,19 +104,11 @@ public class Player : Life,I_hp
             float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
             if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
             {
-                if (Playerstate != PlayerstateEnum.Attack)
-                {
                     _playerAnim.SetBool("IsRun", true);
                     Playerstate = PlayerstateEnum.Dash;
                     Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
                     _rigid.MovePosition(this.transform.position + movement);
 
-                }
-                else
-                {
-                    _playerAnim.SetBool("IsRun", false);
-               // Playerstate = PlayerstateEnum.Attack;
-                }
              }
             else
             {
@@ -175,41 +167,45 @@ public class Player : Life,I_hp
 
     public void PlayerAttack()
     {
-        if(Playerstate == PlayerstateEnum.Attack && Input.GetKeyUp(KeyCode.X))
-        {
-            _isAgainAttack = true;
-        }
+       
+        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("AttackIdle")) {
 
-        if (Input.GetKey(KeyCode.X))
-        {
-            
-            if(Playerstate != PlayerstateEnum.Attack && CountTimeList[1] <= 0) {
-                _atkNum = 0;
-                AttackAnimation(_atkNum);
-                CountTimeList[1] = 2f;
-                Playerstate = PlayerstateEnum.Attack;
-            }
-            else if (_isAgainAttack)
+            if (Input.GetKeyUp(KeyCode.X))
             {
-                _atkNum = _atkNum + 1 > 2 ? 0 : _atkNum + 1;
-                AttackAnimation(_atkNum);
-                CountTimeList[1] = 1.5f;
-                _isAgainAttack = false;
-                if (_atkNum >= 2)
-                {
-                    Playerstate = PlayerstateEnum.Idle;
-                }
+                _isAgainAttack = true;
             }
 
+            if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
+            {
+                _playerAnim.SetTrigger("AgainAttack");
+                CountTimeList[1] = 3f;
+                _isAgainAttack = false;
+                _isCheck = false;
+            }
+              
+
+            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2f )
+            {
+                CountTimeList[1] = 1f;
+                _atkNum = 0;
+                _playerAnim.SetTrigger("AgainAttackreset");
+                _isAgainAttack = false;
+                _isCheck = false;
+            }
+
+          
 
         }
 
-        if (Playerstate == PlayerstateEnum.Attack && CountTimeList[1] <= 0) {
-            Playerstate = PlayerstateEnum.Idle;
-            _isAgainAttack = false;
+        if (Input.GetKey(KeyCode.X)&& CountTimeList[1] <= 0)
+        {
+
             _atkNum = 0;
+            AttackAnimation(_atkNum);
+            CountTimeList[1] = 2f;
+            _isCheck = false;
         }
-
+      
 
 
    /*
@@ -253,6 +249,7 @@ public class Player : Life,I_hp
     {
         _playerAnim.SetFloat("Blend", atkNum);
         _playerAnim.SetTrigger("Attack");
+        
     }
     
     /// <summary>
