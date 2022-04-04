@@ -39,7 +39,7 @@
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, float2(IN.uv_MainTex.x,IN.uv_MainTex.y + _Time.y* 0.05f)) * _Color; //y축 방향으로 시간에 따라 그려짐
+            fixed4 c = tex2D (_MainTex, float2(IN.uv_MainTex.x,IN.uv_MainTex.y + _Time.y* 0.05)) * _Color; //y축 방향으로 시간에 따라 그려짐
             o.Albedo = c.rgb;
             o.Emission = float3(255, 0, 0);
             // Metallic and smoothness come from slider variables
