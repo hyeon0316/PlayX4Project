@@ -34,6 +34,11 @@ public class FarawayEnemy : Life, I_hp, I_EnemyControl
             return false;
     }
 
+    public IEnumerator DeadAniPlayer()
+    {
+        yield return 0;
+    }
+
     /// <summary>
     /// 적 공격기능 스크립트(원거리)
     /// </summary>

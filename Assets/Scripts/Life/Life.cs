@@ -89,7 +89,10 @@ public enum Enemystate { Idle, Find, Attack };
 public interface I_EnemyControl
 {
     Enemystate _enemystate { get; set; }
-   
+
+
+    IEnumerator DeadAniPlayer();
+
 
     void EnemyAttack();
 
