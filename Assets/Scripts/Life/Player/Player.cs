@@ -27,6 +27,8 @@ public class Player : Life,I_hp
     private SpriteRenderer _playerSprite;//좌우 이동 시 방향 전환에 쓰일 변수
 
     private Rigidbody _rigid;
+    //플레이어관련된 UI를 담은 부모 오브젝트 ,getchild 를 이용해서 UI를 컨트롤 한다.
+    public Transform PlayerUIObj;
 
     private int _atkNum;
     private float _atkDelay;
@@ -48,7 +50,9 @@ public class Player : Life,I_hp
 
     private void Update()
     {
-        
+        countTime();
+        CheckFry();
+        PlayerAttack();
         //방향 전환은 물리기반이 아니기 때문에 Update에서 검사
         if (Input.GetButton("Horizontal"))
         {
@@ -60,11 +64,10 @@ public class Player : Life,I_hp
 
     private void FixedUpdate()
     {
-        countTime();
-        CheckFry();
+        UpdateUI();
         PlayerJump();
         PlayerMove_v1();
-        PlayerAttack();
+       
     }
 
    
@@ -79,6 +82,17 @@ public class Player : Life,I_hp
 
     public bool Gethit(int Cvalue)
     {
+        if(Cvalue > 0)
+        {
+            //플레이어가 무적상태라면 애니메이션과 채력계산을 무시하고 리턴한다.
+            if (CountTimeList[0] > 0)
+                return CheckLiving();
+
+            CountTimeList[0] = 1f;
+            _playerAnim.SetTrigger("HitPlayer");
+        }
+
+        
         HP -= Cvalue;
         return CheckLiving();
     }
@@ -209,7 +223,7 @@ public class Player : Life,I_hp
             }
         }
 
-        if (Input.GetKey(KeyCode.X)&& CountTimeList[1] <= 0)
+        if (Input.GetKeyDown(KeyCode.X)&& CountTimeList[1] <= 0)
         {
 
             _atkNum = 0;
@@ -218,40 +232,15 @@ public class Player : Life,I_hp
             _isCheck = false;
             Playerstate = PlayerstateEnum.Attack;
         }
-      
 
+    }
 
-   /*
-        if (Playerstate == PlayerstateEnum.Attack &&(_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 2f && _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f))
-        {
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-
-                _atkNum = _atkNum + 1 > 2 ? 0 : _atkNum + 1;
-                Debug.LogFormat("{0},연속공격 성공 , 딜레이 {1}", _atkNum, _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                AttackAnimation(_atkNum);
-                CountTimeList[1] = 0.6f;
-                Playerstate = PlayerstateEnum.Attack;
-            }
-
-           
+    private void UpdateUI()
+    {
+        if(PlayerUIObj!= null) { 
+        PlayerUIObj.GetChild(0).GetComponent<Text>().text = "체력:" + HP.ToString();
+        PlayerUIObj.GetChild(1).GetComponent<Text>().text = "무적시간:" + CountTimeList[0].ToString();
         }
-
-        
-        if (Input.GetKey(KeyCode.X) && CountTimeList[1] < 0)
-        {
-            _atkNum = 0;
-            AttackAnimation(_atkNum);
-            CountTimeList[1] = 1f;
-            Playerstate = PlayerstateEnum.Attack;
-
-        }
-      */
-
-
-
-
-
     }
 
     /// <summary>
@@ -284,60 +273,6 @@ public class Player : Life,I_hp
         _isFry = p_Fry;
     }
 
-
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            if(other.transform.GetComponent<I_EnemyControl>()._enemystate == Enemystate.Attack)
-            {
-                if (CountTimeList[0] <= 0)
-                {
-                    if (Gethit(other.transform.GetComponent<Life>().Power))
-                    {
-                        //todo : 플레이어 사망 관련 확인
-
-                    }
-                    //무적 타임 1.5 초
-                    CountTimeList[0] = 1.5f;
-                }
-            }
-        }
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        //플레이어가 충돌한것이 enemy 레이어에 있다면(근거리기준)
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            Debug.Log("Enemy 충돌");
-            if(Playerstate == PlayerstateEnum.Attack)//플레이어가 공격상태이다면
-            {
-                if (collision.transform.GetComponent<I_hp>().Gethit(Power))//적의 채력을 플레이어의 power 만큼 깍는다.
-                {
-                    //true 가 반환된다면 hp 이 다된 적 삭제
-                    Destroy(collision.gameObject);
-
-                }
-            }
-            Debug.Log(collision.transform.GetComponent<I_EnemyControl>()._enemystate);
-            //충돌한 적이 공격상태일때
-            if (collision.transform.GetComponent<I_EnemyControl>()._enemystate == Enemystate.Attack)
-            {
-                //플레이어 무적상태 확인
-                if (CountTimeList[0] <= 0)
-                {
-                    if (Gethit(collision.transform.GetComponent<Life>().Power))
-                    {
-                        //todo : 플레이어 사망 관련 확인
-
-                    }
-                    //무적 타임 1.5 초
-                    CountTimeList[0] = 1.5f;
-                }
-            }
-        }
-    }
+   
 
 }

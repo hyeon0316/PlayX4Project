@@ -33,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
         {
            if(hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power))
            {
-                    Destroy(hitEnemyObj[i]);
+                   //적이 사망
            }
         }
         hitEnemyObj.Clear();
@@ -44,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if(other.gameObject.tag.Contains("Enemy"))
         {
             if (_canAttack)
             {
