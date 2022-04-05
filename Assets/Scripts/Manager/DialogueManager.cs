@@ -4,16 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : Singleton<DialogueManager>
 {
     public Queue<string> Sentences = new Queue<string>();
     private bool _isTyping = false;
     private string _currentSentence;
 
-    [SerializeField]
-    private Text _dialogueText;
+    [SerializeField] private Text _dialogueText;
+
+    [SerializeField] private GameObject _talkModeParent;
+    private RectTransform[] _talkMode;//npc와 대화를 할때 나타나는 상,하 이미지
 
     private float _textDelay = 1f;
+
+    private void Awake()
+    {
+        _talkMode = _talkModeParent.GetComponentsInChildren<RectTransform>();
+    }
+
     
     public void OnDialogue(string[] lines)
     {
@@ -43,6 +51,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    
     private void Update()
     {
         //텍스트가 전부 채워졌을때
