@@ -14,13 +14,15 @@ public class Enemy : Life,I_hp,I_EnemyControl
         set { Enemystate = value; }
     }
 
-    private float AttackDelay;
+    private float _attackDelay;
 
     public Animator Animator;
 
     private EnemyAttack _enemyAttack;
 
     private NavMeshAgent _EnemyNav;
+
+    public float Attackcrossroad = 0;
     public void Awake()
     {
         Initdata(50, 5, 3);//데이터 입력
@@ -29,23 +31,26 @@ public class Enemy : Life,I_hp,I_EnemyControl
         Animator = this.GetComponentInChildren<Animator>();
         _enemyAttack = this.GetComponentInChildren<EnemyAttack>();
         _EnemyNav = this.GetComponent<NavMeshAgent>();
-
+        Attackcrossroad = 0.6f;
     }
 
     public void Update()
     {
-        if(AttackDelay > 0)
-        AttackDelay -= Time.deltaTime;
+        if(Enemystate != Enemystate.Dead) { 
+        if(_attackDelay > 0)
+                _attackDelay -= Time.deltaTime;
+
         FindPlayer();
         Fieldofview();
         EnemyMove();
+        }
     }
 
 
 
     public void FindPlayer()
     {
-        if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 3f)
+        if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f)
         {
             if(Enemystate != Enemystate.Attack)
             {
@@ -64,10 +69,10 @@ public class Enemy : Life,I_hp,I_EnemyControl
     {
         if(Enemystate == Enemystate.Find)
         {
-            if(Vector3.Distance(PlayerObj.transform.position,this.transform.position) < 0.8f)
+            if(Vector3.Distance(PlayerObj.transform.position,this.transform.position) < Attackcrossroad+0.25f)
             {
-                if(AttackDelay <= 0) {
-                    AttackDelay = 4f;
+                if(_attackDelay <= 0) {
+                    _attackDelay = 4f;
                     Enemystate = Enemystate.Attack;
                 Animator.SetTrigger("AttackTrigger");
                 }
@@ -84,12 +89,14 @@ public class Enemy : Life,I_hp,I_EnemyControl
         }
     }
 
+   
+
     public bool Gethit(int Cvalue)
     {
         if(Cvalue > 0)
         {
             if(Enemystate != Enemystate.Attack)
-            Animator.SetTrigger("Hit");
+                Animator.SetTrigger("Hit");
         }
 
         HP -= Cvalue;
@@ -111,7 +118,10 @@ public class Enemy : Life,I_hp,I_EnemyControl
 
     public IEnumerator DeadAniPlayer()
     {
-        while(true){
+        Enemystate = Enemystate.Dead;
+        _EnemyNav.isStopped = true;
+        _EnemyNav.path.ClearCorners();
+        while (true){
             if(Animator.GetCurrentAnimatorStateInfo(0).IsName("Assassin_Death")
                 &&Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
@@ -129,7 +139,7 @@ public class Enemy : Life,I_hp,I_EnemyControl
     /// </summary>
     public void EnemyAttack()
     {
-        if (_enemyAttack.IshitPlayer&& AttackDelay <= 0)
+        if (_enemyAttack.IshitPlayer&& _attackDelay <= 0)
         {
            
             PlayerObj.GetComponent<I_hp>().Gethit(Power);
@@ -140,18 +150,32 @@ public class Enemy : Life,I_hp,I_EnemyControl
     /// </summary>
     public void EnemyMove()
     {
-        if(Enemystate == Enemystate.Find) {
+         
+            if(Enemystate == Enemystate.Find) {
             _EnemyNav.isStopped = false;
-            _EnemyNav.SetDestination(PlayerObj.transform.position);
-           
-        }
-        else
-        {
-            _EnemyNav.isStopped = true;
-            _EnemyNav.path.ClearCorners();
-            
-        }
+                if (_attackDelay <= 0) {
+                _EnemyNav.speed = Speed;
+                    _EnemyNav.SetDestination(PlayerObj.transform.position);
+                }
+                else
+                {
+                Vector3 position = new Vector3(this.transform.position.x + (this.transform.position.x / 0.5f - PlayerObj.transform.position.x)
+                    , this.transform.position.y,
+                    this.transform.position.z + (this.transform.position.z / 0.5f - PlayerObj.transform.position.z));
+                _EnemyNav.speed = Speed / 2;
+;               _EnemyNav.SetDestination(position);
+                }
 
+            }
+            else
+            {
+                _EnemyNav.isStopped = true;
+                _EnemyNav.path.ClearCorners();
+            
+            }
+        
+        
+        //적 보는 방향 전환라인
         Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
         if (_EnemyNav.pathEndPosition.x > this.transform.position.x)
         {

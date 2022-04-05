@@ -51,7 +51,7 @@ public class PlayerAttack : MonoBehaviour
                 GameObject hitObj = other.gameObject;
                 if (!hitEnemyObj.Contains(hitObj)) { 
                     hitEnemyObj.Add(other.gameObject);
-                    Debug.LogFormat("{0} 입력", hitObj.name);
+                    
                 }
             }
         }

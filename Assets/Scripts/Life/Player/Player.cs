@@ -205,14 +205,14 @@ public class Player : Life,I_hp
             if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
             {
                 _playerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 3f;
+                CountTimeList[1] = 1.5f;
                 _isAgainAttack = false;
                 
                 Playerstate = PlayerstateEnum.Attack;
             }
               
 
-            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 3f )
+            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2f )
             {
                 CountTimeList[1] = 1f;
                 _atkNum = 0;
@@ -228,7 +228,7 @@ public class Player : Life,I_hp
 
             _atkNum = 0;
             AttackAnimation(_atkNum);
-            CountTimeList[1] = 2f;
+            CountTimeList[1] = 1.5f;
             _isCheck = false;
             Playerstate = PlayerstateEnum.Attack;
         }
