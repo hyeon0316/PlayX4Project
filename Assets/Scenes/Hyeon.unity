@@ -50958,6 +50958,7 @@ GameObject:
   - component: {fileID: 1105985922}
   - component: {fileID: 1105985921}
   - component: {fileID: 1105985920}
+  - component: {fileID: 1105985923}
   m_Layer: 0
   m_Name: Magma
   m_TagString: Untagged
@@ -51039,6 +51040,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105985918}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1105985923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105985918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70eef7beff6c064ea990518c2a625ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1113120933
 PrefabInstance:
   m_ObjectHideFlags: 0
