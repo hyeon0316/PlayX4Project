@@ -7,7 +7,7 @@ public class MoveTile : MonoBehaviour
     private Material _mat;
     private float _moveOffset;
 
-    public bool CanMoveTile { get; set; }//캐릭터가 맵에 들어왔을때만 타일을 움직이게 함
+    public static bool CanMoveTile { get; set; }//캐릭터가 맵에 들어왔을때만 타일을 움직이게 함
     private void Awake()
     {
         _mat = GetComponent<MeshRenderer>().material;
