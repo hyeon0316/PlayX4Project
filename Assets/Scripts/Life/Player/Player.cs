@@ -84,12 +84,13 @@ public class Player : Life,I_hp
     {
         if(Cvalue > 0)
         {
+           
             //플레이어가 무적상태라면 애니메이션과 채력계산을 무시하고 리턴한다.
             if (CountTimeList[0] > 0)
                 return CheckLiving();
 
             CountTimeList[0] = 1f;
-            _playerAnim.SetTrigger("HitPlayer");
+            _playerAnim.SetTrigger("Hit");
         }
 
         
@@ -100,8 +101,10 @@ public class Player : Life,I_hp
     public bool CheckLiving()
     {
 
-        if(HP <=0)
+        if(HP <= 0) {
+            _playerAnim.SetBool("Dead", true);
         return true;
+        }
         else
         return false;
     }
@@ -205,7 +208,7 @@ public class Player : Life,I_hp
             if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
             {
                 _playerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 1.5f;
+                CountTimeList[1] = 1f;
                 _isAgainAttack = false;
                 
                 Playerstate = PlayerstateEnum.Attack;
@@ -228,7 +231,7 @@ public class Player : Life,I_hp
 
             _atkNum = 0;
             AttackAnimation(_atkNum);
-            CountTimeList[1] = 1.5f;
+            CountTimeList[1] = 2f;
             _isCheck = false;
             Playerstate = PlayerstateEnum.Attack;
         }

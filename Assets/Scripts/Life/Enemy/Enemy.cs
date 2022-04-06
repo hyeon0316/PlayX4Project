@@ -95,8 +95,8 @@ public class Enemy : Life,I_hp,I_EnemyControl
     {
         if(Cvalue > 0)
         {
-            if(Enemystate != Enemystate.Attack)
-                Animator.SetTrigger("Hit");
+            _EnemyNav.isStopped = true;
+            Animator.SetTrigger("Hit");
         }
 
         HP -= Cvalue;
@@ -152,7 +152,7 @@ public class Enemy : Life,I_hp,I_EnemyControl
     {
          
             if(Enemystate == Enemystate.Find) {
-            _EnemyNav.isStopped = false;
+                _EnemyNav.isStopped = false;
                 if (_attackDelay <= 0) {
                 _EnemyNav.speed = Speed;
                     _EnemyNav.SetDestination(PlayerObj.transform.position);
@@ -162,8 +162,8 @@ public class Enemy : Life,I_hp,I_EnemyControl
                 Vector3 position = new Vector3(this.transform.position.x + (this.transform.position.x / 0.5f - PlayerObj.transform.position.x)
                     , this.transform.position.y,
                     this.transform.position.z + (this.transform.position.z / 0.5f - PlayerObj.transform.position.z));
-                _EnemyNav.speed = Speed / 2;
-;               _EnemyNav.SetDestination(position);
+                _EnemyNav.speed = 0.75f;
+                 _EnemyNav.SetDestination(position);
                 }
 
             }

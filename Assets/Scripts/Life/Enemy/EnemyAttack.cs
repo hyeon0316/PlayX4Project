@@ -13,6 +13,7 @@ public class EnemyAttack : MonoBehaviour
 
    public void Attackhit()
     {
+        Debug.Log("공격에니메이션실행");
         this.transform.parent.GetComponent<I_EnemyControl>().EnemyAttack();
     }
 
