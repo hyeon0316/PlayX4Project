@@ -8505,10 +8505,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29eb13d3ac7ac474cbb43bc223b539f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sentences:
-  - "\uC548\uB155!"
-  - "\uB108\uAC00 \uADF8 \uC0AC\uB78C \uC774\uAD6C\uB098"
-  - "\uC800 \uC55E\uC73C\uB85C \uAC00\uBA74 \uB358\uC804\uC774 \uC788\uC744\uAC70\uC57C"
+  Sentences_First:
+  - "\uC624 \uC548\uB155?"
+  - "\uC544..\uB108\uAD6C\uB098!!"
+  - "\uB358\uC804\uC740 \uC774 \uC55E\uC5D0 \uC788\uC5B4"
+  Sentences_Second:
+  - "\uBC29\uC2EC\uD558\uC9C0 \uC54A\uB294\uAC8C \uC88B\uC744\uAC70\uC57C.."
   CanTalk: 0
 --- !u!1001 &1519710160
 PrefabInstance:

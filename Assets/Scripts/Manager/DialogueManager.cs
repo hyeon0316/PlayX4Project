@@ -19,6 +19,8 @@ public class DialogueManager : Singleton<DialogueManager>
     private Text _dialogueText;
 
     private NpcTalk _npc;
+
+    public bool IsNextTalk = false;
     
 
     public Image TalkBtnImage;//상호작용 가능을 표시 해 주는 오브젝트
@@ -55,15 +57,17 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void NextSentence()
     {
-        if (Sentences.Count != 0)
+        //todo: "Skip"이 없을 때의 조건 처리 하기
+        if (!Sentences.Peek().Equals("Skip"))
         {
             _talkPanel.SetActive(false);
             Invoke("DelayTalk",0.5f);
         }
-        else
+        else 
         {
-            //todo: 플레이어 이동 제한 풀기
-            Invoke("ReTalk",0.5f);
+            //todo: 플레이어 이동 제한 풀기(bool값으로 제어)
+            IsNextTalk = true;
+            Invoke("ReTalk", 0.5f);
             _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
