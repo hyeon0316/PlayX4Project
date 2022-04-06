@@ -20,6 +20,9 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private NpcTalk _npc;
     
+
+    public Image TalkBtnImage;//상호작용 가능을 표시 해 주는 오브젝트
+    
     private void Awake()
     {
         _npc = GameObject.Find("NPC").GetComponent<NpcTalk>();
@@ -60,7 +63,7 @@ public class DialogueManager : Singleton<DialogueManager>
         else
         {
             //todo: 플레이어 이동 제한 풀기
-            Invoke("ReTalk",0.1f);
+            Invoke("ReTalk",0.5f);
             _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
@@ -82,6 +85,7 @@ public class DialogueManager : Singleton<DialogueManager>
     /// </summary>
     private void ReTalk()
     {
+        TalkBtnImage.gameObject.SetActive(true);
         _npc.CanTalk = true;
     }
 
@@ -143,6 +147,11 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void TalkCheck()
     {
+        if (TalkBtnImage.gameObject.activeSelf)
+        {
+            TalkBtnImage.transform.position = _npc.transform.position + new Vector3(0f, 1f, 0.5f);
+        }
+        
         if (_talkPanel.activeSelf)
         {
             _talkPanel.transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
