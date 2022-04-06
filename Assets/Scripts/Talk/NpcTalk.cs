@@ -12,6 +12,7 @@ public class NpcTalk : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(true);
             Debug.Log("대화 가능");
             CanTalk = true;
         }
@@ -19,25 +20,27 @@ public class NpcTalk : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(false);
         Debug.Log("대화 불가능");
         CanTalk = false;
     }
 
     private void Update()
     {
-        if (CanTalk && Input.GetKeyDown(KeyCode.Space))
-        {
-            //todo: 플레이어 이동 제한하기
-
-            TalkStart();
-        }
+        TalkStart();
     }
 
     private void TalkStart()
     {
-        Debug.Log("대화");
-        DialogueManager.Instance.TalkStart();
-        DialogueManager.Instance.OnDialogue(Sentences);
-        CanTalk = false;
+        if (CanTalk && Input.GetKeyDown(KeyCode.Space))
+        {
+            //todo: 플레이어 이동 제한하기
+            
+            DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(false);
+            Debug.Log("대화");
+            DialogueManager.Instance.TalkStart();
+            DialogueManager.Instance.OnDialogue(Sentences);
+            CanTalk = false;
+        }
     }
 }
