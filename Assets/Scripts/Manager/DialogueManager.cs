@@ -10,25 +10,36 @@ public class DialogueManager : Singleton<DialogueManager>
     private bool _isTyping = false;
     private string _currentSentence;
 
-    //[SerializeField]
+    [SerializeField] private GameObject _letterBoxParent;
+    private RectTransform[] _letterBox;//npc와 대화를 할때 나타나는 상,하 검은색 바
+
+    private float _textDelay = 0.1f;
+
+    [SerializeField] private GameObject _talkPanel;//텍스트의 배경으로 쓰일 패널
     private Text _dialogueText;
 
-    [SerializeField] private GameObject _letterBoxParent;
-    private RectTransform[] _letterBox;//npc와 대화를 할때 나타나는 상,하 이미지
-
-    private float _textDelay = 1f;
-
+    private NpcTalk _npc;
+    
     private void Awake()
     {
-        _letterBox = _letterBoxParent.GetComponentsInChildren<RectTransform>();//부모 오브젝트까지 같이 반환,
-                                                                               //RectTransform으로 가져오는 것이기 때문에
+        _npc = GameObject.Find("NPC").GetComponent<NpcTalk>();
+        
+        //부모 오브젝트까지 같이 반환,
+        //RectTransform으로 가져오는 것이기 때문에
+        _letterBox = _letterBoxParent.GetComponentsInChildren<RectTransform>();
     }
 
-    private void Start()
+    public void TalkStart()
     {
-        StartCoroutine(TalkOnCo());
+        _dialogueText = _talkPanel.GetComponentInChildren<Text>();
+        StartCoroutine(LetterBoxOnCo());
     }
 
+
+    /// <summary>
+    /// 대화내용들을 저장시켜 하나씩 꺼내 사용
+    /// </summary>
+    /// <param name="lines">대화 내용들</param>
     public void OnDialogue(string[] lines)
     {
         Sentences.Clear();
@@ -36,17 +47,49 @@ public class DialogueManager : Singleton<DialogueManager>
         {
             Sentences.Enqueue(line);
         }
+        NextSentence();
     }
 
     public void NextSentence()
     {
         if (Sentences.Count != 0)
         {
-            _currentSentence = Sentences.Dequeue();
-            StartCoroutine(TypingCo(_currentSentence));
+            _talkPanel.SetActive(false);
+            Invoke("DelayTalk",0.5f);
+        }
+        else
+        {
+            //todo: 플레이어 이동 제한 풀기
+            Invoke("ReTalk",0.1f);
+            _talkPanel.SetActive(false);
+            StartCoroutine(LetterBoxOffCo());
         }
     }
 
+    /// <summary>
+    /// 다음 대화 문장이 진행 될때마다 패널이 껏다 켜지기 위함
+    /// </summary>
+    private void DelayTalk()
+    {
+        _talkPanel.SetActive(true);
+        _currentSentence = Sentences.Dequeue();
+        _isTyping = true;
+        StartCoroutine(TypingCo(_currentSentence));
+    }
+    
+    /// <summary>
+    /// 대화를 마치고 제자리에서 다시 대화를 할 경우 다시 처음 대사를 출력하기 위해 딜레이용으로 사용
+    /// </summary>
+    private void ReTalk()
+    {
+        _npc.CanTalk = true;
+    }
+
+    /// <summary>
+    /// 텍스트를 한글자씩 출력
+    /// </summary>
+    /// <param name="line">한 글자씩 출력할 문장</param>
+    /// <returns></returns>
     IEnumerator TypingCo(string line)
     {
         _dialogueText.text = "";
@@ -57,23 +100,23 @@ public class DialogueManager : Singleton<DialogueManager>
         }
     }
     
-    IEnumerator TalkOnCo()
+    IEnumerator LetterBoxOnCo()
     {
         float time = 0f;
         while (time <= 1.0f)
         {
-            time += Time.deltaTime;
+            time += Time.deltaTime* 2;
             LetterBoxMove(time);
             yield return null;
         }
     }
     
-    IEnumerator TalkOffCo()
+    IEnumerator LetterBoxOffCo()
     {
         float time = 1f;
         while (time >= 0f)
         {
-            time -= Time.deltaTime;
+            time -= Time.deltaTime * 2;
             LetterBoxMove(time);
             yield return null;
         }
@@ -95,11 +138,26 @@ public class DialogueManager : Singleton<DialogueManager>
     
     private void Update()
     {
-        //텍스트가 전부 채워졌을때
-        //if (_dialogueText.text.Equals(_currentSentence))
-        //{
-            
-        //}
+        TalkCheck();
     }
-    //todo: 나중에는 오브젝트마다 NpcTalk 스크립트를 붙여놓고 대사 자동 진행 or 수동 진행 
+
+    private void TalkCheck()
+    {
+        if (_talkPanel.activeSelf)
+        {
+            _talkPanel.transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
+            
+            //텍스트가 전부 채워졌을때
+            if (_dialogueText.text.Equals(_currentSentence))
+            {
+                _isTyping = false;
+            }
+
+            //대화 진행
+            if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
+            {
+                NextSentence();
+            }
+        }
+    }
 }
