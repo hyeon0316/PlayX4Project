@@ -23,10 +23,11 @@ public class CameraManager : Singleton<CameraManager>
     //카메라 크기
     private Vector2 _cameraSize;
     //백그라운드의 최대값
-    private Vector2 _maxsize;
+    private Vector3 _maxsize;
     //백그라운드의 최소값
-    private Vector2 _minsize;
+    private Vector3 _minsize;
 
+    public BoxCollider FloorCollider;
     
     public float MaxCameratoPlayerX = 0.65f;
     
@@ -48,9 +49,12 @@ public class CameraManager : Singleton<CameraManager>
 
 
         BackgroundImg = GameObject.Find("Background");
-        _maxsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y);
-        _minsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y);
+        FloorCollider = GameObject.Find("FloorCollider").GetComponent<BoxCollider>();
+        _maxsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y, FloorCollider.bounds.max.z);
+        _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z);
+
         
+
     }
 
 
@@ -95,12 +99,13 @@ public class CameraManager : Singleton<CameraManager>
     /// </summary>
     /// <param name="size">플레이어의 x,y 값 </param>
     /// <returns>만약 받은 인자 x,y 값이 백그라운드 값을 초과하거나 감소했을경우 최대값, 최소값을 반환해준다.</returns>
-    private Vector2 MaxMinSize(Vector2 size)
+    private Vector3 MaxMinSize(Vector3 size)
     {
         
-        return new Vector2(
+        return new Vector3(
               Mathf.Clamp(size.x, _minsize.x + (_cameraSize.x), _maxsize.x - (_cameraSize.x))
             , Mathf.Clamp(size.y, _minsize.y + _cameraSize.y, _maxsize.y - _cameraSize.y)
+            , Mathf.Clamp(size.z, _minsize.z , _maxsize.z )
             );
     }   
 
@@ -120,7 +125,7 @@ public class CameraManager : Singleton<CameraManager>
     /// </summary>
     private void CameraMove_v2()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 1.8f));
+        Vector3 playerposition = MaxMinSize(new Vector3(Player.transform.position.x, Player.transform.position.y + 1.8f,Player.transform.position.z - 4.5f));
 
         //플레이어가 카메라 화면 좌우로 일정 이상 나간다면 카메라 위치를 다시 잡아주는 라인
         if(OutPlayertoCameraX())
@@ -132,7 +137,7 @@ public class CameraManager : Singleton<CameraManager>
         this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, playerposition.y, this.transform.position.z), CameraMoveSpeed * Time.deltaTime);
 
 
-        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, Player.transform.position.z - 4.5f), CameraMoveSpeed * Time.deltaTime);
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, playerposition.z), CameraMoveSpeed * Time.deltaTime);
 
     }
 
