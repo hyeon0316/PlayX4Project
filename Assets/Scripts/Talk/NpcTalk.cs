@@ -45,7 +45,7 @@ public class NpcTalk : MonoBehaviour
                 for (int i = 0; i < tmp.Count; i++)
                 {
                     i = 0;
-                    if (tmp[i].Equals("Skip"))
+                    if (tmp[i].Equals("Delete"))
                     {
                         tmp.RemoveAt(i);
                         break;

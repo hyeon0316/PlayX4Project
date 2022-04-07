@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,19 +58,13 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void NextSentence()
     {
-        //todo: "Skip"이 없을 때의 조건 처리 하기
-        if (!Sentences.Peek().Equals("Skip") && Sentences.Count !=0)
+        //todo: "Skip"이 없을 때의 조건 처리 하기, Peek()함수가 검사 할게 없어서 오류
+        if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop"))
         {
             _talkPanel.SetActive(false);
             Invoke("DelayTalk",0.5f);
         }
-        else if (Sentences.Count ==0)
-        {
-            Invoke("ReTalk", 0.5f);
-            _talkPanel.SetActive(false);
-            StartCoroutine(LetterBoxOffCo());
-        }
-        else if(Sentences.Peek().Equals("Skip"))
+        else if(Sentences.Peek().Equals("Delete"))
         {
             Debug.Log("Skip을 만났을 때");
             IsNextTalk = true;
@@ -77,7 +72,13 @@ public class DialogueManager : Singleton<DialogueManager>
             _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
-       
+        else if (Sentences.Peek().Equals("Stop"))
+        {
+            Invoke("ReTalk", 0.5f);
+            _talkPanel.SetActive(false);
+            StartCoroutine(LetterBoxOffCo());
+        }
+        
     }
 
     /// <summary>
@@ -86,14 +87,7 @@ public class DialogueManager : Singleton<DialogueManager>
     private void DelayTalk()
     {
         _talkPanel.SetActive(true);
-        try
-        {
-            _currentSentence = Sentences.Dequeue();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
+        _currentSentence = Sentences.Dequeue();
         _isTyping = true;
         StartCoroutine(TypingCo(_currentSentence));
     }
@@ -160,7 +154,7 @@ public class DialogueManager : Singleton<DialogueManager>
     
     private void Update()
     {
-        Debug.Log(Sentences.Count);
+        //Debug.Log(Sentences.Count);
         TalkCheck();
     }
 
