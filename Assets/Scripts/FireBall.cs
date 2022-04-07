@@ -6,16 +6,24 @@ public class FireBall : MonoBehaviour
 {
     public int Power;
 
+    public float Speed = 2f;
+
+    private float _offTime;
     // Start is called before the first frame update
-    void Start()
+    public void OnEnable()
     {
-        
+        _offTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.Translate(Vector3.left * Time.deltaTime);
+        _offTime += Time.deltaTime;
+        if(_offTime > 20f)
+        {
+            this.gameObject.SetActive(false);
+        }
+        this.transform.Translate(Vector3.left* Speed * Time.deltaTime);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -23,7 +31,7 @@ public class FireBall : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<I_hp>().Gethit(Power);
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 

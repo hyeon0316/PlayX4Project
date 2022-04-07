@@ -24,7 +24,8 @@ public class Cultist : Life, I_hp, I_EnemyControl
 
     public float Attackcrossroad;
 
-    public GameObject Fireball;
+    public GameObject[] FireballMem = new GameObject[10];
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
         _enemyAttack = this.GetComponentInChildren<EnemyAttack>();
         _EnemyNav = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
         _EnemyNav.stoppingDistance = Attackcrossroad;
+        
     }
 
     // Update is called once per frame
@@ -160,8 +162,11 @@ public class Cultist : Life, I_hp, I_EnemyControl
     public void EnemyAttack()
     {
         Debug.Log("파이어볼생성");
-        
-        GameObject InsFireball = Instantiate(Fireball, this.transform.position, Quaternion.identity);
+
+        int index = FireballMemorypool();
+        GameObject InsFireball = FireballMem[index];
+        InsFireball.SetActive(true);
+        InsFireball.transform.position = this.transform.position;
         if(this.transform.GetChild(0).localScale.x < 0)
         {
             InsFireball.transform.rotation = new Quaternion(0,180,0,0);
@@ -170,6 +175,22 @@ public class Cultist : Life, I_hp, I_EnemyControl
         
     }
 
+    /// <summary>
+    /// 메모리풀 사용준비
+    /// </summary>
+    public int FireballMemorypool()
+    {
+        int index = -1;
+
+        for(int i = 0; i < FireballMem.Length; ++i) { 
+            if(!FireballMem[i].activeSelf)
+            {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
     public void EnemyMove()
     {
 

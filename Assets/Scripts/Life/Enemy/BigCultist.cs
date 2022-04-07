@@ -54,7 +54,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
     {
         if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f)
         {
-            if (Enemystate != Enemystate.Attack)
+            if (Enemystate != Enemystate.Attack && _attackDelay <= 0)
             {
                 Enemystate = Enemystate.Find;
                 Animator.SetBool("isRun", true);
@@ -73,6 +73,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
         {
             if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
             {
+                Animator.SetBool("isRun", false);
                 if (_attackDelay <= 0)
                 {
                     _attackDelay = 4f;
@@ -80,6 +81,11 @@ public class BigCultist : Life, I_hp, I_EnemyControl
                     Animator.SetTrigger("AttackTrigger");
                 }
             }
+            else
+            {
+                Animator.SetBool("isRun", true);
+            }
+          
         }
 
         if (Enemystate == Enemystate.Attack)
@@ -158,16 +164,17 @@ public class BigCultist : Life, I_hp, I_EnemyControl
     public void EnemyMove()
     {
 
-        if (Enemystate == Enemystate.Find)
+        if (Enemystate == Enemystate.Find && _attackDelay <= 0)
         {
             _EnemyNav.isStopped = false;
-            
-                _EnemyNav.speed = Speed;
+            Animator.SetBool("isRun", true);
+            _EnemyNav.speed = Speed;
                 _EnemyNav.SetDestination(PlayerObj.transform.position);
             
         }
         else
         {
+            Animator.SetBool("isRun", false);
             _EnemyNav.isStopped = true;
             _EnemyNav.path.ClearCorners();
 

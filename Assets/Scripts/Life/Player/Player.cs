@@ -78,7 +78,7 @@ public class Player : Life,I_hp
     {
         countTime();
         CheckFry();
-        if(!_isTalking)
+        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead))
         PlayerAttack();
 
     }
@@ -86,7 +86,7 @@ public class Player : Life,I_hp
     private void FixedUpdate()
     {
         UpdateUI();
-        if (!_isTalking) { 
+        if (!_isTalking &&(Playerstate != PlayerstateEnum.Dead)) { 
         PlayerJump();
         PlayerMove_v1();
         }
@@ -137,6 +137,7 @@ public class Player : Life,I_hp
 
         if(HP <= 0) {
             _playerAnim.SetBool("Dead", true);
+            Playerstate = PlayerstateEnum.Dead;
         return true;
         }
         else
