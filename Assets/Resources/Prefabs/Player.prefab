@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 307459355053265549}
   - component: {fileID: 1317145674460572160}
   - component: {fileID: 7781940357852372949}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Playerstate: 0
   CountTimeList: []
+  PlayerUIObj: {fileID: 0}
+  _isTalking: 0
 --- !u!65 &1317145674460572160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88,7 +90,7 @@ GameObject:
   - component: {fileID: 3313090567566901280}
   - component: {fileID: 5188956744197754339}
   - component: {fileID: 7150615281681587575}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
