@@ -6,43 +6,46 @@ using UnityEngine.UI;
 public class FadeImage : MonoBehaviour, IFade
 {
     private Image _fadeImage;
-
-    private void Awake()
+    public float FadeCount;
+    
+    private void OnEnable()
     {
         _fadeImage = GetComponent<Image>();
     }
 
+
     public void FadeIn()
     {
-        _fadeImage.enabled = true;
+        gameObject.SetActive(true);
         StartCoroutine(FadeInCo());
     }
 
     public void FadeOut()
     {
+        gameObject.SetActive(true);
         StartCoroutine(FadeOutCo());
-        _fadeImage.enabled = false;
     }
     
     IEnumerator FadeInCo()
     {
-        float fadeCount = 0f;
-        while (fadeCount <= 1.0f)
+        FadeCount = 0f;
+        while (FadeCount <= 1.0f)
         {
-            fadeCount += 0.01f;
+            FadeCount += 0.01f;
             yield return new WaitForSeconds(0.01f);
-            _fadeImage.color = new Color(0, 0, 0, fadeCount);
+            _fadeImage.color = new Color(0, 0, 0, FadeCount);
         }
     }
 
     IEnumerator FadeOutCo()
     {
-        float fadeCount = 1f;
-        while (fadeCount > 0)
+        FadeCount = 1f;
+        while (FadeCount >= 0)
         {
-            fadeCount -= 0.01f;
+            FadeCount -= 0.01f;
             yield return new WaitForSeconds(0.01f);
-            _fadeImage.color = new Color(0, 0, 0, fadeCount);
+            _fadeImage.color = new Color(0, 0, 0, FadeCount);
         }
+        gameObject.SetActive(false);
     }
 }

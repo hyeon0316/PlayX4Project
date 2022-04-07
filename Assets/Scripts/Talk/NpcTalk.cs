@@ -12,7 +12,7 @@ public class NpcTalk : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(true);
+            DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(true);
             Debug.Log("대화 가능");
             CanTalk = true;
         }
@@ -20,7 +20,7 @@ public class NpcTalk : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(false);
+        DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(false);
         Debug.Log("대화 불가능");
         CanTalk = false;
     }
@@ -34,7 +34,7 @@ public class NpcTalk : MonoBehaviour
     {
         if (CanTalk && Input.GetKeyDown(KeyCode.Space))
         {
-            DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(false);
+            DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(false);
             DialogueManager.Instance.TalkStart();
 
             if (DialogueManager.Instance.IsNextTalk)

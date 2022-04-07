@@ -21,15 +21,17 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private NpcTalk _npc;
 
+    private Player _player;
+
     public bool IsNextTalk = false;
     
 
-    public Image TalkBtnImage;//상호작용 가능을 표시 해 주는 오브젝트
+    public Image ActionBtnImage;//상호작용 가능을 표시 해 주는 오브젝트
     
     private void Awake()
     {
         _npc = GameObject.Find("NPC").GetComponent<NpcTalk>();
-        
+        _player = GameObject.Find("Player").GetComponent<Player>();
         //부모 오브젝트까지 같이 반환,
         //RectTransform으로 가져오는 것이기 때문에
         _letterBox = _letterBoxParent.GetComponentsInChildren<RectTransform>();
@@ -95,7 +97,7 @@ public class DialogueManager : Singleton<DialogueManager>
     /// </summary>
     private void ReTalk()
     {
-        TalkBtnImage.gameObject.SetActive(true);
+        ActionBtnImage.gameObject.SetActive(true);
         _npc.CanTalk = true;
     }
 
@@ -116,6 +118,7 @@ public class DialogueManager : Singleton<DialogueManager>
     
     IEnumerator LetterBoxOnCo()
     {
+        _player._isTalking = true;
         float time = 0f;
         while (time <= 1.0f)
         {
@@ -134,6 +137,7 @@ public class DialogueManager : Singleton<DialogueManager>
             LetterBoxMove(time);
             yield return null;
         }
+        _player._isTalking = false;
     }
     
 
@@ -158,9 +162,9 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void TalkCheck()
     {
-        if (TalkBtnImage.gameObject.activeSelf)
+        if (ActionBtnImage.gameObject.activeSelf)
         {
-            TalkBtnImage.transform.position = _npc.transform.position + new Vector3(0f, 1f, 0.5f);
+            ActionBtnImage.transform.position = _npc.transform.position + new Vector3(0f, 1f, 0.5f);
         }
         
         if (_talkPanel.activeSelf)

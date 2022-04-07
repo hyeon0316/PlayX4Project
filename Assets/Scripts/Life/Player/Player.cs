@@ -150,9 +150,6 @@ public class Player : Life,I_hp
     /// </summary>
     private void PlayerMove_v1()
     {
-
-       
-      
             float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
             float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
             //플레이어가 가는 방향으로 보도록 sprite 돌려주기
@@ -221,7 +218,7 @@ public class Player : Life,I_hp
                 _playerAnim.SetBool("IsJump", false);
             }
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
-            if (_isFry && _rigid.velocity.y < -0.1f)
+            if (_isFry && Distance >1f)
             {//낙하 애니메이션
                 _playerAnim.SetBool("IsFall", true);
             }

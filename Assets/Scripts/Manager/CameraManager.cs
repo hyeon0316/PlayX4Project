@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : Singleton<CameraManager>
+public class CameraManager : MonoBehaviour
 {
     /*
 1.public으로 선언 된 변수는 앞글자 대문자로 시작
@@ -38,6 +38,7 @@ public class CameraManager : Singleton<CameraManager>
     public float MinCameratoPlayerY = 0.45f;
 
 
+    
     // Start is called before the first frame update
     public void Start()
     {
@@ -50,11 +51,11 @@ public class CameraManager : Singleton<CameraManager>
 
         BackgroundImg = GameObject.Find("Background");
         FloorCollider = GameObject.Find("FloorCollider").GetComponent<BoxCollider>();
-        _maxsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y, FloorCollider.bounds.max.z);
-        _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z);
-
+        _maxsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x,
+            BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y, FloorCollider.bounds.max.z - 1.5f);
         
-
+        _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
+            BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z - 1.5f);
     }
 
 
@@ -114,7 +115,7 @@ public class CameraManager : Singleton<CameraManager>
     /// </summary>
     private void CameraMove_v1()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y +2));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 2));
 
         
         this.transform.position = new Vector3( playerposition.x, playerposition.y + 2 ,this.transform.position.z );
