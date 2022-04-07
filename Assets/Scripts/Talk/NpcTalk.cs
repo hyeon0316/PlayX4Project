@@ -34,8 +34,6 @@ public class NpcTalk : MonoBehaviour
     {
         if (CanTalk && Input.GetKeyDown(KeyCode.Space))
         {
-            //todo: 플레이어 이동 제한하기(bool값으로 제어)
-
             DialogueManager.Instance.TalkBtnImage.gameObject.SetActive(false);
             DialogueManager.Instance.TalkStart();
 
@@ -55,7 +53,6 @@ public class NpcTalk : MonoBehaviour
                 Sentences_First = tmp.ToArray();
                 DialogueManager.Instance.OnDialogue(Sentences_First);
                 DialogueManager.Instance.IsNextTalk = false;
-                //todo:"Skip"포함 이전 문장을 삭제를 진행 하지만 "Skip"이 없을때는 삭제하지 않기
             }
             else
             {

@@ -58,7 +58,6 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void NextSentence()
     {
-        //todo: "Skip"이 없을 때의 조건 처리 하기, Peek()함수가 검사 할게 없어서 오류
         if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop"))
         {
             _talkPanel.SetActive(false);
@@ -78,7 +77,6 @@ public class DialogueManager : Singleton<DialogueManager>
             _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
-        
     }
 
     /// <summary>

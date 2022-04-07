@@ -8509,8 +8509,10 @@ MonoBehaviour:
   - "\uC624 \uC548\uB155?"
   - "\uC544..\uB108\uAD6C\uB098!!"
   - "\uB358\uC804\uC740 \uC774 \uC55E\uC5D0 \uC788\uC5B4"
-  - Skip
+  - Delete
   - "\uC870\uC2EC\uD558\uB3C4\uB85D..."
+  - "\uC2DC\uBC1C"
+  - Stop
   CanTalk: 0
 --- !u!1001 &1519710160
 PrefabInstance:
