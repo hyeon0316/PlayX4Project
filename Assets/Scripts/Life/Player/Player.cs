@@ -60,7 +60,7 @@ public class Player : Life,I_hp
     /// 플레이어가 대화하고 있는지 확인하느변수
     /// </summary>
     public bool _isTalking = false;
-    private void Awake()
+    public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
         _playerAnim = GetComponentInChildren<Animator>();

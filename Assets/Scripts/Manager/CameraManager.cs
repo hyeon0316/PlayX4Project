@@ -27,14 +27,14 @@ public class CameraManager : Singleton<CameraManager>
     //백그라운드의 최소값
     private Vector2 _minsize;
 
-    [Range(0, 1)]
-    public float MaxCameratoPlayerX;
-    [Range(0, 1)]
-    public float MinCameratoPlayerX;
-    [Range(0, 1)]
-    public float MaxCameratoPlayerY;
-    [Range(0, 1)]
-    public float MinCameratoPlayerY;
+    
+    public float MaxCameratoPlayerX = 0.65f;
+    
+    public float MinCameratoPlayerX = 0.35f;
+    
+    public float MaxCameratoPlayerY = 0.8f;
+    
+    public float MinCameratoPlayerY = 0.45f;
 
 
     // Start is called before the first frame update
@@ -46,11 +46,11 @@ public class CameraManager : Singleton<CameraManager>
         _cameraSize.y = transform.GetChild(0).GetComponent<Camera>().orthographicSize;
         _cameraSize.x = _cameraSize.y * transform.GetChild(0).GetComponent<Camera>().aspect;
 
-       
 
+        BackgroundImg = GameObject.Find("Background");
         _maxsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y);
         _minsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y);
-      
+        
     }
 
 
@@ -58,6 +58,17 @@ public class CameraManager : Singleton<CameraManager>
     public void LateUpdate()
     {
         CameraType();
+        BackgroudUpdate();
+    }
+
+    public void BackgroudUpdate()
+    {
+        if (!BackgroundImg.activeSelf)
+        {
+            BackgroundImg = GameObject.Find("Background");
+            _maxsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y);
+            _minsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y);
+        }
     }
 
 
@@ -134,7 +145,8 @@ public class CameraManager : Singleton<CameraManager>
     {
         Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
-       
+
+        Debug.LogFormat("x: {0},{1}", MinCameratoPlayerX, MaxCameratoPlayerX);
 
         if (P_position.x < cameraScale.x * MinCameratoPlayerX || P_position.x > cameraScale.x * MaxCameratoPlayerX)
             return true;
@@ -150,6 +162,8 @@ public class CameraManager : Singleton<CameraManager>
     {
         Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
+
+        Debug.LogFormat("y: {0},{1}", MinCameratoPlayerY, MaxCameratoPlayerY);
 
         if (P_position.y < cameraScale.y * MinCameratoPlayerY || P_position.y > cameraScale.y * MaxCameratoPlayerY)
             return true;
