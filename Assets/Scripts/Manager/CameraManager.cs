@@ -27,8 +27,14 @@ public class CameraManager : MonoBehaviour
     //백그라운드의 최소값
     private Vector2 _minsize;
 
-
-
+    [Range(0, 1)]
+    public float MaxCameratoPlayerX;
+    [Range(0, 1)]
+    public float MinCameratoPlayerX;
+    [Range(0, 1)]
+    public float MaxCameratoPlayerY;
+    [Range(0, 1)]
+    public float MinCameratoPlayerY;
 
 
     // Start is called before the first frame update
@@ -130,7 +136,7 @@ public class CameraManager : MonoBehaviour
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
        
 
-        if (P_position.x < cameraScale.x * 0.35f || P_position.x > cameraScale.x * 0.65f)
+        if (P_position.x < cameraScale.x * MinCameratoPlayerX || P_position.x > cameraScale.x * MaxCameratoPlayerX)
             return true;
       
         return false;
@@ -145,7 +151,7 @@ public class CameraManager : MonoBehaviour
         Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
 
-        if (P_position.y < cameraScale.y * 0.45f || P_position.y > cameraScale.y * 0.8f)
+        if (P_position.y < cameraScale.y * MinCameratoPlayerY || P_position.y > cameraScale.y * MaxCameratoPlayerY)
             return true;
 
 
