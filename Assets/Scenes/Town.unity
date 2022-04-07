@@ -702,9 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _letterBoxParent: {fileID: 1038272541}
-  _talkPanel: {fileID: 5042452219209035429}
   IsNextTalk: 0
-  ActionBtnImage: {fileID: 482903613}
 --- !u!1001 &103216058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9242,7 +9240,7 @@ PrefabInstance:
     - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
         type: 3}
       propertyPath: MinCameratoPlayerY
-      value: 0.45
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3959288532345245918, guid: b28f808f70349cc4a93b1ad7963c2a91,
         type: 3}
