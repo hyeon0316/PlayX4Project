@@ -193,10 +193,11 @@ MonoBehaviour:
   Player: {fileID: 0}
   BackgroundImg: {fileID: 0}
   CameraMoveSpeed: 5
+  FloorCollider: {fileID: 0}
   MaxCameratoPlayerX: 0.65
   MinCameratoPlayerX: 0.35
   MaxCameratoPlayerY: 0.8
-  MinCameratoPlayerY: 0.45
+  MinCameratoPlayerY: 0.3
 --- !u!114 &3959288532345245728
 MonoBehaviour:
   m_ObjectHideFlags: 0

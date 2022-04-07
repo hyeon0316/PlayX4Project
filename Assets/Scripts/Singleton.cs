@@ -33,8 +33,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                     if (_instance == null)
                     {
                         // 새로운 게임오브젝트를 만들어서 싱글톤 Attach
-                        var singletonObject = new GameObject($"{typeof(T)} (Singleton)");
+                        var singletonObject = new GameObject();
                         _instance = singletonObject.AddComponent<T>();
+                        singletonObject.name = typeof(T).ToString() + " (Singleton)";
+                        
+                        DontDestroyOnLoad(singletonObject);
                     }
                 }
 

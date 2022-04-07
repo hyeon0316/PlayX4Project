@@ -8,11 +8,18 @@ public class NpcTalk : MonoBehaviour
     public string[] Sentences_First;
     public bool CanTalk = false;
 
+    private DialogueManager _dialogueManager;
+
+    private void Awake()
+    {
+        _dialogueManager = GameObject.Find("Canvas").GetComponent<DialogueManager>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(true);
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
             Debug.Log("대화 가능");
             CanTalk = true;
         }
@@ -20,7 +27,7 @@ public class NpcTalk : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(false);
+        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         Debug.Log("대화 불가능");
         CanTalk = false;
     }
@@ -34,10 +41,10 @@ public class NpcTalk : MonoBehaviour
     {
         if (CanTalk && Input.GetKeyDown(KeyCode.Space))
         {
-            DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(false);
-            DialogueManager.Instance.TalkStart();
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
+            _dialogueManager.TalkStart();
 
-            if (DialogueManager.Instance.IsNextTalk)
+            if (_dialogueManager.IsNextTalk)
             {
                 List<string> tmp = new List<string>(Sentences_First);
                 for (int i = 0; i < tmp.Count; i++)
@@ -51,12 +58,12 @@ public class NpcTalk : MonoBehaviour
                     tmp.RemoveAt(i);
                 }
                 Sentences_First = tmp.ToArray();
-                DialogueManager.Instance.OnDialogue(Sentences_First);
-                DialogueManager.Instance.IsNextTalk = false;
+                _dialogueManager.OnDialogue(Sentences_First);
+                _dialogueManager.IsNextTalk = false;
             }
             else
             {
-                DialogueManager.Instance.OnDialogue(Sentences_First);
+                _dialogueManager.OnDialogue(Sentences_First);
             }
             
             CanTalk = false;

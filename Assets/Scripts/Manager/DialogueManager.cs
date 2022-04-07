@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : Singleton<DialogueManager>
+public class DialogueManager : MonoBehaviour
 {
     public Queue<string> Sentences = new Queue<string>();
     private bool _isTyping = false;
@@ -16,7 +16,6 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private float _textDelay = 0.1f;
 
-    [SerializeField] private GameObject _talkPanel;//텍스트의 배경으로 쓰일 패널
     private Text _dialogueText;
 
     private NpcTalk _npc;
@@ -25,8 +24,6 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public bool IsNextTalk = false;
     
-
-    public Image ActionBtnImage;//상호작용 가능을 표시 해 주는 오브젝트
     
     private void Awake()
     {
@@ -39,7 +36,8 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void TalkStart()
     {
-        _dialogueText = _talkPanel.GetComponentInChildren<Text>();
+        _dialogueText = GameObject.Find("UICanvas").transform.Find("TalkPanel").GetComponentInChildren<Text>();
+        //_dialogueText = _talkPanel.GetComponentInChildren<Text>();
         StartCoroutine(LetterBoxOnCo());
     }
 
@@ -62,7 +60,8 @@ public class DialogueManager : Singleton<DialogueManager>
     {
         if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop"))
         {
-            _talkPanel.SetActive(false);
+            GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(false);
+            //_talkPanel.SetActive(false);
             Invoke("DelayTalk",0.5f);
         }
         else if(Sentences.Peek().Equals("Delete"))
@@ -70,13 +69,13 @@ public class DialogueManager : Singleton<DialogueManager>
             Debug.Log("Skip을 만났을 때");
             IsNextTalk = true;
             Invoke("ReTalk", 0.5f);
-            _talkPanel.SetActive(false);
+            GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
         else if (Sentences.Peek().Equals("Stop"))
         {
             Invoke("ReTalk", 0.5f);
-            _talkPanel.SetActive(false);
+            GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
     }
@@ -86,7 +85,7 @@ public class DialogueManager : Singleton<DialogueManager>
     /// </summary>
     private void DelayTalk()
     {
-        _talkPanel.SetActive(true);
+        GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(true);
         _currentSentence = Sentences.Dequeue();
         _isTyping = true;
         StartCoroutine(TypingCo(_currentSentence));
@@ -97,7 +96,8 @@ public class DialogueManager : Singleton<DialogueManager>
     /// </summary>
     private void ReTalk()
     {
-        ActionBtnImage.gameObject.SetActive(true);
+        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
+        //ActionBtnImage.gameObject.SetActive(true);
         _npc.CanTalk = true;
     }
 
@@ -162,14 +162,14 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void TalkCheck()
     {
-        if (ActionBtnImage.gameObject.activeSelf)
+        if (GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.activeSelf)
         {
-            ActionBtnImage.transform.position = _npc.transform.position + new Vector3(0f, 1f, 0.5f);
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = _npc.transform.position + new Vector3(0f, 1f, 0.5f);
         }
         
-        if (_talkPanel.activeSelf)
+        if (GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.activeSelf)
         {
-            _talkPanel.transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
+            GameObject.Find("UICanvas").transform.Find("TalkPanel").transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
             
             //텍스트가 전부 채워졌을때
             if (_dialogueText.text.Equals(_currentSentence))

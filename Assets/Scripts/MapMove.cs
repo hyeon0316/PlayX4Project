@@ -24,7 +24,7 @@ public class MapMove : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(true);
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
             Debug.Log("다음 맵 이동");
             _canWarp = true;
         }
@@ -32,7 +32,7 @@ public class MapMove : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        DialogueManager.Instance.ActionBtnImage.gameObject.SetActive(false);
+        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         _canWarp = false;
     }
 
@@ -40,9 +40,9 @@ public class MapMove : MonoBehaviour
     {
         if (_canWarp)
         {
-            if (DialogueManager.Instance.ActionBtnImage.gameObject.activeSelf)
+            if (GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.activeSelf)
             {
-                DialogueManager.Instance.ActionBtnImage.transform.position =
+                GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position =
                     this.transform.position + new Vector3(-0.2f, 1f, 0);
             }
         }
