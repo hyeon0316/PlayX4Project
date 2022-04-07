@@ -17468,6 +17468,46 @@ PrefabInstance:
       propertyPath: CameraMoveSpeed
       value: 0.99
       objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MaxCameraInPlayerX
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MaxCameraInPlayerY
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MaxCameratoPlayerX
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MaxCameratoPlayerY
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MinCameraInPlayerX
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MinCameraInPlayerY
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MinCameratoPlayerX
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: MinCameratoPlayerY
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3959288532345245918, guid: b28f808f70349cc4a93b1ad7963c2a91,
         type: 3}
       propertyPath: m_Name
