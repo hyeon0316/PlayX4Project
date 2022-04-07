@@ -14,33 +14,59 @@ using UnityEngine.UI;
 
 public class Player : Life,I_hp
 {
+    /// <summary>
+    /// 플레이어 상태를 알려주는 enum 변수
+    /// </summary>
     public enum PlayerstateEnum { Idle, Attack,Dead}
-
+    /// <summary>
+    /// 플레이어 상태
+    /// </summary>
     public PlayerstateEnum Playerstate;
-
-    private bool _isFry = false;
-
+    /// <summary>
+    /// 무언가를 카운트 해야할때 사용할 배열 변수
+    /// </summary>
     public float[] CountTimeList;
-
+    /// <summary>
+    /// 플레이어 애니메이터 변수
+    /// </summary>
     private Animator _playerAnim;
-
+    /// <summary>
+    /// 플레이어 스프라이트 렌더러
+    /// </summary>
     private SpriteRenderer _playerSprite;//좌우 이동 시 방향 전환에 쓰일 변수
-
+    /// <summary>
+    /// 플레이어 rigidbody
+    /// </summary>
     private Rigidbody _rigid;
-    //플레이어관련된 UI를 담은 부모 오브젝트 ,getchild 를 이용해서 UI를 컨트롤 한다.
+    /// <summary>
+    /// 플레이어가 사용할 UI를 모아둔 부모 객체, 자식을 찾아서 사용한다.
+    /// </summary>
     public Transform PlayerUIObj;
 
-    private int _atkNum;
-    private float _atkDelay;
-    private bool _canAttack = false;
+    /// <summary>
+    /// 플레이어가 날고 있는지 확인
+    /// </summary>
+    private bool _isFry = false;
+    
+    /// <summary>
+    /// 플레이어가 1번째 공격 이후 2번째 공격을 할 수 있는지 확인한것을 확인할 수 있는 변수
+    /// </summary>
     private bool _isCheck = false;
+    /// <summary>
+    /// 플레이어가 2번째 공격을 할 수 있는지 확인하는 변수
+    /// </summary>
     private bool _isAgainAttack = false;
-    private bool _isDash = false;
+    /// <summary>
+    /// 플레이어가 대화하고 있는지 확인하느변수
+    /// </summary>
+    public bool _isTalking = false;
     private void Awake()
     {
+        //필요한 컴포넌트, 데이터들을 초기화 해준다.
         _playerAnim = GetComponentInChildren<Animator>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody>();
+        //스텟을 초기화 해주는 함수.
         Initdata(30, 10, 3);
         Playerstate = PlayerstateEnum.Idle;
         CountTimeList = new float[2];
@@ -52,25 +78,24 @@ public class Player : Life,I_hp
     {
         countTime();
         CheckFry();
+        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead))
         PlayerAttack();
-        //방향 전환은 물리기반이 아니기 때문에 Update에서 검사
-        if (Input.GetButton("Horizontal"))
-        {
-            _playerSprite.flipX = Input.GetAxisRaw("Horizontal") == -1;
-        }
 
-        
     }
 
     private void FixedUpdate()
     {
         UpdateUI();
+        if (!_isTalking &&(Playerstate != PlayerstateEnum.Dead)) { 
         PlayerJump();
         PlayerMove_v1();
-       
+        }
+
     }
 
-   
+   /// <summary>
+   /// 카운트 해야하는 변수들의 시간을 줄여주는 함수
+   /// </summary>
     private void countTime()
     {
         for(int i = 0; i < CountTimeList.Length; ++i)
@@ -80,8 +105,14 @@ public class Player : Life,I_hp
         }
     }
 
+    /// <summary>
+    /// 플레이어의 체력값을 변경할 수 있는 함수
+    /// </summary>
+    /// <param name="Cvalue"> 양수가 들어오면 데미지를 입고 음수가 들어오면 회복을 할 수 있다.</param>
+    /// <returns>플레이어가 사망한다면 true 아니면 false를 반환한다</returns>
     public bool Gethit(int Cvalue)
     {
+        //데미지가 들어오니 무적 카운트와 hit 애니메이션 실행
         if(Cvalue > 0)
         {
            
@@ -97,12 +128,16 @@ public class Player : Life,I_hp
         HP -= Cvalue;
         return CheckLiving();
     }
-
+    /// <summary>
+    /// 플레이어가 살아있는지 확인하는 함수, hp 가 0 이하로 떨어진다면 죽는 애니메이션 실행
+    /// </summary>
+    /// <returns>hp 가 0 이하라면 ture 아니면 false 를 반환</returns>
     public bool CheckLiving()
     {
 
         if(HP <= 0) {
             _playerAnim.SetBool("Dead", true);
+            Playerstate = PlayerstateEnum.Dead;
         return true;
         }
         else
@@ -111,7 +146,7 @@ public class Player : Life,I_hp
 
     /// <summary>
     /// 플레이어 이동 방식 버전 1
-    /// 좌우 이동에 앞뒤로 이동하는 버전, rigidbody 속 movePosition 사용
+    /// rigidbody 속 movePosition 사용
     /// </summary>
     private void PlayerMove_v1()
     {
@@ -120,10 +155,17 @@ public class Player : Life,I_hp
       
             float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
             float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
+            //플레이어가 가는 방향으로 보도록 sprite 돌려주기
+            if (Input.GetButton("Horizontal"))
+            {
+                _playerSprite.flipX = Input.GetAxisRaw("Horizontal") == -1;
+            }
+            //방향키가 눌렸을때에는 달리는 상태로 아니면 idel 상태로 둔다
             if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
             {
+                //달리는 상태로 변환
                 _playerAnim.SetBool("IsRun", true);
-                _isDash = true;
+                //플레이어가 공격중이 아닐때만 이동할 수 있도록 설정
                 if (Playerstate != PlayerstateEnum.Attack) { 
                     
                     Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
@@ -132,7 +174,7 @@ public class Player : Life,I_hp
             }
             else
             {
-                _isDash = false;
+               //플레이어가 idel 로 변경
                 _playerAnim.SetBool("IsRun", false);
               
             }
@@ -143,14 +185,20 @@ public class Player : Life,I_hp
 
     private void PlayerJump()
     {
-        if (Input.GetKey(KeyCode.C))
-        {
-            if (!_isFry)
+        //대화중이 아닐때만 점프
+        if (!_isTalking) { 
+
+            if (Input.GetKey(KeyCode.C))
             {
-                gameObject.GetComponent<Rigidbody>().velocity =
-                    new Vector3(_rigid.velocity.x, 1 * 8.5f, 0);
-                
-                _playerAnim.SetBool("IsJump",true);
+                //플레이어가 공중에 있는지 확인하여 공중에 떠있지 않을때만 점프를 할 수 있도록 설정
+                if (!_isFry)
+                {
+                    //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
+                    gameObject.GetComponent<Rigidbody>().velocity =
+                        new Vector3(_rigid.velocity.x, 1 * 8.5f, _rigid.velocity.z);
+                    //점프 애니메이션
+                    _playerAnim.SetBool("IsJump",true);
+                }
             }
         }
     }
@@ -162,22 +210,23 @@ public class Player : Life,I_hp
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position, Vector3.down);//플레이어 기준으로 아래 방향으로 ray 생성
-
+        //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
         if(Physics.Raycast(ray, out hit, LayerMask.GetMask("Floor"))){
+            //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-          
+            //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
             if(!_isFry && Distance > 1f && _rigid.velocity.y > 0.1f)
             {
                 ChangeFry(true);
                 _playerAnim.SetBool("IsJump", false);
             }
-
+            //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < -0.1f)
-            {
+            {//낙하 애니메이션
                 _playerAnim.SetBool("IsFall", true);
             }
-
-            if(_isFry && Distance < 1f)//플레이어가 날고 있을때 floor 가 hit 에 들어갈때
+            //플레이어가 땅에 도착할때
+            if(_isFry && Distance < 0.7f)
             {
                 _playerAnim.SetBool("IsFall", false);
                 Debug.Log("Floor충돌");
@@ -188,49 +237,48 @@ public class Player : Life,I_hp
 
     public void PlayerAttack()
     {
-
+        //플레이어가 공격중이 아닐때에는 idle
         if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle")
             || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
             Playerstate = PlayerstateEnum.Idle;
         }
 
+        //플레이어가 1번째 애니메이션이 끝나고 2번째 공격전 준비 상태 애니매이션일때
         if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("AttackIdle")
             || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Attackrun")) {
-
+            //X 키를 올렸을 경우 다음 공격의 플레이어의 상태를 Idel 로 변경하고 2번째 공격의 준비가 되었다고 말한다
             if (Input.GetKeyUp(KeyCode.X) && !_isCheck)
             {
                 Playerstate = PlayerstateEnum.Idle;
                 _isAgainAttack = true;
                 _isCheck = true;
             }
-
+            //공격 준비 상태일때 x 키를 입력하면 2번째 공격을 실행
             if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
             {
                 _playerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 1f;
+                CountTimeList[1] = 1f;//공격 딜레이
                 _isAgainAttack = false;
                 
                 Playerstate = PlayerstateEnum.Attack;
             }
               
-
+            //공격을 하지 않고 애니메이션이 2f 정도 지났을때 일반 idel 로 초기화
             if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2f )
             {
                 CountTimeList[1] = 1f;
-                _atkNum = 0;
                 _playerAnim.SetTrigger("AgainAttackreset");
                 _isAgainAttack = false;
                 _isCheck = false;
                 Playerstate = PlayerstateEnum.Idle;
             }
         }
-
+        //1번째 공격 실행 
         if (Input.GetKeyDown(KeyCode.X)&& CountTimeList[1] <= 0)
         {
 
-            _atkNum = 0;
-            AttackAnimation(_atkNum);
+            _playerAnim.SetTrigger("Attack");
             CountTimeList[1] = 2f;
             _isCheck = false;
             Playerstate = PlayerstateEnum.Attack;
@@ -238,33 +286,15 @@ public class Player : Life,I_hp
 
     }
 
+    /// <summary>
+    /// 플레이어 UI 업데이트 할 때 사용할 예정이 함수(데이터 전달 및 갱신)
+    /// </summary>
     private void UpdateUI()
     {
         if(PlayerUIObj!= null) { 
         PlayerUIObj.GetChild(0).GetComponent<Text>().text = "체력:" + HP.ToString();
         PlayerUIObj.GetChild(1).GetComponent<Text>().text = "무적시간:" + CountTimeList[0].ToString();
         }
-    }
-
-    /// <summary>
-    /// 연속공격 애니메이션
-    /// </summary>
-    /// <param name="atkNum"></param>
-    private void AttackAnimation(int atkNum)
-    {
-        _playerAnim.SetFloat("Blend", atkNum);
-        _playerAnim.SetTrigger("Attack");
-        
-    }
-    
-    private void AnimEventcanattack()
-    {
-        _canAttack = true;
-    }
-
-    private void AnimEventendattack()
-    {
-        _canAttack = false;
     }
 
     /// <summary>
