@@ -8509,8 +8509,8 @@ MonoBehaviour:
   - "\uC624 \uC548\uB155?"
   - "\uC544..\uB108\uAD6C\uB098!!"
   - "\uB358\uC804\uC740 \uC774 \uC55E\uC5D0 \uC788\uC5B4"
-  Sentences_Second:
-  - "\uBC29\uC2EC\uD558\uC9C0 \uC54A\uB294\uAC8C \uC88B\uC744\uAC70\uC57C.."
+  - Skip
+  - "\uC870\uC2EC\uD558\uB3C4\uB85D..."
   CanTalk: 0
 --- !u!1001 &1519710160
 PrefabInstance:
@@ -11672,6 +11672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _letterBoxParent: {fileID: 1038272541}
   _talkPanel: {fileID: 5042452219209035429}
+  IsNextTalk: 0
   TalkBtnImage: {fileID: 482903613}
 --- !u!4 &2134359699
 Transform:

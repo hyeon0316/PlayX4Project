@@ -58,19 +58,26 @@ public class DialogueManager : Singleton<DialogueManager>
     public void NextSentence()
     {
         //todo: "Skip"이 없을 때의 조건 처리 하기
-        if (!Sentences.Peek().Equals("Skip"))
+        if (!Sentences.Peek().Equals("Skip") && Sentences.Count !=0)
         {
             _talkPanel.SetActive(false);
             Invoke("DelayTalk",0.5f);
         }
-        else 
+        else if (Sentences.Count ==0)
         {
-            //todo: 플레이어 이동 제한 풀기(bool값으로 제어)
+            Invoke("ReTalk", 0.5f);
+            _talkPanel.SetActive(false);
+            StartCoroutine(LetterBoxOffCo());
+        }
+        else if(Sentences.Peek().Equals("Skip"))
+        {
+            Debug.Log("Skip을 만났을 때");
             IsNextTalk = true;
             Invoke("ReTalk", 0.5f);
             _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
+       
     }
 
     /// <summary>
@@ -79,11 +86,18 @@ public class DialogueManager : Singleton<DialogueManager>
     private void DelayTalk()
     {
         _talkPanel.SetActive(true);
-        _currentSentence = Sentences.Dequeue();
+        try
+        {
+            _currentSentence = Sentences.Dequeue();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
         _isTyping = true;
         StartCoroutine(TypingCo(_currentSentence));
     }
-    
+
     /// <summary>
     /// 대화를 마치고 제자리에서 다시 대화를 할 경우 다시 처음 대사를 출력하기 위해 딜레이용으로 사용
     /// </summary>
@@ -146,6 +160,7 @@ public class DialogueManager : Singleton<DialogueManager>
     
     private void Update()
     {
+        Debug.Log(Sentences.Count);
         TalkCheck();
     }
 
