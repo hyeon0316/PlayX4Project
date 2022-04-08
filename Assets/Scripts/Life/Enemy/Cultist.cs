@@ -27,7 +27,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
     public GameObject[] FireballMem = new GameObject[10];
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         Initdata(30, 10, 2.5f);//데이터 입력
         Enemystate = Enemystate.Attack;
@@ -156,7 +156,6 @@ public class Cultist : Life, I_hp, I_EnemyControl
         }
 
         Destroy(this.transform.parent.gameObject);
-        yield return 0;
     }
 
     public void EnemyAttack()

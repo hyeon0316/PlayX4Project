@@ -154,9 +154,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
-
         Destroy(this.transform.parent.gameObject);
-        yield return 0;
     }
 
     public void EnemyAttack()
