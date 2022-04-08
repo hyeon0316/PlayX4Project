@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     public void AnimEventstartAttack()
     {
         Debug.Log("StartEvent");
+        hitEnemyObj.Clear();
         _canAttack = true;
     }
 
@@ -24,6 +25,10 @@ public class PlayerAttack : MonoBehaviour
         HitEnemy();
     }
 
+    public void SkillOneAni()
+    {
+        Player.GetComponent<Player>().SkillOne();
+    }
 
     public void HitEnemy()
     {
