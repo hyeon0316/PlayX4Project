@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChangeColor: {r: 1, g: 1, b: 1, a: 1}
-  _player: {fileID: 307459355053265545, guid: 029ac4ddda38ff34eb2229ada1f07828, type: 3}
+  _player: {fileID: 0}
   _camera: {fileID: 3959288532345245918}
   origin_Material:
   - {fileID: 2100000, guid: 89f8a15cf08f66e43b506b2feb85e1f1, type: 2}
