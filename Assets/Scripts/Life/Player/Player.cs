@@ -17,7 +17,7 @@ public class Player : Life,I_hp
     /// <summary>
     /// 플레이어 상태를 알려주는 enum 변수
     /// </summary>
-    public enum PlayerstateEnum { Idle, Attack,Dead}
+    public enum PlayerstateEnum { Idle, Attack,Skill,Dead}
     /// <summary>
     /// 플레이어 상태
     /// </summary>
@@ -81,7 +81,7 @@ public class Player : Life,I_hp
     {
         countTime();
         CheckFry();
-        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead)) { 
+        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerAttack();
         Skill();
         }
@@ -90,7 +90,7 @@ public class Player : Life,I_hp
     private void FixedUpdate()
     {
         UpdateUI();
-        if (!_isTalking &&(Playerstate != PlayerstateEnum.Dead)) { 
+        if (!_isTalking && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerJump();
         PlayerMove_v1();
         }
@@ -320,13 +320,19 @@ public class Player : Life,I_hp
         Vector3 startpos = this.transform.position;
         Vector3 endpos = startpos + (Vector3.right * distance);
         _playerEffectAnim.SetTrigger("Skill1");
+        Playerstate = PlayerstateEnum.Skill;
         for (int i = 1; i <= 6; i++)
         {
             this.transform.position = Vector3.Slerp(startpos, endpos, i / 6);
             yield return new WaitForEndOfFrame();
         }
 
+       while(_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
 
+        Playerstate = PlayerstateEnum.Idle;
     }
 
 
