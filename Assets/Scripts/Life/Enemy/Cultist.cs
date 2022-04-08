@@ -6,7 +6,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
 {
     static public GameObject PlayerObj;
 
-    public Enemystate Enemystate;
+    private Enemystate Enemystate;
 
     public Enemystate _enemystate
     {

@@ -17,7 +17,7 @@ public class Player : Life,I_hp
     /// <summary>
     /// 플레이어 상태를 알려주는 enum 변수
     /// </summary>
-    public enum PlayerstateEnum { Idle, Attack,Dead}
+    public enum PlayerstateEnum { Idle, Attack,Skill,Dead}
     /// <summary>
     /// 플레이어 상태
     /// </summary>
@@ -30,6 +30,8 @@ public class Player : Life,I_hp
     /// 플레이어 애니메이터 변수
     /// </summary>
     private Animator _playerAnim;
+
+    private Animator _playerEffectAnim;
     /// <summary>
     /// 플레이어 스프라이트 렌더러
     /// </summary>
@@ -63,7 +65,8 @@ public class Player : Life,I_hp
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
-        _playerAnim = GetComponentInChildren<Animator>();
+        _playerAnim = transform.GetChild(0).GetComponent<Animator>();
+        _playerEffectAnim = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
@@ -78,15 +81,16 @@ public class Player : Life,I_hp
     {
         countTime();
         CheckFry();
-        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead))
+        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerAttack();
-
+        Skill();
+        }
     }
 
     private void FixedUpdate()
     {
         UpdateUI();
-        if (!_isTalking &&(Playerstate != PlayerstateEnum.Dead)) { 
+        if (!_isTalking && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerJump();
         PlayerMove_v1();
         }
@@ -155,7 +159,7 @@ public class Player : Life,I_hp
             //플레이어가 가는 방향으로 보도록 sprite 돌려주기
             if (Input.GetButton("Horizontal"))
             {
-                _playerSprite.flipX = Input.GetAxisRaw("Horizontal") == -1;
+            this.transform.GetChild(0).localScale = new Vector3(Input.GetAxisRaw("Horizontal") == -1 ? -2.5f : 2.5f, 2.5f, 1);
             }
             //방향키가 눌렸을때에는 달리는 상태로 아니면 idel 상태로 둔다
             if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
@@ -282,6 +286,55 @@ public class Player : Life,I_hp
         }
 
     }
+
+    public void Skill()
+    {
+        switch (Input.inputString)
+        {
+            case "a":
+            case "A":
+                _playerAnim.SetTrigger("Skill1");
+
+                break;
+        }
+    }
+
+    public void SkillOne()
+    {
+        StartCoroutine(SkillOneCor());
+    }
+
+    IEnumerator SkillOneCor()
+    {
+        Vector3 dic = this.transform.GetChild(0).localScale.x < 0 ? Vector3.left : Vector3.right;
+        float distance = this.transform.GetChild(0).localScale.x < 0 ? -3f : 3f;
+
+        Ray ray = new Ray(this.transform.position, dic);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray,out hit, 4f, LayerMask.GetMask("Wall")))
+        {
+            distance = (hit.transform.position.x - this.transform.position.x) * 0.8f;
+        }
+
+        Vector3 startpos = this.transform.position;
+        Vector3 endpos = startpos + (Vector3.right * distance);
+        _playerEffectAnim.SetTrigger("Skill1");
+        Playerstate = PlayerstateEnum.Skill;
+        for (int i = 1; i <= 6; i++)
+        {
+            this.transform.position = Vector3.Slerp(startpos, endpos, i / 6);
+            yield return new WaitForEndOfFrame();
+        }
+
+       while(_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        Playerstate = PlayerstateEnum.Idle;
+    }
+
 
     /// <summary>
     /// 플레이어 UI 업데이트 할 때 사용할 예정이 함수(데이터 전달 및 갱신)
