@@ -314,7 +314,7 @@ public class Player : Life,I_hp
 
         if(Physics.Raycast(ray,out hit, 4f, LayerMask.GetMask("Wall")))
         {
-            distance = (hit.transform.position.x - this.transform.position.x) * 0.9f;
+            distance = (hit.transform.position.x - this.transform.position.x) * 0.8f;
         }
 
         Vector3 startpos = this.transform.position;
