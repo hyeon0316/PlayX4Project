@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Assassin : Life, I_hp, I_EnemyControl
 {
     static public GameObject PlayerObj;
+    
 
     public Enemystate Enemystate;
 
