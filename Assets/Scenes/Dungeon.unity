@@ -7368,6 +7368,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar_01_001 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
 --- !u!4 &118869630 stripped
@@ -12350,6 +12355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar_01_001 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
@@ -22784,6 +22794,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar_01_001 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
 --- !u!4 &451722441 stripped
@@ -25875,6 +25890,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar_01_001 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
@@ -58296,7 +58316,7 @@ MonoBehaviour:
   - "\uC774 \uC55E\uC740 \uD798\uB4E0 \uC5EC\uC815\uC774 \uB420 \uAC70\uC57C"
   - "\uBAAC\uC2A4\uD130\uB4E4\uC744 \uC870\uC2EC\uD574"
   - Delete
-  - "\uBB50 \uD560\uB9D0\uC788\uC5B4?"
+  - "\uD559\uACFC\uC7A5\uB2D8 \uCD5C\uACE0"
   - Stop
   CanTalk: 0
 --- !u!65 &1239035169
@@ -60676,6 +60696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar_01_001 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
@@ -69085,6 +69110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar_01_001 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
@@ -85829,6 +85859,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar_01_001 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
 --- !u!4 &1821499789 stripped
@@ -92012,6 +92047,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar_01_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 64537bd9348758e4188cac8192c4e392,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64537bd9348758e4188cac8192c4e392, type: 3}
