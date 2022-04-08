@@ -11,6 +11,9 @@ public class EnemyAttack : MonoBehaviour
         get { return _isHitPlayer; }
     }
 
+    /// <summary>
+    /// 이벤트 함수로 실행
+    /// </summary>
    public void Attackhit()
     {
         Debug.Log("공격에니메이션실행");
@@ -19,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag.Contains("Player"))
+        if (other.transform.CompareTag("Player"))
         {
             _isHitPlayer = true;
         }
@@ -27,7 +30,7 @@ public class EnemyAttack : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.transform.tag.Contains("Player"))
+        if (other.transform.CompareTag("Player"))
         {
             _isHitPlayer = false;
         }

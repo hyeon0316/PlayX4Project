@@ -53,6 +53,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
 
     public void FindPlayer()
     {
+        //추적 범위 안
         if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f)
         {
             if (Enemystate != Enemystate.Attack)
@@ -71,18 +72,20 @@ public class Twisted : Life, I_hp, I_EnemyControl
 
             }
         }
-        else
+        else//추적 범위 밖
         {
             Enemystate = Enemystate.Idle;
             Animator.SetBool("isWalk", false);
         }
     }
 
+    /// <summary>
+    /// 적이 플레이어와 어느정도 일정 거리를 둔 상태에서 공격(딱 붙어서 공격 방지)
+    /// </summary>
     public void Fieldofview()
     {
         if (Enemystate == Enemystate.Find)
         {
-
             if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
             {
                 if (_attackDelay <= 0)
@@ -92,8 +95,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
                     Animator.SetTrigger("AttackTrigger");
                 }
             }
-
-
         }
 
         if (Enemystate == Enemystate.Attack)
@@ -159,6 +160,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
 
     public void EnemyAttack()
     {
+        //적의 공격범위 콜리더가 플레이어 콜리더 범위에 들어왔을때 플레이어에게 데미지를 줌
         if (_enemyAttack.IshitPlayer)
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
@@ -169,7 +171,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
     
     public void EnemyMove()
     {
-
         if (Enemystate == Enemystate.Find)
         {
             _EnemyNav.isStopped = false;

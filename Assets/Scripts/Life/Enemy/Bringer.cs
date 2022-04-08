@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class Bringer : Life, I_hp, I_EnemyControl
 {
   static public GameObject PlayerObj;
@@ -24,10 +25,10 @@ public class Bringer : Life, I_hp, I_EnemyControl
   private NavMeshAgent _EnemyNav;
 
   public float Attackcrossroad;
-  
+
   private void Awake()
   {
-    Initdata(50, 5, 3);//데이터 입력
+    Initdata(50, 5, 3); //데이터 입력
     Enemystate = Enemystate.Attack;
     PlayerObj = GameObject.Find("Player");
     Animator = this.GetComponentInChildren<Animator>();
@@ -38,26 +39,95 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
   private void Update()
   {
-    
+    if (Enemystate != Enemystate.Dead)
+    {
+      if (_attackDelay > 0)
+        _attackDelay -= Time.deltaTime;
+
+      FindPlayer();
+      Fieldofview();
+      EnemyMove();
+    }
   }
 
+  public void FindPlayer()
+  {
+    if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f)
+    {
+      if (Enemystate != Enemystate.Attack)
+      {
+        if (_attackDelay <= 0) { 
+                
+          Enemystate = Enemystate.Find;
+          Animator.SetBool("IsWalk", true);
+        }
+        else
+        {
+          Enemystate = Enemystate.Idle;
+          Animator.SetBool("IsWalk", false);
+        }
+      }
+    }
+    else
+    {
+      Enemystate = Enemystate.Idle;
+      Animator.SetBool("IsWalk", false);
+    }
+  }
+
+  public void Fieldofview()
+  {
+    if (Enemystate == Enemystate.Find)
+    {
+      if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
+      {
+        if (_attackDelay <= 0)
+        {
+          _attackDelay = 5f;
+          Enemystate = Enemystate.Attack;
+          Animator.SetTrigger("Attack");
+        }
+      }
+    }
+
+    if (Enemystate == Enemystate.Attack)
+    {
+      if ((Animator.GetCurrentAnimatorStateInfo(0).IsName("Bringer-of-Death"))
+          && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f)
+      {
+        Enemystate = Enemystate.Find;
+      }
+
+      if (_attackDelay <= 0)
+      {
+        Enemystate = Enemystate.Find;
+      }
+    }
+  }
   public bool Gethit(int Cvalue)
   {
-    throw new NotImplementedException();
+    if (Cvalue > 0)
+    {
+      _attackDelay += 0.5f;
+      Animator.SetTrigger("Hit");
+    }
+    HP -= Cvalue;
+
+    return CheckLiving();
   }
 
   public bool CheckLiving()
   {
     if (HP <= 0)
     {
-      Animator.SetBool("Dead", true);
+      Animator.SetTrigger("Dead");
       StartCoroutine(DeadAniPlayer());
       return true;
     }
     else
       return false;
   }
-  
+
   public IEnumerator DeadAniPlayer()
   {
     Enemystate = Enemystate.Dead;
@@ -77,11 +147,51 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
   public void EnemyAttack()
   {
-    throw new NotImplementedException();
+    //적의 공격범위 콜리더가 플레이어 콜리더 범위에 들어왔을때 플레이어에게 데미지를 줌
+    if (_enemyAttack.IshitPlayer)
+    {
+      Debug.LogFormat("{0},{1}", this.name, "hit");
+      PlayerObj.GetComponent<I_hp>().Gethit(Power);
+    }
   }
 
   public void EnemyMove()
   {
-    throw new NotImplementedException();
+    if (Enemystate == Enemystate.Find)
+    {
+      _EnemyNav.isStopped = false;
+      if (_attackDelay <= 0)
+      {
+        _EnemyNav.isStopped = false;
+        Animator.SetBool("IsWalk", true);
+        _EnemyNav.speed = Speed;
+        _EnemyNav.SetDestination(PlayerObj.transform.position);
+      }
+      else
+      {
+        Animator.SetBool("IsWalk", false);
+        _EnemyNav.isStopped = true;
+        _EnemyNav.path.ClearCorners();
+        Enemystate = Enemystate.Idle;
+      }
+
+    }
+    else
+    {
+      _EnemyNav.isStopped = true;
+      _EnemyNav.path.ClearCorners();
+
+    }
+
+    //적 보는 방향 전환라인
+    Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
+    if (PlayerObj.transform.position.x > this.transform.position.x)
+    {
+      this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
+    }
+    else
+    {
+      this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
+    }
   }
 }
