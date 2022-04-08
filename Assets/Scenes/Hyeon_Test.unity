@@ -4696,7 +4696,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 472767145}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.53, y: 0.58, z: 0.2}
@@ -9067,6 +9067,7 @@ GameObject:
   - component: {fileID: 1082396097}
   - component: {fileID: 1082396096}
   - component: {fileID: 1082396095}
+  - component: {fileID: 1082396098}
   m_Layer: 0
   m_Name: Bringer-of-Death
   m_TagString: Untagged
@@ -9124,6 +9125,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082396098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082396094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8006900788736a4684f793d5884c25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 0}
+  Attackcrossroad: 0
 --- !u!1001 &1092339724
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -142,7 +142,6 @@ public class Assassin : Life, I_hp, I_EnemyControl
         }
 
         Destroy(this.transform.parent.gameObject);
-        yield return 0;
     }
 
     /// <summary>
