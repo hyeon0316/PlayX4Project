@@ -22,8 +22,13 @@ public class Player : Life,I_hp
     /// 플레이어 상태
     /// </summary>
     public PlayerstateEnum Playerstate;
+
+    public Transform BulletParent;
+    public GameObject[] BulletPool;
+
     /// <summary>
     /// 무언가를 카운트 해야할때 사용할 배열 변수
+    /// 0: 무적 ,1: 공격 딜레이 2:대쉬배기 쿨타임 3: 총 쿨타임 4:3번째 스킬 쿨타임
     /// </summary>
     public float[] CountTimeList;
     /// <summary>
@@ -62,6 +67,9 @@ public class Player : Life,I_hp
     /// 플레이어가 대화하고 있는지 확인하느변수
     /// </summary>
     public bool IsStop = false;
+
+
+
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -72,8 +80,13 @@ public class Player : Life,I_hp
         //스텟을 초기화 해주는 함수.
         Initdata(30, 10, 3);
         Playerstate = PlayerstateEnum.Idle;
-        CountTimeList = new float[2];
-        
+        CountTimeList = new float[5];
+        BulletParent = GameObject.Find("Bulletpool").transform;
+        BulletPool = new GameObject[12];
+        for(int i = 0; i < 12; i++) { 
+            BulletPool[i] = BulletParent.GetChild(i).gameObject;
+            BulletPool[i].SetActive(false);
+        }
     }
 
 
@@ -289,12 +302,30 @@ public class Player : Life,I_hp
 
     public void Skill()
     {
+        if(Playerstate != PlayerstateEnum.Skill)
         switch (Input.inputString)
         {
             case "a":
             case "A":
+                if(CountTimeList[2] <= 0) {
+                    CountTimeList[2] = 10f;
                 _playerAnim.SetTrigger("Skill1");
+                }
+                break;
+            case "s":
+            case "S":
+                if(CountTimeList[3] <= 0) {
+                    CountTimeList[3] = 2f;
+                        StartCoroutine(SkillTwoCor());
+                Playerstate = PlayerstateEnum.Skill;
+                }
+                break;
+            case "d":
+            case "D":
+                if(CountTimeList[4] <= 0)
+                {
 
+                }
                 break;
         }
     }
@@ -335,6 +366,49 @@ public class Player : Life,I_hp
         Playerstate = PlayerstateEnum.Idle;
     }
 
+    IEnumerator SkillTwoCor()
+    {
+        for(int i = 0; i < 3; ++i)
+        {
+            _playerAnim.SetTrigger("Skill2");
+            _playerEffectAnim.SetTrigger("Skill2");
+            yield return new WaitForSecondsRealtime(0.31f);
+        }
+    }
+
+
+    public void SkillTwo()
+    {
+        int index = FindBullet();
+        BulletPool[index].SetActive(true);
+        BulletPool[index].transform.position = this.transform.position;
+        if (this.transform.GetChild(0).localScale.x < 0)
+        {
+            BulletPool[index].transform.rotation = new Quaternion(0, 180, 0, 0);
+        }
+        else
+        {
+            BulletPool[index].transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+        BulletPool[index].GetComponent<Bullet>().Power = Power;
+        BulletPool[index].GetComponent<Bullet>().Speed = 5;
+        Playerstate = PlayerstateEnum.Idle;//스킬이 끝나는 타이밍
+    }
+
+   
+    public int FindBullet()
+    {
+        int index = 0;
+        for(int i = 0; i < BulletPool.Length; i++)
+        {
+            if (!BulletPool[i].activeSelf)
+            {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 
     /// <summary>
     /// 플레이어 UI 업데이트 할 때 사용할 예정이 함수(데이터 전달 및 갱신)

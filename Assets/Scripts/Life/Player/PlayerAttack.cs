@@ -30,6 +30,12 @@ public class PlayerAttack : MonoBehaviour
         Player.GetComponent<Player>().SkillOne();
     }
 
+    public void SkillTwoAni()
+    {
+        
+        Player.GetComponent<Player>().SkillTwo();
+    }
+
     public void HitEnemy()
     {
         Debug.Log(hitEnemyObj.Count);

@@ -170,6 +170,10 @@ public class Cultist : Life, I_hp, I_EnemyControl
         {
             InsFireball.transform.rotation = new Quaternion(0,180,0,0);
         }
+        else
+        {
+            InsFireball.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
         InsFireball.GetComponent<FireBall>().Power = Power;
         
     }
