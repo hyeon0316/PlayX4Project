@@ -141,7 +141,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
             yield return new WaitForEndOfFrame();
         }
 
-        Destroy(this.transform.parent.gameObject);
+        Destroy(this.transform.gameObject);
     }
 
     /// <summary>

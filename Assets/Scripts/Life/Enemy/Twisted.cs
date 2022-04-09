@@ -60,7 +60,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
             {
                 if (_attackDelay <= 0)
                 {
-
                     Enemystate = Enemystate.Find;
                     Animator.SetBool("isWalk", true);
                 }
@@ -155,7 +154,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
-        Destroy(this.transform.parent.gameObject);
+        Destroy(this.transform.gameObject);
     }
 
     public void EnemyAttack()
@@ -177,13 +176,11 @@ public class Twisted : Life, I_hp, I_EnemyControl
             if (_attackDelay <= 0)
             {
                 _EnemyNav.isStopped = false;
-                Animator.SetBool("isRun", true);
                 _EnemyNav.speed = Speed;
                 _EnemyNav.SetDestination(PlayerObj.transform.position);
             }
             else
             {
-                Animator.SetBool("isRun", false);
                 _EnemyNav.isStopped = true;
                 _EnemyNav.path.ClearCorners();
                 Enemystate = Enemystate.Idle;
@@ -194,9 +191,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
         {
             _EnemyNav.isStopped = true;
             _EnemyNav.path.ClearCorners();
-
         }
-
 
         //적 보는 방향 전환라인
         Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);

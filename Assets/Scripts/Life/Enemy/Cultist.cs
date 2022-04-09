@@ -147,7 +147,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
         _EnemyNav.path.ClearCorners();
         while (true)
         {
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Big-Cultist_Death")
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Cultist_Death")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
                 break;
@@ -155,7 +155,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
             yield return new WaitForEndOfFrame();
         }
 
-        Destroy(this.transform.parent.gameObject);
+        Destroy(this.transform.gameObject);
     }
 
     public void EnemyAttack()

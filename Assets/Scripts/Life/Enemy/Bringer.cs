@@ -56,15 +56,13 @@ public class Bringer : Life, I_hp, I_EnemyControl
     {
       if (Enemystate != Enemystate.Attack)
       {
-        if (_attackDelay <= 0) { 
-                
+        if (_attackDelay <= 0)
+        {
           Enemystate = Enemystate.Find;
-          Animator.SetBool("IsWalk", true);
         }
         else
         {
           Enemystate = Enemystate.Idle;
-          Animator.SetBool("IsWalk", false);
         }
       }
     }
@@ -92,7 +90,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
     if (Enemystate == Enemystate.Attack)
     {
-      if ((Animator.GetCurrentAnimatorStateInfo(0).IsName("Bringer-of-Death"))
+      if ((Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
           && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f)
       {
         Enemystate = Enemystate.Find;
@@ -104,6 +102,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
       }
     }
   }
+
   public bool Gethit(int Cvalue)
   {
     if (Cvalue > 0)
@@ -111,6 +110,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
       _attackDelay += 0.5f;
       Animator.SetTrigger("Hit");
     }
+
     HP -= Cvalue;
 
     return CheckLiving();
@@ -135,14 +135,16 @@ public class Bringer : Life, I_hp, I_EnemyControl
     _EnemyNav.path.ClearCorners();
     while (true)
     {
-      if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Bringer-of-Death")
+      if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Death")
           && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
       {
         break;
       }
+
       yield return new WaitForEndOfFrame();
     }
-    Destroy(this.transform.parent.gameObject);
+
+    Destroy(this.transform.gameObject);
   }
 
   public void EnemyAttack()
@@ -162,12 +164,12 @@ public class Bringer : Life, I_hp, I_EnemyControl
       _EnemyNav.isStopped = false;
       if (_attackDelay <= 0)
       {
-        _EnemyNav.isStopped = false;
-        Animator.SetBool("IsWalk", true);
+
+        Animator.SetBool("IsWalk", true); //todo: 처음 공격 시 제자리 걸음 한번 이후 Idle로 가는 버그 수정하기
         _EnemyNav.speed = Speed;
         _EnemyNav.SetDestination(PlayerObj.transform.position);
       }
-      else
+      else 
       {
         Animator.SetBool("IsWalk", false);
         _EnemyNav.isStopped = true;
@@ -183,15 +185,18 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
     }
 
-    //적 보는 방향 전환라인
-    Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
-    if (PlayerObj.transform.position.x > this.transform.position.x)
+    //적 보는 방향 전환라인, 공격 중일 때는 방향 전환x
+    if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
     {
-      this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
-    }
-    else
-    {
-      this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
+      Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
+      if (PlayerObj.transform.position.x > this.transform.position.x)
+      {
+        this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
+      }
+      else
+      {
+        this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
+      }
     }
   }
 }
