@@ -6280,10 +6280,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3633135600918620595, guid: a2c22f034583b234c8a49d587f1a20a9,
+        type: 3}
+      propertyPath: m_Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633135600918620595, guid: a2c22f034583b234c8a49d587f1a20a9,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3633135600918620621, guid: a2c22f034583b234c8a49d587f1a20a9,
         type: 3}
       propertyPath: m_Name
       value: Bringer-of-Death
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633135600918620621, guid: a2c22f034583b234c8a49d587f1a20a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2c22f034583b234c8a49d587f1a20a9, type: 3}

@@ -61,12 +61,12 @@ public class Twisted : Life, I_hp, I_EnemyControl
                 if (_attackDelay <= 0)
                 {
                     Enemystate = Enemystate.Find;
-                    Animator.SetBool("isWalk", true);
+                    Animator.SetBool("isRun", true);
                 }
                 else
                 {
                     Enemystate = Enemystate.Idle;
-                    Animator.SetBool("isWalk", false);
+                    Animator.SetBool("isRun", false);
                 }
 
             }
@@ -74,7 +74,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
         else//추적 범위 밖
         {
             Enemystate = Enemystate.Idle;
-            Animator.SetBool("isWalk", false);
+            Animator.SetBool("isRun", false);
         }
     }
 
@@ -185,7 +185,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
                 _EnemyNav.path.ClearCorners();
                 Enemystate = Enemystate.Idle;
             }
-
         }
         else
         {

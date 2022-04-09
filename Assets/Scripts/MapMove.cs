@@ -6,13 +6,16 @@ using UnityEngine;
 public class MapMove : MonoBehaviour
 {
     private bool _canWarp;
-    public string MapName;
+    public string MapColliderName;
+    public Transform NextMap;
 
     private FadeImage _fade;
-
+    private Player _player;
+    
     private void Awake()
     {
         _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     private void Start()
@@ -24,7 +27,6 @@ public class MapMove : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
             Debug.Log("다음 맵 이동");
             _canWarp = true;
         }
@@ -32,7 +34,6 @@ public class MapMove : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         _canWarp = false;
     }
 
@@ -40,11 +41,27 @@ public class MapMove : MonoBehaviour
     {
         if (_canWarp)
         {
-            if (GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.activeSelf)
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = this.transform.position + new Vector3(-0.2f, 1f, 0);
+            
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position =
-                    this.transform.position + new Vector3(-0.2f, 1f, 0);
+                GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
+                _fade.FadeIn();
+                _player.IsStop = true;
             }
+            
+            if (_fade.FadeCount >= 1f)
+            {
+                _player.transform.position = NextMap.transform.position;
+                _fade.FadeOut();
+                _player.IsStop = false;
+                _canWarp = false;
+            }
+        }
+        else
+        {
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         }
     }
 }

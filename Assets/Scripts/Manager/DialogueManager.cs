@@ -118,7 +118,7 @@ public class DialogueManager : MonoBehaviour
     
     IEnumerator LetterBoxOnCo()
     {
-        _player._isTalking = true;
+        _player.IsStop = true;
         float time = 0f;
         while (time <= 1.0f)
         {
@@ -137,7 +137,7 @@ public class DialogueManager : MonoBehaviour
             LetterBoxMove(time);
             yield return null;
         }
-        _player._isTalking = false;
+        _player.IsStop = false;
     }
     
 

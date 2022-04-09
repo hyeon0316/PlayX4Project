@@ -29,7 +29,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
   private void Awake()
   {
     Initdata(50, 5, 3); //데이터 입력
-    Enemystate = Enemystate.Attack;
+    Enemystate = Enemystate.Idle;
     PlayerObj = GameObject.Find("Player");
     Animator = this.GetComponentInChildren<Animator>();
     _enemyAttack = this.GetComponentInChildren<EnemyAttack>();
@@ -59,10 +59,12 @@ public class Bringer : Life, I_hp, I_EnemyControl
         if (_attackDelay <= 0)
         {
           Enemystate = Enemystate.Find;
+          Animator.SetBool("IsWalk", true); //todo: 처음 공격 시 제자리 걸음 한번 이후 Idle로 가는 버그 수정하기
         }
         else
         {
           Enemystate = Enemystate.Idle;
+          Animator.SetBool("IsWalk", false);
         }
       }
     }
@@ -81,8 +83,9 @@ public class Bringer : Life, I_hp, I_EnemyControl
       {
         if (_attackDelay <= 0)
         {
-          _attackDelay = 5f;
+          _attackDelay = 3f;
           Enemystate = Enemystate.Attack;
+          Animator.SetBool("IsWalk",false);
           Animator.SetTrigger("Attack");
         }
       }
@@ -164,25 +167,21 @@ public class Bringer : Life, I_hp, I_EnemyControl
       _EnemyNav.isStopped = false;
       if (_attackDelay <= 0)
       {
-
-        Animator.SetBool("IsWalk", true); //todo: 처음 공격 시 제자리 걸음 한번 이후 Idle로 가는 버그 수정하기
+        _EnemyNav.isStopped = false;
         _EnemyNav.speed = Speed;
         _EnemyNav.SetDestination(PlayerObj.transform.position);
       }
-      else 
+      else
       {
-        Animator.SetBool("IsWalk", false);
         _EnemyNav.isStopped = true;
         _EnemyNav.path.ClearCorners();
         Enemystate = Enemystate.Idle;
       }
-
     }
     else
     {
       _EnemyNav.isStopped = true;
       _EnemyNav.path.ClearCorners();
-
     }
 
     //적 보는 방향 전환라인, 공격 중일 때는 방향 전환x

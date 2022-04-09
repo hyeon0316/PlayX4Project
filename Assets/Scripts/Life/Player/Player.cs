@@ -61,7 +61,7 @@ public class Player : Life,I_hp
     /// <summary>
     /// 플레이어가 대화하고 있는지 확인하느변수
     /// </summary>
-    public bool _isTalking = false;
+    public bool IsStop = false;
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -81,7 +81,7 @@ public class Player : Life,I_hp
     {
         countTime();
         CheckFry();
-        if(!_isTalking && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
+        if(!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerAttack();
         Skill();
         }
@@ -90,7 +90,7 @@ public class Player : Life,I_hp
     private void FixedUpdate()
     {
         UpdateUI();
-        if (!_isTalking && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
+        if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerJump();
         PlayerMove_v1();
         }
@@ -187,7 +187,7 @@ public class Player : Life,I_hp
     private void PlayerJump()
     {
         //대화중이 아닐때만 점프
-        if (!_isTalking) { 
+        if (!IsStop) { 
 
             if (Input.GetKey(KeyCode.C))
             {

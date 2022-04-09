@@ -196,16 +196,20 @@ public class Cultist : Life, I_hp, I_EnemyControl
         if (Enemystate == Enemystate.Find)
         {
             _EnemyNav.isStopped = false;
-            if (_attackDelay <= 0) { 
-            _EnemyNav.speed = Speed;
-                Vector3 navPosition;
-            if (Vector3.Distance(this.transform.position, PlayerObj.transform.position) > 3f) {
-                  navPosition = PlayerObj.transform.position;
-            }
-            else
+            if (_attackDelay <= 0)
             {
-                 navPosition = new Vector3(this.transform.position.x, this.transform.position.y, PlayerObj.transform.position.z);
-            }
+                _EnemyNav.speed = Speed;
+                Vector3 navPosition;
+                if (Vector3.Distance(this.transform.position, PlayerObj.transform.position) > 3f)
+                {
+                    navPosition = PlayerObj.transform.position;
+                }
+                else
+                {
+                    navPosition = new Vector3(this.transform.position.x, this.transform.position.y,
+                        PlayerObj.transform.position.z);
+                }
+
                 _EnemyNav.SetDestination(navPosition);
             }
             else
