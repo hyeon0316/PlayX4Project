@@ -11,11 +11,13 @@ public class MapMove : MonoBehaviour
 
     private FadeImage _fade;
     private Player _player;
+    private CameraManager _camera;
     
     private void Awake()
     {
         _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _camera = GameObject.Find("Camera").GetComponent<CameraManager>();
     }
 
     private void Start()
@@ -27,6 +29,7 @@ public class MapMove : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
             Debug.Log("다음 맵 이동");
             _canWarp = true;
         }
@@ -34,6 +37,7 @@ public class MapMove : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         _canWarp = false;
     }
 
@@ -41,7 +45,6 @@ public class MapMove : MonoBehaviour
     {
         if (_canWarp)
         {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
             GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = this.transform.position + new Vector3(-0.2f, 1f, 0);
             
             if (Input.GetKeyDown(KeyCode.Space))
@@ -51,17 +54,22 @@ public class MapMove : MonoBehaviour
                 _player.IsStop = true;
             }
             
-            if (_fade.FadeCount >= 1f)
+            if (_fade.IsFade)
             {
-                _player.transform.position = NextMap.transform.position;
+                for (int i = 0; i < GameObject.Find("Colliders").transform.childCount; i++)
+                {
+                    GameObject.Find("Colliders").transform.GetChild(i).gameObject.SetActive(false);
+                }
+                GameObject.Find("Colliders").transform.Find(MapColliderName).gameObject.SetActive(true);
+                _player.transform.position = NextMap.transform.position + new Vector3(2f, 0, 0);
+                _camera.BackgroudUpdate();
+                
+                
+                //todo:카메라 완전히 이동 후 페이드 아웃 하는게 좋을듯
                 _fade.FadeOut();
                 _player.IsStop = false;
                 _canWarp = false;
             }
-        }
-        else
-        {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         }
     }
 }

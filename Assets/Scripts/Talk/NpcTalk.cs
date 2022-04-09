@@ -27,8 +27,8 @@ public class NpcTalk : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         Debug.Log("대화 불가능");
+        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
         CanTalk = false;
     }
 
@@ -39,11 +39,15 @@ public class NpcTalk : MonoBehaviour
 
     private void TalkStart()
     {
+        if (CanTalk)
+        {
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = this.transform.position + new Vector3(0f, 1f, 0.5f);
+        }
+        
         if (CanTalk && Input.GetKeyDown(KeyCode.Space))
         {
             GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
             _dialogueManager.TalkStart();
-
             if (_dialogueManager.IsNextTalk)
             {
                 List<string> tmp = new List<string>(Sentences_First);
@@ -65,7 +69,6 @@ public class NpcTalk : MonoBehaviour
             {
                 _dialogueManager.OnDialogue(Sentences_First);
             }
-            
             CanTalk = false;
         }
     }
