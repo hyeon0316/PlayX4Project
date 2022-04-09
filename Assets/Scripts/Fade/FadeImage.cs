@@ -7,6 +7,9 @@ public class FadeImage : MonoBehaviour, IFade
 {
     private Image _fadeImage;
     public float FadeCount;
+
+
+    public bool IsFade;//페이드 인 이후 페이드 아웃 전에 해야할 작업들이 있을 때 사용하는 변수
     
     private void OnEnable()
     {
@@ -35,6 +38,7 @@ public class FadeImage : MonoBehaviour, IFade
             yield return new WaitForSeconds(0.01f);
             _fadeImage.color = new Color(0, 0, 0, FadeCount);
         }
+        IsFade = true;
     }
 
     IEnumerator FadeOutCo()
@@ -47,5 +51,6 @@ public class FadeImage : MonoBehaviour, IFade
             _fadeImage.color = new Color(0, 0, 0, FadeCount);
         }
         gameObject.SetActive(false);
+        IsFade = false;
     }
 }

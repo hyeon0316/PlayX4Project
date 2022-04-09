@@ -162,11 +162,6 @@ public class DialogueManager : MonoBehaviour
 
     private void TalkCheck()
     {
-        if (GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.activeSelf)
-        {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = _npc.transform.position + new Vector3(0f, 1f, 0.5f);
-        }
-        
         if (GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.activeSelf)
         {
             GameObject.Find("UICanvas").transform.Find("TalkPanel").transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +38,6 @@ public class CameraManager : MonoBehaviour
     
     public float MinCameratoPlayerY = 0.45f;
 
-
     
     // Start is called before the first frame update
     public void Start()
@@ -48,32 +48,30 @@ public class CameraManager : MonoBehaviour
         _cameraSize.y = transform.GetChild(0).GetComponent<Camera>().orthographicSize;
         _cameraSize.x = _cameraSize.y * transform.GetChild(0).GetComponent<Camera>().aspect;
 
-
-        BackgroundImg = GameObject.Find("Background");
-        FloorCollider = GameObject.Find("FloorCollider").GetComponent<BoxCollider>();
-        _maxsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x,
-            BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y, FloorCollider.bounds.max.z - 1.5f);
-        
-        _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
-            BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z - 1.5f);
+        BackgroudUpdate();
     }
-
 
 
     public void LateUpdate()
     {
         CameraType();
-        BackgroudUpdate();
     }
 
     public void BackgroudUpdate()
     {
-        if (!BackgroundImg.activeSelf)
-        {
-            BackgroundImg = GameObject.Find("Background");
-            _maxsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y);
-            _minsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x, BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y);
-        }
+
+        BackgroundImg = GameObject.Find("Background");
+        _maxsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x,
+            BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y);
+        _minsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
+            BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y);
+
+        FloorCollider = GameObject.Find("FloorCollider").GetComponent<BoxCollider>();
+        _maxsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x,
+            BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y, FloorCollider.bounds.max.z - 1.5f);
+
+        _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
+            BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z - 1.5f);
     }
 
 
