@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
+
 
 public class Bringer : Life, I_hp, I_EnemyControl
 {
   static public GameObject PlayerObj;
+
+  public GameObject Skill;
 
   private Enemystate Enemystate;
 
@@ -25,6 +29,8 @@ public class Bringer : Life, I_hp, I_EnemyControl
   private NavMeshAgent _EnemyNav;
 
   public float Attackcrossroad;
+
+  private bool _canSkill;
 
   private void Awake()
   {
@@ -50,9 +56,24 @@ public class Bringer : Life, I_hp, I_EnemyControl
     }
   }
 
-  public void FindPlayer()
+  private void ActiveSkill()
   {
-    if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f)
+    _attackDelay += 2;
+    _EnemyNav.isStopped = true;
+    _EnemyNav.path.ClearCorners();
+    Animator.SetBool("IsWalk", false);
+    Animator.SetTrigger("Skill");
+    Invoke("StartTracking",1f);
+  }
+
+  private void StartTracking()
+  {
+    StartCoroutine(SkillTrackingCo());
+  }
+
+  private void FindPlayer()
+  {
+    if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 8f)
     {
       if (Enemystate != Enemystate.Attack)
       {
@@ -75,7 +96,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
     }
   }
 
-  public void Fieldofview()
+  private void Fieldofview()
   {
     if (Enemystate == Enemystate.Find)
     {
@@ -90,8 +111,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
         }
       }
     }
-
-    if (Enemystate == Enemystate.Attack)
+    else if (Enemystate == Enemystate.Attack)
     {
       if ((Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
           && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f)
@@ -115,7 +135,8 @@ public class Bringer : Life, I_hp, I_EnemyControl
     }
 
     HP -= Cvalue;
-
+    
+        
     return CheckLiving();
   }
 
@@ -127,10 +148,25 @@ public class Bringer : Life, I_hp, I_EnemyControl
       StartCoroutine(DeadAniPlayer());
       return true;
     }
+    else if (HP <= _Maxhp / 2)
+    {
+      ActiveSkill();
+      return false;
+    }
     else
       return false;
   }
 
+  private IEnumerator SkillTrackingCo()
+  {
+    Skill = GameObject.Find("BringerSkill").transform.Find("Bringer_Spell").gameObject;
+    for (int i = 0; i < 6; i++)
+    {
+      Skill.SetActive(true);
+      yield return new WaitForSeconds(2f);
+      Skill.SetActive(false);
+    }
+  }
   public IEnumerator DeadAniPlayer()
   {
     Enemystate = Enemystate.Dead;
@@ -164,8 +200,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
   {
     if (Enemystate == Enemystate.Find)
     {
-      _EnemyNav.isStopped = false;
-      if (_attackDelay <= 0)
+      if (_attackDelay <= 0 )
       {
         _EnemyNav.isStopped = false;
         _EnemyNav.speed = Speed;
@@ -185,7 +220,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
     }
 
     //적 보는 방향 전환라인, 공격 중일 때는 방향 전환x
-    if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+    if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill"))
     {
       Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
       if (PlayerObj.transform.position.x > this.transform.position.x)
