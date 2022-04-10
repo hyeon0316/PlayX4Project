@@ -44,6 +44,7 @@ public class FadeImage : MonoBehaviour, IFade
     IEnumerator FadeOutCo()
     {
         FadeCount = 1f;
+        IsFade = false;
         while (FadeCount >= 0)
         {
             FadeCount -= 0.01f;
@@ -51,6 +52,5 @@ public class FadeImage : MonoBehaviour, IFade
             _fadeImage.color = new Color(0, 0, 0, FadeCount);
         }
         gameObject.SetActive(false);
-        IsFade = false;
     }
 }

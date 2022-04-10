@@ -59,7 +59,7 @@ public class CameraManager : MonoBehaviour
 
     public void BackgroudUpdate()
     {
-
+        
         BackgroundImg = GameObject.Find("Background");
         _maxsize = new Vector2(BackgroundImg.GetComponent<MeshRenderer>().bounds.max.x,
             BackgroundImg.GetComponent<MeshRenderer>().bounds.max.y);
@@ -72,6 +72,8 @@ public class CameraManager : MonoBehaviour
 
         _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
             BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z - 1.5f);
+        
+        transform.position += new Vector3(BackgroundImg.transform.position.x ,0,0);
     }
 
 

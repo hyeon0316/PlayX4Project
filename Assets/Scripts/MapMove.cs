@@ -45,7 +45,7 @@ public class MapMove : MonoBehaviour
     {
         if (_canWarp)
         {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = this.transform.position + new Vector3(-0.2f, 1f, 0);
+            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = this.transform.position+ new Vector3(0,1.2f,0);
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -61,11 +61,10 @@ public class MapMove : MonoBehaviour
                     GameObject.Find("Colliders").transform.GetChild(i).gameObject.SetActive(false);
                 }
                 GameObject.Find("Colliders").transform.Find(MapColliderName).gameObject.SetActive(true);
-                _player.transform.position = NextMap.transform.position + new Vector3(2f, 0, 0);
+                _player.transform.position = NextMap.transform.position;
+                
                 _camera.BackgroudUpdate();
                 
-                
-                //todo:카메라 완전히 이동 후 페이드 아웃 하는게 좋을듯
                 _fade.FadeOut();
                 _player.IsStop = false;
                 _canWarp = false;

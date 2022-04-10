@@ -160,7 +160,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
   private IEnumerator SkillTrackingCo()
   {
     Skill = GameObject.Find("BringerSkill").transform.Find("Bringer_Spell").gameObject;
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 8; i++)
     {
       Skill.SetActive(true);
       yield return new WaitForSeconds(2f);
