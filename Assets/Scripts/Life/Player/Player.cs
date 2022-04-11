@@ -505,8 +505,8 @@ public class Player : Life,I_hp
                     if (_isFry && !_isWallslide)
                     {
 
-                    Physics.gravity = Vector3.down * 5f;
-                    
+                        Physics.gravity = Vector3.down * 5f;
+                        _rigid.velocity = Vector3.zero;
                         this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
                         this.transform.GetChild(0).localScale.y,
                         this.transform.GetChild(0).localScale.z);
