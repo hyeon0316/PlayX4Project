@@ -25,6 +25,9 @@ public class Assassin : Life, I_hp, I_EnemyControl
     private NavMeshAgent _EnemyNav;
 
     public float Attackcrossroad;
+
+    private bool SkillOneChance;
+
     public void Awake()
     {
         Initdata(50, 5, 3);//데이터 입력
@@ -34,6 +37,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
         _enemyAttack = this.GetComponentInChildren<EnemyAttack>();
         _EnemyNav = this.GetComponent<NavMeshAgent>();
         _EnemyNav.stoppingDistance = Attackcrossroad;
+        SkillOneChance = true;
     }
 
     public void Update()
@@ -80,6 +84,12 @@ public class Assassin : Life, I_hp, I_EnemyControl
                     Enemystate = Enemystate.Attack;
                     Animator.SetTrigger("AttackTrigger");
                 }
+            }
+
+            if (SkillOneChance)
+            {
+                SkillOneChance = false;
+                StartCoroutine(SkillOne());
             }
         }
 
@@ -155,6 +165,36 @@ public class Assassin : Life, I_hp, I_EnemyControl
             PlayerObj.GetComponent<I_hp>().Gethit(Power);
         }
     }
+
+    IEnumerator SkillOne()
+    {
+        _attackDelay = 10f;
+        _enemystate = Enemystate.Attack;
+        Animator.SetBool("Skill", true);
+
+       
+        yield return new WaitForSecondsRealtime(0.64f);
+       
+
+        if (PlayerObj.transform.GetChild(0).localScale.x < 0)
+        {
+            this.transform.position = PlayerObj.transform.position + Vector3.right* Attackcrossroad;
+            this.transform.GetChild(0).localScale = new Vector3(-2.5f, 2.5f, 1);
+        }
+        else
+        {
+            this.transform.position = PlayerObj.transform.position + Vector3.left * Attackcrossroad;
+            this.transform.GetChild(0).localScale = new Vector3(2.5f, 2.5f, 1);
+        }
+        Animator.SetTrigger("SkillOneTrigger");
+        Animator.SetBool("Skill", false);
+
+        yield return new WaitForSecondsRealtime(0.15f);
+        _attackDelay = 0.4f;
+        _enemystate = Enemystate.Idle;
+        yield return 0;
+    }
+
     /// <summary>
     /// 적 행동 관련 스크립트
     /// </summary>
