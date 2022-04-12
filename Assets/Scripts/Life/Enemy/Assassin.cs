@@ -223,6 +223,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
         {
             _EnemyNav.isStopped = true;
             _EnemyNav.path.ClearCorners();
+            
 
         }
 

@@ -152,7 +152,6 @@ public class CameraManager : MonoBehaviour
         Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
 
-        Debug.LogFormat("x: {0},{1}", MinCameratoPlayerX, MaxCameratoPlayerX);
 
         if (P_position.x < cameraScale.x * MinCameratoPlayerX || P_position.x > cameraScale.x * MaxCameratoPlayerX)
             return true;
@@ -169,7 +168,7 @@ public class CameraManager : MonoBehaviour
         Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
 
-        Debug.LogFormat("y: {0},{1}", MinCameratoPlayerY, MaxCameratoPlayerY);
+        
 
         if (P_position.y < cameraScale.y * MinCameratoPlayerY || P_position.y > cameraScale.y * MaxCameratoPlayerY)
             return true;

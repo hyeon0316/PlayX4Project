@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack1 : MonoBehaviour
 {
     private bool _canAttack = false;
 
@@ -28,18 +28,18 @@ public class PlayerAttack : MonoBehaviour
 
     public void SkillOneAni()
     {
-        Player.GetComponent<Player>().SkillOne();
+        Player.GetComponent<Player1>().SkillOne();
     }
 
     public void SkillTwoAni()
     {
         
-        Player.GetComponent<Player>().SkillTwo();
+        Player.GetComponent<Player1>().SkillTwo();
     }
 
     public void PlayerStateIdle()
     {
-        Player.GetComponent<Player>().Playerstate = global::Player.PlayerstateEnum.Idle;
+        Player.GetComponent<Player1>().Playerstate = Player1.PlayerstateEnum.Idle;
     }
 
     public void HitEnemy()
