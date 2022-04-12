@@ -30,8 +30,6 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
   public float Attackcrossroad;
 
-  private bool _canSkill;
-
   private void Awake()
   {
     Initdata(50, 5, 3); //데이터 입력

@@ -10,9 +10,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
 {
     static public GameObject PlayerObj;
     public Animator Animator;
-    private NavMeshAgent _EnemyNav;
-
-    private Enemystate _state;
+    private NavMeshAgent _enemyNav;
 
     private int _selectPattern;
 
@@ -26,36 +24,28 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     {
         _canSkill = true;
         _enemyspawnManager = GameObject.Find("EnemyParent").GetComponent<EnemyspawnManager>();
-        _state = Enemystate.Idle;
         Initdata(50, 5, 3);
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();
-        _EnemyNav = this.GetComponent<NavMeshAgent>();
+        _enemyNav = this.GetComponent<NavMeshAgent>();
     }
 
     private void Start()
     {
-        if (_state != Enemystate.Dead)
-        {
-            EnemyMove();
-        }
+        EnemyMove();
     }
 
     private void Update()
     {
-        if (_state != Enemystate.Dead)
+        LookPlayer();
+
+        if (_canSkill && HP <= _Maxhp / 2)
         {
-            LookPlayer();
-            
-            
-            if (_canSkill && HP <= _Maxhp / 2)
-            {
-                StartCoroutine(SpecialSummon());
-                _canSkill = false;
-            }
+            StartCoroutine(SpecialSummon());
+            _canSkill = false;
         }
     }
-    
+
     /// <summary>
     /// 모든 행동패턴
     /// </summary>
@@ -68,13 +58,13 @@ public class Necromancer : Life, I_hp, I_EnemyControl
             case -1:
             case 0:
                 Debug.Log("추적");
-                _EnemyNav.SetDestination(PlayerObj.transform.position);
-                _EnemyNav.isStopped = false;
+                _enemyNav.SetDestination(PlayerObj.transform.position);
+                _enemyNav.isStopped = false;
                 Animator.SetBool("IsWalk", true);
                 break;
             case 1:
                 Debug.Log("정지");
-                _EnemyNav.isStopped = true;
+                _enemyNav.isStopped = true;
                 Animator.SetBool("IsWalk", false);
                 break;
             case 2:
@@ -114,7 +104,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     /// </summary>
     private IEnumerator NomalSummon()
     {
-        _EnemyNav.isStopped = true;
+        _enemyNav.isStopped = true;
         Animator.SetBool("IsWalk", false);
         Animator.SetTrigger("Skill2");
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
@@ -128,7 +118,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     private IEnumerator SpecialSummon()
     {
         CancelInvoke("EnemyMove");
-        _EnemyNav.isStopped = true;
+        _enemyNav.isStopped = true;
         Animator.SetBool("IsWalk", false);
         Animator.SetTrigger("Skill1");
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
@@ -139,7 +129,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
 
     private IEnumerator Heal()
     {
-        _EnemyNav.isStopped = true;
+        _enemyNav.isStopped = true;
         Animator.SetBool("IsWalk", false);
         Animator.SetTrigger("Skill3");
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
@@ -171,7 +161,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     }
     public IEnumerator DeadAniPlayer()
     {
-        _EnemyNav.isStopped = true;
+        _enemyNav.isStopped = true;
         while (true)
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
