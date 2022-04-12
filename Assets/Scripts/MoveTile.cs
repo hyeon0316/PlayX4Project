@@ -15,6 +15,7 @@ public class MoveTile : MonoBehaviour
 
     private void Update()
     {
+        //todo: 캐릭터가 2층에 도착했을 때 작동시키기
         if (CanMoveTile)
         {
             _moveOffset += 0.003f;

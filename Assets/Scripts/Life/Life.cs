@@ -88,7 +88,7 @@ public enum Enemystate { Idle, Find, Attack , Skill, Dead};
 
 public interface I_EnemyControl
 {
-    Enemystate _enemystate { get; set; }
+    //Enemystate _enemystate { get; set; }
 
 
     IEnumerator DeadAniPlayer();

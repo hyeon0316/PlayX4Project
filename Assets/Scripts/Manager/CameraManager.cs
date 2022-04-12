@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour
 {
@@ -73,7 +74,8 @@ public class CameraManager : MonoBehaviour
         _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
             BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z - 1.5f);
         
-        transform.position += new Vector3(BackgroundImg.transform.position.x ,0,0);
+        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
+            transform.position += new Vector3(BackgroundImg.transform.position.x ,0,0);
     }
 
 
