@@ -101,7 +101,11 @@ public class Player1 : Life,I_hp
         CheckFry();
         if(!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
         PlayerAttack();
-        Skill();
+        
+        }
+        if (!IsStop && Playerstate != PlayerstateEnum.Dead)
+        {
+            Skill();
         }
     }
 
@@ -212,7 +216,7 @@ public class Player1 : Life,I_hp
 
             //플레이어가 공중에 있는지 확인하여 공중에 떠있지 않을때만 점프를 할 수 있도록 설정
            
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKey(KeyCode.C))
             {
                 if (!_isFry)
                 {
@@ -267,7 +271,7 @@ public class Player1 : Life,I_hp
                 
             }
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
-            if (_isFry && Distance >0.13f && _rigid.velocity.y <0)
+            if (_isFry && _rigid.velocity.y <0)
             {//낙하 애니메이션
                 _playerAnim.SetBool("IsFall", true);
             }
@@ -299,14 +303,17 @@ public class Player1 : Life,I_hp
                 _isAgainAttack = false;
                 Playerstate = PlayerstateEnum.Idle;
             }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                _playerAnim.SetTrigger("AgainAttack");
-                _isAgainAttack = false;
-                CountTimeList[1] = 1.7f;
-                Playerstate = PlayerstateEnum.Attack;
+            if(Playerstate != PlayerstateEnum.Attack) { 
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    _playerAnim.SetTrigger("AgainAttack");
+                    _isAgainAttack = false;
+                    CountTimeList[1] = 1.7f;
+                    Playerstate = PlayerstateEnum.Attack;
+                }
             }
-        }else if(Input.GetKeyDown(KeyCode.X) && CountTimeList[1] <= 0)
+        }
+        else if(Input.GetKeyDown(KeyCode.X) && CountTimeList[1] <= 0)
         {
             _playerAnim.SetTrigger("Attack");
             CountTimeList[1] = 3f;
@@ -366,6 +373,14 @@ public class Player1 : Life,I_hp
 
     }
 
+    public void AllstopSkillCor()
+    {
+        StopAllCoroutines();
+      /*  StopCoroutine(SkillOneCor());
+        StopCoroutine(SkillTwoCor());
+        StopCoroutine(RollCor());*/
+    }
+
     public void Skill()
     {
        
@@ -374,7 +389,8 @@ public class Player1 : Life,I_hp
             case "a":
             case "A":
                 if(CountTimeList[2] <= 0) {
-                    CountTimeList[2] = 10f;
+                    CountTimeList[2] = 3f;
+                    AllstopSkillCor();
                 _playerAnim.SetTrigger("Skill1");
                 }
                 break;
@@ -382,7 +398,8 @@ public class Player1 : Life,I_hp
             case "S":
                 if(CountTimeList[3] <= 0) {
                     CountTimeList[3] = 2f;
-                        StartCoroutine(SkillTwoCor());
+                    AllstopSkillCor();
+                    StartCoroutine(SkillTwoCor());
                 Playerstate = PlayerstateEnum.Skill;
                 }
                 break;
@@ -395,8 +412,10 @@ public class Player1 : Life,I_hp
                 break;
             case "f":
             case "F":
-                    if(Playerstate != PlayerstateEnum.Attack)
+                    if(Playerstate != PlayerstateEnum.Attack) {
+                    AllstopSkillCor();
                     Roll();
+                    }
                 break;
 
         }
@@ -492,7 +511,9 @@ public class Player1 : Life,I_hp
 
     IEnumerator RollCor()
     {
-        Vector3 dic = this.transform.GetChild(0).localScale.x < 0 ? Vector3.left : Vector3.right;
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        Vector3 dic = new Vector3(h, 0, v * 0.5f).normalized;
         float Distance = 10f; 
         Playerstate = PlayerstateEnum.Skill;
         CountTimeList[0] = 3f;
@@ -555,7 +576,7 @@ public class Player1 : Life,I_hp
     private void WallSlideRaycast(Ray ray)
     {
         
-        float Distance = (_playerSprite.sprite.rect.width * 0.5f)/ _playerSprite.sprite.pixelsPerUnit;
+        float Distance = (_playerSprite.sprite.rect.width * 0.45f)/ _playerSprite.sprite.pixelsPerUnit;
        
         if (Physics.Raycast(ray, Distance, LayerMask.GetMask("Wall")))
         {
@@ -578,11 +599,12 @@ public class Player1 : Life,I_hp
     {
         if (_isWallslide)
         {
-            if(collision.gameObject.layer == LayerMask.GetMask("Wall"))
+            if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
             {
+                Debug.Log("벽떨어짐");
                 _isWallslide = false;
                 _playerAnim.SetTrigger("WallSlideout");
-                Physics.gravity = Vector3.down * -25;
+                Physics.gravity = Vector3.down * 25;
             }
         }
     }
