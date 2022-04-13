@@ -192,7 +192,7 @@ MonoBehaviour:
   CameraMovetype: 1
   Player: {fileID: 0}
   BackgroundImg: {fileID: 0}
-  CameraMoveSpeed: 5
+  CameraMoveSpeed: 0.99
   FloorCollider: {fileID: 0}
   MaxCameratoPlayerX: 0.65
   MinCameratoPlayerX: 0.35

@@ -383,42 +383,44 @@ public class Player1 : Life,I_hp
 
     public void Skill()
     {
-       
-        switch (Input.inputString)
+
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            case "a":
-            case "A":
-                if(CountTimeList[2] <= 0) {
-                    CountTimeList[2] = 3f;
-                    AllstopSkillCor();
+            if (CountTimeList[2] <= 0)
+            {
+                CountTimeList[2] = 3f;
+                AllstopSkillCor();
                 _playerAnim.SetTrigger("Skill1");
-                }
-                break;
-            case "s":
-            case "S":
-                if(CountTimeList[3] <= 0) {
-                    CountTimeList[3] = 2f;
-                    AllstopSkillCor();
-                    StartCoroutine(SkillTwoCor());
-                Playerstate = PlayerstateEnum.Skill;
-                }
-                break;
-            case "d":
-            case "D":
-                if(CountTimeList[4] <= 0)
-                {
-
-                }
-                break;
-            case "f":
-            case "F":
-                    if(Playerstate != PlayerstateEnum.Attack) {
-                    AllstopSkillCor();
-                    Roll();
-                    }
-                break;
-
+            }
         }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (CountTimeList[3] <= 0)
+            {
+                CountTimeList[3] = 2f;
+                AllstopSkillCor();
+                StartCoroutine(SkillTwoCor());
+                Playerstate = PlayerstateEnum.Skill;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (CountTimeList[4] <= 0)
+            {
+
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (Playerstate != PlayerstateEnum.Attack)
+            {
+                AllstopSkillCor();
+                Roll();
+            }
+        }
+
+        
     }
 
     public void SkillOne()
