@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1317145674460572160}
   - component: {fileID: 7781940357852372949}
   - component: {fileID: 4017670771594459481}
-  - component: {fileID: 1799438380426519017}
   m_Layer: 13
   m_Name: Player 1
   m_TagString: Player
@@ -44,7 +43,7 @@ BoxCollider:
   m_GameObject: {fileID: 307459355053265545}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.58, y: 0.8, z: 1}
   m_Center: {x: -0.05, y: -0.19566071, z: 0}
@@ -82,20 +81,6 @@ MonoBehaviour:
   CountTimeList: []
   PlayerUIObj: {fileID: 0}
   IsStop: 0
---- !u!136 &1799438380426519017
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307459355053265545}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.25
-  m_Height: 0.8
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!1 &3099890938880235328
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +295,7 @@ BoxCollider:
   m_GameObject: {fileID: 8857996014535115257}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.23, y: 0.32, z: 0.2}
   m_Center: {x: -0.01, y: -0.08, z: 0}
