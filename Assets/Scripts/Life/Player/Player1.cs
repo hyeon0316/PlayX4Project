@@ -276,7 +276,7 @@ public class Player1 : Life,I_hp
                 _playerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if(_isFry && Distance < 0.08f)
+            if(_isFry && Distance < 0.1f)
             {
                 _playerAnim.SetBool("IsFall", false);
                 _playerAnim.SetBool("IsJump", false);
@@ -567,7 +567,9 @@ public class Player1 : Life,I_hp
         }
         else
         {
-            ray = new Ray(this.transform.position, Vector3.right);
+            ray = new Ray(this.transform.position - 
+                new Vector3(0,_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit,0)
+                , Vector3.right);
         }
 
         WallSlideRaycast(ray);
@@ -576,7 +578,7 @@ public class Player1 : Life,I_hp
     private void WallSlideRaycast(Ray ray)
     {
         
-        float Distance = (_playerSprite.sprite.rect.width * 0.45f)/ _playerSprite.sprite.pixelsPerUnit;
+        float Distance = (_playerSprite.sprite.rect.width * 0.47f)/ _playerSprite.sprite.pixelsPerUnit;
        
         if (Physics.Raycast(ray, Distance, LayerMask.GetMask("Wall")))
         {
