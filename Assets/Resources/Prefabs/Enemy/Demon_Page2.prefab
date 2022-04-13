@@ -211,4 +211,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  Attackcrossroad: 0
+  Attackcrossroad: 1.1
