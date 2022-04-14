@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ladder : MonoBehaviour
 {
 
-    public Player1 Player;
+    public Player Player;
 
     private bool _isladder;
 
@@ -16,7 +16,7 @@ public class Ladder : MonoBehaviour
     private void Awake()
     {
         
-        Player = GameObject.Find("Player").GetComponent<Player1>();
+        Player = GameObject.Find("Player").GetComponent<Player>();
         _isPlayeruse = false;
     }
 

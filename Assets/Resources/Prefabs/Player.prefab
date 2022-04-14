@@ -52,6 +52,7 @@ MonoBehaviour:
   CountTimeList: []
   PlayerUIObj: {fileID: 0}
   IsStop: 0
+  _isLadder: 0
 --- !u!65 &1317145674460572160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63,8 +64,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6270194, y: 0.9328964, z: 1}
-  m_Center: {x: 0, y: -0.19566071, z: 0}
+  m_Size: {x: 0.42, y: 0.8, z: 1}
+  m_Center: {x: -0.05, y: -0.19566071, z: 0}
 --- !u!54 &7781940357852372949
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -227,7 +228,7 @@ Animator:
   m_GameObject: {fileID: 8857996014535115257}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b336a34107629cf4b84f1db39466c0b2, type: 2}
+  m_Controller: {fileID: 9100000, guid: 59c2ffff4de2e054ebcaf2344dfae194, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
