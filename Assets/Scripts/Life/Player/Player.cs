@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 /*
 1.public으로 선언 된 변수는 앞글자 대문자로 시작
@@ -110,7 +111,7 @@ public class Player : Life, I_hp
     {
         countTime();
         CheckFry();
-        if (!_isLadder)
+        if (!_isLadder && !SceneManager.GetActiveScene().name.Equals("Town"))
         {
             if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
             {
@@ -129,11 +130,16 @@ public class Player : Life, I_hp
         UpdateUI();
         if (!_isLadder)
         {
-            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
+            if (!SceneManager.GetActiveScene().name.Equals("Town") && !IsStop && (Playerstate != PlayerstateEnum.Dead
+                    && Playerstate != PlayerstateEnum.Skill))
             {
                 PlayerJump();
-                PlayerMove_v1();
                 WallSlide();
+            }
+
+            if (!IsStop)
+            {
+                PlayerMove_v1();
             }
         }
         else
