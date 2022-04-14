@@ -12,12 +12,12 @@ using UnityEngine.UI;
 */
 
 
-public class Player : Life,I_hp
+public class Player : Life, I_hp
 {
     /// <summary>
     /// 플레이어 상태를 알려주는 enum 변수
     /// </summary>
-    public enum PlayerstateEnum { Idle, Attack,Skill,Dead}
+    public enum PlayerstateEnum { Idle, Attack, Skill, Dead }
     /// <summary>
     /// 플레이어 상태
     /// </summary>
@@ -57,7 +57,7 @@ public class Player : Life,I_hp
     /// 플레이어가 날고 있는지 확인
     /// </summary>
     private bool _isFry = false;
-    
+
     /// <summary>
     /// 플레이어가 1번째 공격 이후 2번째 공격을 할 수 있는지 확인한것을 확인할 수 있는 변수
     /// </summary>
@@ -75,6 +75,8 @@ public class Player : Life,I_hp
     /// </summary>
     private bool _isWallslide = false;
 
+    public bool _isLadder = false;
+
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -88,7 +90,8 @@ public class Player : Life,I_hp
         CountTimeList = new float[5];
         BulletParent = GameObject.Find("Bulletpool").transform;
         BulletPool = new GameObject[12];
-        for(int i = 0; i < 12; i++) { 
+        for (int i = 0; i < 12; i++)
+        {
             BulletPool[i] = BulletParent.GetChild(i).gameObject;
             BulletPool[i].SetActive(false);
         }
@@ -99,31 +102,48 @@ public class Player : Life,I_hp
     {
         countTime();
         CheckFry();
-        if(!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
-        PlayerAttack();
-        Skill();
+        if (!_isLadder)
+        {
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
+            {
+                PlayerAttack();
+
+            }
+            if (!IsStop && Playerstate != PlayerstateEnum.Dead)
+            {
+                Skill();
+            }
         }
     }
 
     private void FixedUpdate()
     {
         UpdateUI();
-        if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
-        PlayerJump();
-        PlayerMove_v1();
+        if (!_isLadder)
+        {
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
+            {
+                PlayerJump();
+                PlayerMove_v1();
+                WallSlide();
+            }
         }
-
+        else
+        {
+            //사다리 타고 있을때
+            LadderMove();
+        }
     }
 
-   /// <summary>
-   /// 카운트 해야하는 변수들의 시간을 줄여주는 함수
-   /// </summary>
+    /// <summary>
+    /// 카운트 해야하는 변수들의 시간을 줄여주는 함수
+    /// </summary>
     private void countTime()
     {
-        for(int i = 0; i < CountTimeList.Length; ++i)
+        for (int i = 0; i < CountTimeList.Length; ++i)
         {
-            if(CountTimeList[i] >= 0)
-            CountTimeList[i] -= Time.deltaTime;
+            if (CountTimeList[i] >= 0)
+                CountTimeList[i] -= Time.deltaTime;
         }
     }
 
@@ -135,9 +155,9 @@ public class Player : Life,I_hp
     public bool Gethit(int Cvalue)
     {
         //데미지가 들어오니 무적 카운트와 hit 애니메이션 실행
-        if(Cvalue > 0)
+        if (Cvalue > 0)
         {
-           
+
             //플레이어가 무적상태라면 애니메이션과 채력계산을 무시하고 리턴한다.
             if (CountTimeList[0] > 0)
                 return CheckLiving();
@@ -146,7 +166,7 @@ public class Player : Life,I_hp
             _playerAnim.SetTrigger("Hit");
         }
 
-        
+
         HP -= Cvalue;
         return CheckLiving();
     }
@@ -157,13 +177,14 @@ public class Player : Life,I_hp
     public bool CheckLiving()
     {
 
-        if(HP <= 0) {
+        if (HP <= 0)
+        {
             _playerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
-        return true;
+            return true;
         }
         else
-        return false;
+            return false;
     }
 
     /// <summary>
@@ -172,52 +193,91 @@ public class Player : Life,I_hp
     /// </summary>
     private void PlayerMove_v1()
     {
-            float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
-            float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
-            //플레이어가 가는 방향으로 보도록 sprite 돌려주기
-            if (Input.GetButton("Horizontal") && !_isWallslide)
-            {
+        float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
+        float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
+                                               //플레이어가 가는 방향으로 보도록 sprite 돌려주기
+        if (Input.GetButton("Horizontal") && !_isWallslide)
+        {
             this.transform.GetChild(0).localScale = new Vector3(Input.GetAxisRaw("Horizontal") == -1 ? -2.5f : 2.5f, 2.5f, 1);
-            }
-           
+        }
 
-            //방향키가 눌렸을때에는 달리는 상태로 아니면 idel 상태로 둔다
-            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+
+        //방향키가 눌렸을때에는 달리는 상태로 아니면 idel 상태로 둔다
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        {
+            //달리는 상태로 변환
+            _playerAnim.SetBool("IsRun", true);
+            //플레이어가 공격중이 아닐때만 이동할 수 있도록 설정
+            if (Playerstate != PlayerstateEnum.Attack)
             {
-                //달리는 상태로 변환
-                _playerAnim.SetBool("IsRun", true);
-                //플레이어가 공격중이 아닐때만 이동할 수 있도록 설정
-                if (Playerstate != PlayerstateEnum.Attack) { 
-                    
-                    Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
-                    _rigid.MovePosition(this.transform.position + movement);
-                }
+
+                Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
+                _rigid.MovePosition(this.transform.position + movement);
+            }
+        }
+        else
+        {
+            //플레이어가 idel 로 변경
+            _playerAnim.SetBool("IsRun", false);
+
+        }
+
+
+
+    }
+
+
+    public void ChangeLadder(GameObject colliderObj, bool changeLadder)
+    {
+        _isLadder = changeLadder;
+        if (_isLadder)
+        {
+            GetComponent<Rigidbody>().useGravity = false;
+            this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.25f);
+
+            _playerAnim.SetBool("Ladder", true);
+            _playerAnim.SetTrigger("LadderTri");
+        }
+        else
+        {
+            Ray ray = new Ray(this.transform.position, Vector3.forward);
+
+            if (Physics.Raycast(ray, 1f, LayerMask.GetMask("Wall")))
+            {
+                this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.25f);
             }
             else
             {
-               //플레이어가 idel 로 변경
-                _playerAnim.SetBool("IsRun", false);
-              
+                this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y + 0.4f, colliderObj.transform.position.z + 0.5f);
             }
-
-            
-      
+            GetComponent<Rigidbody>().useGravity = true;
+            _playerAnim.SetBool("Ladder", false);
+        }
     }
+
+    private void LadderMove()
+    {
+        float v = Input.GetAxisRaw("Vertical");
+
+        this.transform.Translate(Vector3.up * v * Time.deltaTime);
+    }
+
 
     private void PlayerJump()
     {
         //대화중이 아닐때만 점프
-        if (!IsStop) {
+        if (Playerstate != PlayerstateEnum.Attack)
+        {
 
             //플레이어가 공중에 있는지 확인하여 공중에 떠있지 않을때만 점프를 할 수 있도록 설정
-           
-            if (Input.GetKeyDown(KeyCode.C))
+
+            if (Input.GetKey(KeyCode.C))
             {
                 if (!_isFry)
                 {
                     //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
                     gameObject.GetComponent<Rigidbody>().velocity =
-                        new Vector3(_rigid.velocity.x, 1 * 8.5f, _rigid.velocity.z);
+                        new Vector3(_rigid.velocity.x, 1 * 10f, _rigid.velocity.z);
                     //점프 애니메이션
                     _playerAnim.SetBool("IsJump", true);
                 }
@@ -227,21 +287,21 @@ public class Player : Life,I_hp
                     if (_isWallslide)
                     {
                         gameObject.GetComponent<Rigidbody>().velocity =
-                      new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -5f : 5f , 1 * 8.5f, _rigid.velocity.z);
+                      new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -5f : 5f, 1 * 10f, _rigid.velocity.z);
                         //점프 애니메이션
                         _isWallslide = false;
                         _playerAnim.SetBool("IsJump", true);
                         _playerAnim.SetTrigger("WallSlideout");
                         Physics.gravity = Vector3.down * 25f;
-                    } 
+                    }
                 }
 
             }
-           
+
         }
     }
 
-   
+
 
     /// <summary>
     /// 플레이어가 하늘을 날고 있는지 확인하는 하여 _isFry 변수를 변경하는 함수
@@ -249,33 +309,37 @@ public class Player : Life,I_hp
     private void CheckFry()
     {
         RaycastHit hit;
-        Ray ray = new Ray(transform.position, Vector3.down);//플레이어 기준으로 아래 방향으로 ray 생성
+        //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
+        Ray ray = new Ray(transform.position - new Vector3(0, _playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit, 0), Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
-
+        Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit);
         LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj");
 
-        if(Physics.Raycast(ray, out hit, layerMask)){
+        if (Physics.Raycast(ray, out hit, layerMask))
+        {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
+            Debug.Log(Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if(!_isFry && Distance > 1f && _rigid.velocity.y > 0.1f)
+            if (!_isFry && Distance > 0.1f)
             {
                 ChangeFry(true);
-                _playerAnim.SetBool("IsJump", false);
+
             }
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
-            if (_isFry && Distance >1f)
+            if (_isFry && _rigid.velocity.y < 0)
             {//낙하 애니메이션
                 _playerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if(_isFry && Distance < 0.7f)
+            if (_isFry && Distance < 0.1f)
             {
                 _playerAnim.SetBool("IsFall", false);
                 _playerAnim.SetBool("IsJump", false);
-                Debug.Log("Floor충돌");
-                    ChangeFry(false);
-                if (_isWallslide) { 
+
+                ChangeFry(false);
+                if (_isWallslide)
+                {
                     _isWallslide = false;
                     _playerAnim.SetTrigger("WallSlideout");
                     Physics.gravity = Vector3.down * 25f;
@@ -286,89 +350,90 @@ public class Player : Life,I_hp
 
     public void PlayerAttack()
     {
-        //플레이어가 공격중이 아닐때에는 idle
-        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle")
-            || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Run"))
-        {
-            Playerstate = PlayerstateEnum.Idle;
-        }
 
-        //플레이어가 1번째 애니메이션이 끝나고 2번째 공격전 준비 상태 애니매이션일때
-        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("AttackIdle")
-            || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Attackrun")) {
-            //X 키를 올렸을 경우 다음 공격의 플레이어의 상태를 Idel 로 변경하고 2번째 공격의 준비가 되었다고 말한다
-            if (Input.GetKeyUp(KeyCode.X) && !_isCheck)
-            {
-                Playerstate = PlayerstateEnum.Idle;
-                _isAgainAttack = true;
-                _isCheck = true;
-            }
-            //공격 준비 상태일때 x 키를 입력하면 2번째 공격을 실행
-            if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
-            {
-                _playerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 1f;//공격 딜레이
-                _isAgainAttack = false;
-                
-                Playerstate = PlayerstateEnum.Attack;
-            }
-              
-            //공격을 하지 않고 애니메이션이 2f 정도 지났을때 일반 idel 로 초기화
-            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 3f )
-            {
-                CountTimeList[1] = 1f;
-                _playerAnim.SetTrigger("AgainAttackreset");
-                _isAgainAttack = false;
-                _isCheck = false;
-                Playerstate = PlayerstateEnum.Idle;
-            }
-        }
-        //1번째 공격 실행 
-        if (Input.GetKeyDown(KeyCode.X)&& CountTimeList[1] <= 0)
+
+        if (_isAgainAttack)
         {
 
+            if (CountTimeList[1] <= 0)
+            {
+                _isAgainAttack = false;
+                Playerstate = PlayerstateEnum.Idle;
+            }
+            if (Playerstate != PlayerstateEnum.Attack)
+            {
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    _playerAnim.SetTrigger("AgainAttack");
+                    _isAgainAttack = false;
+                    CountTimeList[1] = 1.7f;
+                    Playerstate = PlayerstateEnum.Attack;
+                }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.X) && CountTimeList[1] <= 0)
+        {
             _playerAnim.SetTrigger("Attack");
-            CountTimeList[1] = 2f;
-            _isCheck = false;
+            CountTimeList[1] = 3f;
             Playerstate = PlayerstateEnum.Attack;
+            _isAgainAttack = true;
+
+
         }
 
+
+
+
+    }
+
+    public void AllstopSkillCor()
+    {
+        StopAllCoroutines();
+        /*  StopCoroutine(SkillOneCor());
+          StopCoroutine(SkillTwoCor());
+          StopCoroutine(RollCor());*/
     }
 
     public void Skill()
     {
-       
-        switch (Input.inputString)
+
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            case "a":
-            case "A":
-                if(CountTimeList[2] <= 0) {
-                    CountTimeList[2] = 10f;
+            if (CountTimeList[2] <= 0)
+            {
+                CountTimeList[2] = 3f;
+                AllstopSkillCor();
                 _playerAnim.SetTrigger("Skill1");
-                }
-                break;
-            case "s":
-            case "S":
-                if(CountTimeList[3] <= 0) {
-                    CountTimeList[3] = 2f;
-                        StartCoroutine(SkillTwoCor());
-                Playerstate = PlayerstateEnum.Skill;
-                }
-                break;
-            case "d":
-            case "D":
-                if(CountTimeList[4] <= 0)
-                {
-
-                }
-                break;
-            case "f":
-            case "F":
-                    if(Playerstate != PlayerstateEnum.Attack)
-                    Roll();
-                break;
-
+            }
         }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (CountTimeList[3] <= 0)
+            {
+                CountTimeList[3] = 2f;
+                AllstopSkillCor();
+                StartCoroutine(SkillTwoCor());
+                Playerstate = PlayerstateEnum.Skill;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (CountTimeList[4] <= 0)
+            {
+
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (Playerstate != PlayerstateEnum.Attack)
+            {
+                AllstopSkillCor();
+                Roll();
+            }
+        }
+
+
     }
 
     public void SkillOne()
@@ -384,7 +449,7 @@ public class Player : Life,I_hp
         Ray ray = new Ray(this.transform.position, dic);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray,out hit, 4f, LayerMask.GetMask("Wall")))
+        if (Physics.Raycast(ray, out hit, 4f, LayerMask.GetMask("Wall")))
         {
             distance = (hit.transform.position.x - this.transform.position.x) * 0.8f;
         }
@@ -399,7 +464,7 @@ public class Player : Life,I_hp
             yield return new WaitForEndOfFrame();
         }
 
-       while(_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        while (_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -409,7 +474,7 @@ public class Player : Life,I_hp
 
     IEnumerator SkillTwoCor()
     {
-        for(int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3; ++i)
         {
             _playerAnim.SetTrigger("Skill2");
             _playerEffectAnim.SetTrigger("Skill2");
@@ -435,14 +500,14 @@ public class Player : Life,I_hp
         }
         BulletPool[index].GetComponent<Bullet>().Power = Power;
         BulletPool[index].GetComponent<Bullet>().Speed = 5;
-        
+
     }
 
-   
+
     public int FindBullet()
     {
         int index = 0;
-        for(int i = 0; i < BulletPool.Length; i++)
+        for (int i = 0; i < BulletPool.Length; i++)
         {
             if (!BulletPool[i].activeSelf)
             {
@@ -461,27 +526,31 @@ public class Player : Life,I_hp
 
     IEnumerator RollCor()
     {
-        Vector3 dic = this.transform.GetChild(0).localScale.x < 0 ? Vector3.left : Vector3.right;
-        float Distance = 10f; 
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        Vector3 dic = new Vector3(h, 0, v * 0.5f).normalized;
+        float Distance = 10f;
         Playerstate = PlayerstateEnum.Skill;
         CountTimeList[0] = 3f;
-       for(int i = 0; i < 13; ++i) { 
-            this.transform.Translate(dic* Distance * Time.deltaTime);
-            Debug.Log("Roll 코루틴 확인");
+        for (int i = 0; i < 13; ++i)
+        {
+            this.transform.Translate(dic * Distance * Time.deltaTime);
+
             yield return new WaitForFixedUpdate();
         }
         Playerstate = PlayerstateEnum.Idle;
         CountTimeList[0] = 0.01f;
-    } 
+    }
 
     /// <summary>
     /// 플레이어 UI 업데이트 할 때 사용할 예정이 함수(데이터 전달 및 갱신)
     /// </summary>
     private void UpdateUI()
     {
-        if(PlayerUIObj!= null) { 
-        PlayerUIObj.GetChild(0).GetComponent<Text>().text = "체력:" + HP.ToString();
-        PlayerUIObj.GetChild(1).GetComponent<Text>().text = "무적시간:" + CountTimeList[0].ToString();
+        if (PlayerUIObj != null)
+        {
+            PlayerUIObj.GetChild(0).GetComponent<Text>().text = "체력:" + HP.ToString();
+            PlayerUIObj.GetChild(1).GetComponent<Text>().text = "무적시간:" + CountTimeList[0].ToString();
         }
     }
 
@@ -495,27 +564,94 @@ public class Player : Life,I_hp
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private bool ContactWall(Vector3 contactPoints)
     {
-        Debug.Log("순서0");
-        if(Mathf.Abs(Input.GetAxis("Vertical")) < 0.1f) { 
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
-                Debug.Log("순서1");
-                    
-                    if (_isFry && !_isWallslide)
-                    {
 
-                        Physics.gravity = Vector3.down * 5f;
-                        _rigid.velocity = Vector3.zero;
-                        this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
-                        this.transform.GetChild(0).localScale.y,
-                        this.transform.GetChild(0).localScale.z);
-                         _playerAnim.SetTrigger("WallSlide");
-                        _isWallslide = true;
-                    }
-            
-            }
+
+        if (contactPoints.y - this.transform.position.y > _playerSprite.sprite.rect.width - 30 / _playerSprite.sprite.pixelsPerUnit)
+        {
+            return false;
         }
 
+        return true;
     }
+
+    private void WallSlide()
+    {
+        Ray ray;
+        if (this.transform.GetChild(0).localScale.x < 0)
+        {
+            ray = new Ray(this.transform.position, Vector3.left);
+        }
+        else
+        {
+            ray = new Ray(this.transform.position, Vector3.right);
+        }
+
+        WallSlideRaycast(ray);
+    }
+
+    private void WallSlideRaycast(Ray ray)
+    {
+
+        float Distance = (_playerSprite.sprite.rect.width * 0.48f) / _playerSprite.sprite.pixelsPerUnit;
+
+        if (Physics.Raycast(ray, Distance, LayerMask.GetMask("Wall")))
+        {
+            Debug.Log("1벽충돌");
+            if (_isFry && !_isWallslide)
+            {
+                Debug.Log("2벽충돌");
+                Physics.gravity = Vector3.down * 5f;
+                _rigid.velocity = Vector3.zero;
+                this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
+                this.transform.GetChild(0).localScale.y,
+                this.transform.GetChild(0).localScale.z);
+                _playerAnim.SetTrigger("WallSlide");
+                _isWallslide = true;
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (_isWallslide)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            {
+                Debug.Log("벽떨어짐");
+                _isWallslide = false;
+                _playerAnim.SetTrigger("WallSlideout");
+                Physics.gravity = Vector3.down * 25;
+            }
+        }
+    }
+
+    /*  private void OnCollisionEnter(Collision collision)
+      {
+
+          if(Mathf.Abs(Input.GetAxis("Vertical")) < 0.1f) { 
+              if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
+                  for(int i = 0; i < collision.contactCount; i++)
+                  {
+                      Debug.LogFormat(" Collision  :{0}", collision.contacts[i].point);
+                  }
+
+                  if (ContactWall(collision.transform.position)) { 
+                      if (_isFry && !_isWallslide)
+                      {
+
+                          Physics.gravity = Vector3.down * 5f;
+                          _rigid.velocity = Vector3.zero;
+                          this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
+                          this.transform.GetChild(0).localScale.y,
+                          this.transform.GetChild(0).localScale.z);
+                           _playerAnim.SetTrigger("WallSlide");
+                          _isWallslide = true;
+                      }
+                  }
+              }
+          }
+
+      }*/
 }

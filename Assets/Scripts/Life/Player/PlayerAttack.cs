@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     private bool _canAttack = false;
 
     public GameObject Player;
-  
+
 
     private List<GameObject> hitEnemyObj = new List<GameObject>();
 
@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void AnimEventendAttack()
     {
-        
+
         Debug.Log("EndEvent");
         _canAttack = false;
         HitEnemy();
@@ -33,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void SkillTwoAni()
     {
-        
+
         Player.GetComponent<Player>().SkillTwo();
     }
 
@@ -45,30 +45,32 @@ public class PlayerAttack : MonoBehaviour
     public void HitEnemy()
     {
         Debug.Log(hitEnemyObj.Count);
-        if(hitEnemyObj.Count > 0) { 
-        for(int i = 0; i < hitEnemyObj.Count; i++)
+        if (hitEnemyObj.Count > 0)
         {
-           if(hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power))
-           {
-                   //적이 사망
-           }
-        }
-        hitEnemyObj.Clear();
+            for (int i = 0; i < hitEnemyObj.Count; i++)
+            {
+                if (hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power))
+                {
+                    //적이 사망
+                }
+            }
+            hitEnemyObj.Clear();
         }
     }
 
-    
+
 
     public void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag.Contains("Enemy"))
+        if (other.gameObject.tag.Contains("Enemy"))
         {
             if (_canAttack)
             {
                 GameObject hitObj = other.gameObject;
-                if (!hitEnemyObj.Contains(hitObj)) { 
+                if (!hitEnemyObj.Contains(hitObj))
+                {
                     hitEnemyObj.Add(other.gameObject);
-                    
+
                 }
             }
         }

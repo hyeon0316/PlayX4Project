@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ladder : MonoBehaviour
 {
 
-    public Player1 Player;
+    public Player Player;
 
     private bool _isladder;
 
@@ -16,10 +16,21 @@ public class Ladder : MonoBehaviour
     private void Awake()
     {
         
-        Player = GameObject.Find("Player").GetComponent<Player1>();
+        Player = GameObject.Find("Player").GetComponent<Player>();
         _isPlayeruse = false;
     }
-   
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (_isPlayeruse)
+        {
+            if (other.CompareTag("Player")) { 
+            Player.ChangeLadder(this.gameObject, false);
+            _isladder = false;
+            _isPlayeruse = false;
+            }
+        }
+    }
 
     public void OnTriggerStay(Collider other)
     {
@@ -71,12 +82,9 @@ public class Ladder : MonoBehaviour
         {
             if (_isladder)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    Player.ChangeLadder(this.gameObject, false);
-                    _isladder = false;
-                    _isPlayeruse = false;
-                }
+                
+                   
+                
             }
         }
     }

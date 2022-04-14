@@ -114,7 +114,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
     {
         if (Cvalue > 0)
         {
-            _attackDelay += 0.5f;
+            _attackDelay += 0.12f;
             Animator.SetTrigger("Hit");
         }
 
@@ -211,10 +211,10 @@ public class Assassin : Life, I_hp, I_EnemyControl
             }
             else
             {
-                Vector3 position = new Vector3(this.transform.position.x + (this.transform.position.x / 0.5f - PlayerObj.transform.position.x)
+                Vector3 position = new Vector3(this.transform.position.x + (this.transform.position.x - PlayerObj.transform.position.x)
                     , this.transform.position.y,
-                    this.transform.position.z + (this.transform.position.z / 0.5f - PlayerObj.transform.position.z));
-                _EnemyNav.speed = 0.75f;
+                    this.transform.position.z);
+                _EnemyNav.speed = 1.25f;
                 ; _EnemyNav.SetDestination(position);
             }
 
