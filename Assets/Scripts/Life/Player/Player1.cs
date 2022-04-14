@@ -75,6 +75,8 @@ public class Player1 : Life,I_hp
     /// </summary>
     private bool _isWallslide = false;
 
+    public bool _isLadder = false;
+
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -99,25 +101,37 @@ public class Player1 : Life,I_hp
     {
         countTime();
         CheckFry();
-        if(!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
-        PlayerAttack();
-        
-        }
-        if (!IsStop && Playerstate != PlayerstateEnum.Dead)
+        if (!_isLadder)
         {
-            Skill();
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
+            {
+                PlayerAttack();
+
+            }
+            if (!IsStop && Playerstate != PlayerstateEnum.Dead)
+            {
+                Skill();
+            }
         }
     }
 
     private void FixedUpdate()
     {
         UpdateUI();
-        if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill)) { 
-        PlayerJump();
-        PlayerMove_v1();
-        WallSlide();
+        if (!_isLadder)
+        {
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
+            {
+                PlayerJump();
+                PlayerMove_v1();
+                WallSlide();
+            }
         }
-
+        else
+        {
+            //사다리 타고 있을때
+            LadderMove();
+        }
     }
 
    /// <summary>
@@ -208,6 +222,41 @@ public class Player1 : Life,I_hp
             
       
     }
+
+
+    public void ChangeLadder(GameObject colliderObj, bool changeLadder)
+    {
+        _isLadder = changeLadder;
+        if (_isLadder) {
+            GetComponent<Rigidbody>().useGravity = false;
+            this.transform.position = new Vector3( colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.5f);
+
+            _playerAnim.SetBool("Ladder", true);
+            _playerAnim.SetTrigger("LadderTri");
+        }
+        else
+        {
+            Ray ray = new Ray(this.transform.position, Vector3.forward);
+
+            if (Physics.Raycast(ray, 1f, LayerMask.GetMask("Wall"))) { 
+            this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.5f);
+            }
+            else
+            {
+                this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y + 0.4f, colliderObj.transform.position.z + 0.5f);
+            }
+            GetComponent<Rigidbody>().useGravity = true;
+            _playerAnim.SetBool("Ladder", false);
+        }
+    }
+
+    private void LadderMove()
+    {
+        float v =  Input.GetAxisRaw("Vertical");
+
+        this.transform.Translate(Vector3.up * v * Time.deltaTime);
+    }
+
 
     private void PlayerJump()
     {
@@ -324,52 +373,7 @@ public class Player1 : Life,I_hp
         }
 
 
-       /* //플레이어가 공격중이 아닐때에는 idle
-        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle")
-            || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Run"))
-        {
-            Playerstate = PlayerstateEnum.Idle;
-        }
-
-        //플레이어가 1번째 애니메이션이 끝나고 2번째 공격전 준비 상태 애니매이션일때
-        if (_playerAnim.GetCurrentAnimatorStateInfo(0).IsName("AttackIdle")
-            || _playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Attackrun")) {
-            //X 키를 올렸을 경우 다음 공격의 플레이어의 상태를 Idel 로 변경하고 2번째 공격의 준비가 되었다고 말한다
-            if (Input.GetKeyUp(KeyCode.X) && !_isCheck)
-            {
-                Playerstate = PlayerstateEnum.Idle;
-                _isAgainAttack = true;
-                _isCheck = true;
-            }
-            //공격 준비 상태일때 x 키를 입력하면 2번째 공격을 실행
-            if (_isAgainAttack && Input.GetKeyDown(KeyCode.X))
-            {
-                _playerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 1f;//공격 딜레이
-                _isAgainAttack = false;
-                
-                Playerstate = PlayerstateEnum.Attack;
-            }
-              
-            //공격을 하지 않고 애니메이션이 2f 정도 지났을때 일반 idel 로 초기화
-            if ( _playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 3f )
-            {
-                CountTimeList[1] = 1f;
-                _playerAnim.SetTrigger("AgainAttackreset");
-                _isAgainAttack = false;
-                _isCheck = false;
-                Playerstate = PlayerstateEnum.Idle;
-            }
-        }
-        //1번째 공격 실행 
-        if (Input.GetKeyDown(KeyCode.X)&& CountTimeList[1] <= 0)
-        {
-
-            _playerAnim.SetTrigger("Attack");
-            CountTimeList[1] = 2f;
-            _isCheck = false;
-            Playerstate = PlayerstateEnum.Attack;
-        }*/
+      
 
     }
 
