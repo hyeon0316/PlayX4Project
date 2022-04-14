@@ -14,10 +14,7 @@ public class Menu : MonoBehaviour
   
     public void OnClickQuitGame()
     {
-       #if UNNITY_EDITOR
-       UnityEditor.EditorAppliiiication.isPlaying =false;
-# else
+      
         Application.Quit();
-#endif
     }
 }
