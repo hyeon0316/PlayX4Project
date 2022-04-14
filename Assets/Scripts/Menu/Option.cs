@@ -6,15 +6,36 @@ using UnityEngine.UI;
 
 public class Option : MonoBehaviour
 {
+
+    bool  IsPause;
+
     public GameObject Exit;
     public GameObject Option_page;
+ void Start()
+    {
+        {
+            IsPause = false;
+        }
+    }
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Option_page.SetActive(true);
-            Time.timeScale = 0;  //시간 정지
+            if (IsPause == false)
+            {
+                Option_page.SetActive(true);
+                Time.timeScale = 0;  //시간 정지
+                IsPause = true;
+                return;
+            }
+
+            if(IsPause ==true)
+            {     Option_page.SetActive(false);
+                Time.timeScale = 1;
+                IsPause = false;
+                return;
+            }
         }
     }
     public void OptionDown()
@@ -22,11 +43,20 @@ public class Option : MonoBehaviour
         Option_page.SetActive(true);
     }
     public void Option_Exit()
-    {   Exit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Exit(B)", typeof(Sprite)) as Sprite;
+    { 
+        Exit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Exit(B)", typeof(Sprite)) as Sprite;
         Option_page.SetActive(false);
-        
-        Time.timeScale = 1;
-       
+
+
+        if (IsPause == true)
+        {
+            Option_page.SetActive(false);
+            Time.timeScale = 1;
+            IsPause = false;
+            return;
+        }
+
+
     }
     
 }
