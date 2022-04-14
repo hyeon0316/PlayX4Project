@@ -15,7 +15,6 @@ public class Ladder : MonoBehaviour
 
     private void Awake()
     {
-        
         Player = GameObject.Find("Player").GetComponent<Player>();
         _isPlayeruse = false;
     }

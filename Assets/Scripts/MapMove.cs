@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapMove : MonoBehaviour
+public class MapMove : Interaction
 {
-    private bool _canWarp;
     public string MapColliderName;
     public Transform NextMap;
 
@@ -13,8 +12,9 @@ public class MapMove : MonoBehaviour
     private Player _player;
     private CameraManager _camera;
     
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _camera = GameObject.Find("Camera").GetComponent<CameraManager>();
@@ -25,31 +25,17 @@ public class MapMove : MonoBehaviour
         _fade.FadeOut();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
-            Debug.Log("다음 맵 이동");
-            _canWarp = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
-        _canWarp = false;
-    }
+   
 
     private void Update()
     {
-        if (_canWarp)
+        if (CanInteract)
         {
-            GameObject.Find("UICanvas").transform.Find("ActionBtn").transform.position = this.transform.position+ new Vector3(0,1.2f,0);
+            ActionBtn.transform.position = this.transform.position+ new Vector3(0,1.2f,0);
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
+                ActionBtn.SetActive(false);
                 _fade.FadeIn();
                 _player.IsStop = true;
             }
@@ -62,13 +48,18 @@ public class MapMove : MonoBehaviour
                 }
                 GameObject.Find("Colliders").transform.Find(MapColliderName).gameObject.SetActive(true);
                 _player.transform.position = NextMap.transform.position;
-                
+
+                _camera.CameraMovetype = 0;
                 _camera.BackgroudUpdate();
-                
+                _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x ,0,0);
+
+                _camera.ChangeCameraType();
                 _fade.FadeOut();
                 _player.IsStop = false;
-                _canWarp = false;
+                CanInteract = false;
             }
         }
+        
+        
     }
 }

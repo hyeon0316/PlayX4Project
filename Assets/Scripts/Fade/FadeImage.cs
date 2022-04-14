@@ -7,10 +7,9 @@ public class FadeImage : MonoBehaviour, IFade
 {
     private Image _fadeImage;
     public float FadeCount;
-
-
     public bool IsFade;//페이드 인 이후 페이드 아웃 전에 해야할 작업들이 있을 때 사용하는 변수
-    
+
+        
     private void OnEnable()
     {
         _fadeImage = GetComponent<Image>();

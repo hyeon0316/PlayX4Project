@@ -73,9 +73,6 @@ public class CameraManager : MonoBehaviour
 
         _minsize = new Vector3(BackgroundImg.GetComponent<MeshRenderer>().bounds.min.x,
             BackgroundImg.GetComponent<MeshRenderer>().bounds.min.y, FloorCollider.bounds.min.z - 1.5f);
-        
-        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
-            transform.position += new Vector3(BackgroundImg.transform.position.x ,0,0);
     }
 
 
@@ -97,6 +94,18 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+
+    public void ChangeCameraType()
+    {
+        StartCoroutine(ChangeCameraTypeCo());
+    }
+    private IEnumerator ChangeCameraTypeCo()
+    {
+        yield return new WaitForSeconds(0.1f);
+        CameraMovetype = 1;
+    }
+    
+    
     /// <summary>
     /// 카메라가 백그라운드를 넘어가는것을 막는것을 확인하는 함수
     /// </summary>
@@ -113,18 +122,18 @@ public class CameraManager : MonoBehaviour
     }   
 
     /// <summary>
-    /// 1번째 이동 테스트 문
+    /// 카메라 즉시 이동
     /// </summary>
     private void CameraMove_v1()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y + 2));
+        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y));
 
         
         this.transform.position = new Vector3( playerposition.x, playerposition.y + 2 ,this.transform.position.z );
     }
 
     /// <summary>
-    /// 2번째 이동 테스트 문
+    /// 카메라 천천히 이동
     /// </summary>
     private void CameraMove_v2()
     {
