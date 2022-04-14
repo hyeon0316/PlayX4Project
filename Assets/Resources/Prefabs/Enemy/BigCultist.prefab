@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7659820266439081536}
   - component: {fileID: 7659820266439081535}
+  - component: {fileID: 7790839599609552092}
   - component: {fileID: 7659820266439081534}
   - component: {fileID: 7659820266439081537}
   m_Layer: 12
@@ -173,8 +174,21 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9844043, y: 0.99762034, z: 1.0544457}
-  m_Center: {x: 0.03940952, y: -0.06869686, z: -0.049800873}
+  m_Size: {x: 0.9, y: 0.8, z: 0.55}
+  m_Center: {x: 0.03940952, y: -0.05, z: 0.07}
+--- !u!65 &7790839599609552092
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7659820266439081539}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.55, z: 0.3}
+  m_Center: {x: 0, y: -0.15, z: 0.5}
 --- !u!195 &7659820266439081534
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -209,6 +223,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb163b4ec2af06b46badee458d60e7d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemystate: 0
   Animator: {fileID: 0}
   Attackcrossroad: 0.65
