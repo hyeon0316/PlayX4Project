@@ -14,19 +14,18 @@ public class NpcTalk : Interaction
         _dialogueManager = GameObject.Find("Canvas").GetComponent<DialogueManager>();
     }
 
-
     private void Update()
     {
-        TalkStart();
+        StartInteract();
     }
 
-    private void TalkStart()
+    public override void StartInteract()
     {
         if (CanInteract)
         {
             ActionBtn.transform.position = this.transform.position + new Vector3(0f, 1f, 0.5f);
         }
-        
+
         if (CanInteract && Input.GetKeyDown(KeyCode.Space))
         {
             ActionBtn.SetActive(false);
@@ -42,8 +41,10 @@ public class NpcTalk : Interaction
                         tmp.RemoveAt(i);
                         break;
                     }
+
                     tmp.RemoveAt(i);
                 }
+
                 Sentences = tmp.ToArray();
                 _dialogueManager.OnDialogue(Sentences);
                 _dialogueManager.IsNextTalk = false;
@@ -52,7 +53,11 @@ public class NpcTalk : Interaction
             {
                 _dialogueManager.OnDialogue(Sentences);
             }
+
             CanInteract = false;
         }
     }
 }
+
+   
+

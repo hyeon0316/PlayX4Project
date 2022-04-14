@@ -16,8 +16,12 @@ public class SceneMove : Interaction
         _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
     }
 
-
     private void Update()
+    {
+        StartInteract();
+    }
+    
+    public override void StartInteract()
     {
         if (CanInteract)
         {
@@ -32,13 +36,14 @@ public class SceneMove : Interaction
                 _fade.FadeIn();
             }
             
-           if(_fade.FadeCount >= 1f)
+            if(_fade.FadeCount >= 1f)
             {
                 SceneManager.LoadScene(_sceneName);
                 CanInteract = false;
             }
         }
-
-       
     }
+
+
+   
 }

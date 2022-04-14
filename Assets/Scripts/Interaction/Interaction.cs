@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interaction : MonoBehaviour
+public abstract class Interaction : MonoBehaviour
 {
    public bool CanInteract;
    public GameObject ActionBtn;
@@ -12,6 +12,11 @@ public class Interaction : MonoBehaviour
    {
       ActionBtn = GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject;
    }
+
+   /// <summary>
+   /// 상호작용을 시작하는 함수
+   /// </summary>
+   public abstract void StartInteract();
 
    private void OnTriggerEnter(Collider other)
    {

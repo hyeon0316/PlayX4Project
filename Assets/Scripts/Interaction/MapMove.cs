@@ -19,15 +19,16 @@ public class MapMove : Interaction
         _player = GameObject.Find("Player").GetComponent<Player>();
         _camera = GameObject.Find("Camera").GetComponent<CameraManager>();
     }
-
     private void Start()
     {
         _fade.FadeOut();
     }
-
-   
-
+    
     private void Update()
+    {
+        StartInteract();
+    }
+    public override void StartInteract()
     {
         if (CanInteract)
         {
@@ -59,7 +60,10 @@ public class MapMove : Interaction
                 CanInteract = false;
             }
         }
-        
-        
     }
+
+
+
+   
+
 }

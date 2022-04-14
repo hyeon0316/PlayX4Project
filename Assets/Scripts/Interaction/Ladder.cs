@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : MonoBehaviour
+public class Ladder : Interaction
 {
 
     public Player Player;
@@ -13,10 +13,16 @@ public class Ladder : MonoBehaviour
 
     
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Player = GameObject.Find("Player").GetComponent<Player>();
         _isPlayeruse = false;
+    }
+
+    public override void StartInteract()
+    {
+        throw new System.NotImplementedException();
     }
 
     public void OnTriggerEnter(Collider other)
