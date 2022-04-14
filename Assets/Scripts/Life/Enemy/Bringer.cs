@@ -78,7 +78,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
         if (_attackDelay <= 0)
         {
           Enemystate = Enemystate.Find;
-          Animator.SetBool("IsWalk", true); //todo: 처음 공격 시 제자리 걸음 한번 이후 Idle로 가는 버그 수정하기
+          Animator.SetBool("IsWalk", true); 
         }
         else
         {
@@ -146,7 +146,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
       StartCoroutine(DeadAniPlayer());
       return true;
     }
-    else if (HP <= _Maxhp / 2)
+    else if (HP <= _Maxhp / 2) //todo: 나중에 체력이 많을 경우 반피 이하 상태에서 체력이 깎일 때마다 스킬을 쓸 것이므로 수정하기
     {
       ActiveSkill();
       return false;
