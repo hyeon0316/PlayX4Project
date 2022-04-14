@@ -43,6 +43,7 @@ public class Life :MonoBehaviour
     public float Speed
     {
         get { return _speed; }
+        set { _speed = value; }
     }
 
     private bool _living;

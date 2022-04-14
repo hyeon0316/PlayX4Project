@@ -75,7 +75,13 @@ public class Player : Life, I_hp
     /// </summary>
     private bool _isWallslide = false;
 
+    private bool _isRoll = false;
+
     public bool _isLadder = false;
+
+    private float _slowSpeed;
+    private float _oriSpeed;
+
 
     public void Awake()
     {
@@ -86,6 +92,8 @@ public class Player : Life, I_hp
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
         Initdata(30, 10, 3);
+        _oriSpeed = Speed;
+        _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;
         CountTimeList = new float[5];
         BulletParent = GameObject.Find("Bulletpool").transform;
@@ -109,7 +117,7 @@ public class Player : Life, I_hp
                 PlayerAttack();
 
             }
-            if (!IsStop && Playerstate != PlayerstateEnum.Dead)
+            if (!IsStop && Playerstate != PlayerstateEnum.Dead && !_isRoll)
             {
                 Skill();
             }
@@ -196,7 +204,7 @@ public class Player : Life, I_hp
         float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
         float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
                                                //플레이어가 가는 방향으로 보도록 sprite 돌려주기
-        if (Input.GetButton("Horizontal") && !_isWallslide)
+        if (Input.GetButton("Horizontal") && !_isWallslide && Playerstate != PlayerstateEnum.Attack)
         {
             this.transform.GetChild(0).localScale = new Vector3(Input.GetAxisRaw("Horizontal") == -1 ? -2.5f : 2.5f, 2.5f, 1);
         }
@@ -351,39 +359,65 @@ public class Player : Life, I_hp
     public void PlayerAttack()
     {
 
+        if(CountTimeList[1] <= 0) {
 
-        if (_isAgainAttack)
-        {
-
-            if (CountTimeList[1] <= 0)
+            if (Playerstate == PlayerstateEnum.Idle)
             {
-                _isAgainAttack = false;
-                Playerstate = PlayerstateEnum.Idle;
-            }
-            if (Playerstate != PlayerstateEnum.Attack)
-            {
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Speed != _oriSpeed)
                 {
-                    _playerAnim.SetTrigger("AgainAttack");
-                    _isAgainAttack = false;
-                    CountTimeList[1] = 1.7f;
-                    Playerstate = PlayerstateEnum.Attack;
+                    Speed = _oriSpeed;
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                _playerAnim.SetTrigger("AgainAttack");
+                CountTimeList[1] = 0.77f;
+                Playerstate = PlayerstateEnum.Attack;
+                StartCoroutine(Zattackmove());
+
+                  _isAgainAttack = true;
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                _playerAnim.SetTrigger("Attack");
+                CountTimeList[1] = 0.77f;
+                Speed = _slowSpeed;
+               // Playerstate = PlayerstateEnum.Attack;
+                _isAgainAttack = true;
+            }
+           
         }
-        else if (Input.GetKeyDown(KeyCode.X) && CountTimeList[1] <= 0)
+        else
         {
-            _playerAnim.SetTrigger("Attack");
-            CountTimeList[1] = 3f;
-            Playerstate = PlayerstateEnum.Attack;
-            _isAgainAttack = true;
-
-
+           
         }
 
 
+    }
 
+    IEnumerator Zattackmove()
+    {
+        Vector3 vector;
+        if(this.transform.GetChild(0).localScale.x < 0)
+        {
+            vector = Vector3.left;
+        }
+        else
+        {
+            vector = Vector3.right;
+        }
+        yield return new WaitForSeconds(0.15f);
 
+        for(int i = 0; i < 16; i++)
+        {
+
+            this.transform.Translate(vector * Time.deltaTime * Speed * 0.75f);
+            yield return new WaitForEndOfFrame();
+
+        }
     }
 
     public void AllstopSkillCor()
@@ -426,11 +460,10 @@ public class Player : Life, I_hp
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (Playerstate != PlayerstateEnum.Attack)
-            {
+           
                 AllstopSkillCor();
                 Roll();
-            }
+            
         }
 
 
@@ -531,6 +564,7 @@ public class Player : Life, I_hp
         Vector3 dic = new Vector3(h, 0, v * 0.5f).normalized;
         float Distance = 10f;
         Playerstate = PlayerstateEnum.Skill;
+        _isRoll = true;
         CountTimeList[0] = 3f;
         for (int i = 0; i < 13; ++i)
         {
@@ -539,6 +573,7 @@ public class Player : Life, I_hp
             yield return new WaitForFixedUpdate();
         }
         Playerstate = PlayerstateEnum.Idle;
+        _isRoll = false;
         CountTimeList[0] = 0.01f;
     }
 
