@@ -13,20 +13,20 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] private GameObject _letterBoxParent;
     private RectTransform[] _letterBox;//npc와 대화를 할때 나타나는 상,하 검은색 바
-
     private float _textDelay = 0.1f;
-
     private Text _dialogueText;
-
     private NpcTalk _npc;
 
     private Player _player;
 
     public bool IsNextTalk = false;
+
+    private GameObject _talkPanel;
     
     
     private void Awake()
     {
+        _talkPanel = GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject;
         _npc = GameObject.Find("NPC").GetComponent<NpcTalk>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         //부모 오브젝트까지 같이 반환,
@@ -36,8 +36,7 @@ public class DialogueManager : MonoBehaviour
 
     public void TalkStart()
     {
-        _dialogueText = GameObject.Find("UICanvas").transform.Find("TalkPanel").GetComponentInChildren<Text>();
-        //_dialogueText = _talkPanel.GetComponentInChildren<Text>();
+        _dialogueText = _talkPanel.GetComponentInChildren<Text>();
         StartCoroutine(LetterBoxOnCo());
     }
 
@@ -60,8 +59,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop"))
         {
-            GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(false);
-            //_talkPanel.SetActive(false);
+            _talkPanel.SetActive(false);
             Invoke("DelayTalk",0.5f);
         }
         else if(Sentences.Peek().Equals("Delete"))
@@ -69,13 +67,13 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("Skip을 만났을 때");
             IsNextTalk = true;
             Invoke("ReTalk", 0.5f);
-            GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(false);
+            _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
         else if (Sentences.Peek().Equals("Stop"))
         {
             Invoke("ReTalk", 0.5f);
-            GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(false);
+            _talkPanel.SetActive(false);
             StartCoroutine(LetterBoxOffCo());
         }
     }
@@ -85,7 +83,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void DelayTalk()
     {
-        GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(true);
+        _talkPanel.SetActive(true);
         _currentSentence = Sentences.Dequeue();
         _isTyping = true;
         StartCoroutine(TypingCo(_currentSentence));
@@ -96,9 +94,8 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void ReTalk()
     {
-        GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
-        //ActionBtnImage.gameObject.SetActive(true);
-        _npc.CanTalk = true;
+        _npc.ActionBtn.SetActive(true);
+        _npc.CanInteract = true;
     }
 
     /// <summary>
@@ -156,15 +153,14 @@ public class DialogueManager : MonoBehaviour
     
     private void Update()
     {
-        //Debug.Log(Sentences.Count);
         TalkCheck();
     }
 
     private void TalkCheck()
     {
-        if (GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.activeSelf)
+        if (_talkPanel.activeSelf)
         {
-            GameObject.Find("UICanvas").transform.Find("TalkPanel").transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
+            _talkPanel.transform.position = _npc.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
             
             //텍스트가 전부 채워졌을때
             if (_dialogueText.text.Equals(_currentSentence))

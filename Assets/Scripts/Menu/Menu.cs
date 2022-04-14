@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour
 
     public void OnClick()
     {
-        SceneManager.LoadScene("TestScenes");
+        SceneManager.LoadScene("Dungeon");
     }
 
   
