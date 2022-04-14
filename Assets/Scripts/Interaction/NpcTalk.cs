@@ -8,6 +8,8 @@ public class NpcTalk : Interaction
     public string[] Sentences;
     private DialogueManager _dialogueManager;
 
+    
+    
     protected override void Awake()
     {
         base.Awake();
@@ -25,9 +27,19 @@ public class NpcTalk : Interaction
         {
             ActionBtn.transform.position = this.transform.position + new Vector3(0f, 1f, 0.5f);
         }
+      
 
         if (CanInteract && Input.GetKeyDown(KeyCode.Space))
         {
+            if (transform.position.x > GameObject.Find("Player").transform.position.x)
+            {
+                GetComponentInChildren<SpriteRenderer>().flipX = true;
+            }
+            else
+            {
+                GetComponentInChildren<SpriteRenderer>().flipX = false;
+            }
+            
             ActionBtn.SetActive(false);
             _dialogueManager.TalkStart();
             if (_dialogueManager.IsNextTalk)
