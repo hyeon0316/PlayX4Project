@@ -111,7 +111,7 @@ public class Player : Life, I_hp
     {
         countTime();
         CheckFry();
-        if (!_isLadder && !SceneManager.GetActiveScene().name.Equals("Town"))
+        if (!_isLadder && !_isWallslide && !SceneManager.GetActiveScene().name.Equals("Town"))
         {
             if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
             {
@@ -605,17 +605,7 @@ public class Player : Life, I_hp
     }
 
 
-    private bool ContactWall(Vector3 contactPoints)
-    {
-
-
-        if (contactPoints.y - this.transform.position.y > _playerSprite.sprite.rect.width - 30 / _playerSprite.sprite.pixelsPerUnit)
-        {
-            return false;
-        }
-
-        return true;
-    }
+   
 
     private void WallSlide()
     {
