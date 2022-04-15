@@ -137,7 +137,7 @@ public class Player : Life, I_hp
                 WallSlide();
             }
 
-            if (!IsStop)
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead&& Playerstate != PlayerstateEnum.Skill))
             {
                 PlayerMove_v1();
             }
@@ -305,7 +305,7 @@ public class Player : Life, I_hp
                         //점프 애니메이션
                         _isWallslide = false;
                         _playerAnim.SetBool("IsJump", true);
-                        _playerAnim.SetTrigger("WallSlideout");
+                        _playerAnim.SetBool("WallSlide", false);
                         Physics.gravity = Vector3.down * 25f;
                     }
                 }
