@@ -85,11 +85,11 @@ public interface I_hp
     bool CheckLiving();
 }
 
-public enum Enemystate { Idle, Find, Attack , Skill, Dead};
+public enum Enemystate { Idle, Find, Attack , Skill, Stop, Dead};
 
 public interface I_EnemyControl
 {
-    //Enemystate _enemystate { get; set; }
+    Enemystate _enemystate { get; set; }
 
 
     IEnumerator DeadAniPlayer();

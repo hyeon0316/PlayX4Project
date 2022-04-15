@@ -37,10 +37,18 @@ public class PlayerAttack : MonoBehaviour
         Player.GetComponent<Player>().SkillTwo();
     }
 
+    public void PlayerThreeAni()
+    {
+        Debug.Log("ThreeAni");
+        Player.GetComponent<Player>().SkillThree(hitEnemyObj);
+    }
+
     public void PlayerStateIdle()
     {
         Player.GetComponent<Player>().Playerstate = global::Player.PlayerstateEnum.Idle;
     }
+
+    
 
     public void HitEnemy()
     {
