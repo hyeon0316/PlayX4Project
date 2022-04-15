@@ -10,7 +10,7 @@ public abstract class Interaction : MonoBehaviour
 
    protected virtual void Awake()
    {
-      //ActionBtn = GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject;
+      ActionBtn = GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject;
    }
 
    /// <summary>
