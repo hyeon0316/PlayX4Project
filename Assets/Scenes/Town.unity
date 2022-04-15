@@ -9197,9 +9197,9 @@ MonoBehaviour:
   CanInteract: 0
   ActionBtn: {fileID: 0}
   Sentences:
-  - "\uC815\uCCB4\uBAA8\uB97C \uBB34\uB9AC\uB4E4\uC774  \uC81C \uB0A8\uD3B8\uC744
+  - "\uC815\uCCB4\uBAA8\uB97C \uBB34\uB9AC\uB4E4\uC774 \uC81C \uB0A8\uD3B8\uC744
     \uB0A9\uCE58\uD588\uC5B4\uC694..."
-  - "\uBD80\uB514 \uC81C \uB0A8\uD3B8\uC744 \uAD6C\uD574\uC8FC\uC138\uC694...."
+  - "\uBD80\uB514 \uC81C \uB0A8\uD3B8\uC744 \uAD6C\uD574\uC8FC\uC138\uC694.."
   - "\uC2DC\uC774\uBC14\uBC14\uBC14"
   - Delete
   - "\uB0A8\uD3B8\uC774 \uBB34\uC0AC \uD558\uAE30\uB97C....."
@@ -12952,7 +12952,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 0f32717987d4c92458f72a1214750399, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
