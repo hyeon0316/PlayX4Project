@@ -557,6 +557,11 @@ public class Player : Life, I_hp
         return index;
     }
 
+    public void SkillThree(List<GameObject> hitObj)
+    {
+
+    }
+
     public void Roll()
     {
         _playerAnim.SetTrigger("Roll");
