@@ -8,6 +8,14 @@ using Random = UnityEngine.Random;
 
 public class Necromancer : Life, I_hp, I_EnemyControl
 {
+
+    private Enemystate Enemystate;
+    public Enemystate _enemystate {
+        get { return Enemystate; }
+        set { Enemystate = value; }
+    }
+
+
     static public GameObject PlayerObj;
     public Animator Animator;
     private NavMeshAgent _enemyNav;
