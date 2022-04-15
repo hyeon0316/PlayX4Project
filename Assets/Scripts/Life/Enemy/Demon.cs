@@ -8,6 +8,14 @@ using Random = UnityEngine.Random;
 
 public class Demon : Life, I_hp, I_EnemyControl
 {
+    private Enemystate Enemystate;
+    public Enemystate _enemystate
+    {
+        get { return Enemystate; }
+        set { Enemystate = value; }
+    }
+
+
     static public GameObject PlayerObj;
     private Enemystate _state;
     public Animator Animator;
