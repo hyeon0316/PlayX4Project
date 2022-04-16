@@ -225,7 +225,6 @@ public class Demon : Life, I_hp, I_EnemyControl
                 DropBomb();
             }
         }
-
         HP -= Cvalue;
         
         return CheckLiving();

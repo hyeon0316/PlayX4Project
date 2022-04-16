@@ -30,6 +30,8 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
   public float Attackcrossroad;
 
+  private bool _canSkill;
+
   private void Awake()
   {
     Initdata(50, 5, 3); //데이터 입력
@@ -39,6 +41,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
     _enemyAttack = this.GetComponentInChildren<EnemyAttack>();
     _EnemyNav = this.GetComponent<NavMeshAgent>();
     _EnemyNav.stoppingDistance = Attackcrossroad;
+    _canSkill = true;
   }
 
   private void Update()
@@ -51,17 +54,26 @@ public class Bringer : Life, I_hp, I_EnemyControl
       FindPlayer();
       Fieldofview();
       EnemyMove();
+
+      if (_canSkill && HP <= _Maxhp / 2)
+      {
+        ActiveSkill();
+      }
+     
     }
   }
 
+  /// <summary>
+  /// 플레이어를 따라다니느 트랩스킬
+  /// </summary>
   private void ActiveSkill()
   {
-    _attackDelay += 2;
-    _EnemyNav.isStopped = true;
-    _EnemyNav.path.ClearCorners();
-    Animator.SetBool("IsWalk", false);
-    Animator.SetTrigger("Skill");
-    Invoke("StartTracking",1f);
+      _attackDelay += 2;
+      _EnemyNav.isStopped = true;
+      Animator.SetBool("IsWalk", false);
+      Animator.SetTrigger("Skill");
+      Invoke("StartTracking", 1f);
+      _canSkill = false;
   }
 
   private void StartTracking()
@@ -145,11 +157,6 @@ public class Bringer : Life, I_hp, I_EnemyControl
       Animator.SetTrigger("Dead");
       StartCoroutine(DeadAniPlayer());
       return true;
-    }
-    else if (HP <= _Maxhp / 2) //todo: 나중에 체력이 많을 경우 반피 이하 상태에서 체력이 깎일 때마다 스킬을 쓸 것이므로 수정하기
-    {
-      ActiveSkill();
-      return false;
     }
     else
       return false;
