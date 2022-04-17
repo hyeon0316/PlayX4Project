@@ -324,9 +324,9 @@ public class Player : Life, I_hp
     {
         RaycastHit hit;
         //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
-        Ray ray = new Ray(transform.position - new Vector3(0, _playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit, 0), Vector3.down);
+        Ray ray = new Ray(transform.position - new Vector3(0, (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0), Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
-        Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit);
+        Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
         LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj");
 
         if (Physics.Raycast(ray, out hit, layerMask))
@@ -378,7 +378,7 @@ public class Player : Life, I_hp
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 _playerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 0.77f;
+                CountTimeList[1] = 0.34f;
                 Playerstate = PlayerstateEnum.Attack;
                 StartCoroutine(Zattackmove());
 
@@ -389,7 +389,7 @@ public class Player : Life, I_hp
             if (Input.GetKeyDown(KeyCode.X))
             {
                 _playerAnim.SetTrigger("Attack");
-                CountTimeList[1] = 0.77f;
+                CountTimeList[1] = 0.34f;
                 Speed = _slowSpeed;
                // Playerstate = PlayerstateEnum.Attack;
                 _isAgainAttack = true;
@@ -617,11 +617,13 @@ public class Player : Life, I_hp
         Ray ray;
         if (this.transform.GetChild(0).localScale.x < 0)
         {
-            ray = new Ray(this.transform.position, Vector3.left);
+            ray = new Ray(this.transform.position + Vector3.down * (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y
+                , Vector3.left);
         }
         else
         {
-            ray = new Ray(this.transform.position, Vector3.right);
+            ray = new Ray(this.transform.position + Vector3.down * (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y
+                , Vector3.right);
         }
 
         WallSlideRaycast(ray);
@@ -630,7 +632,7 @@ public class Player : Life, I_hp
     private void WallSlideRaycast(Ray ray)
     {
 
-        float Distance = (_playerSprite.sprite.rect.width * 0.48f) / _playerSprite.sprite.pixelsPerUnit;
+        float Distance = (_playerSprite.sprite.rect.width * 0.48f) / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x;
 
         if (Physics.Raycast(ray, Distance, LayerMask.GetMask("Wall")))
         {
