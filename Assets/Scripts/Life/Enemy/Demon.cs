@@ -35,7 +35,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     private Queue<GameObject> _poolingBomb = new Queue<GameObject>();
     private Queue<GameObject> _poolingEffect = new Queue<GameObject>();
 
-    
+    private float _areaSkillTimer;
 
 
     private void Awake()
@@ -173,6 +173,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         }
         _bombCount = 0;
     }
+    
 
     private void ChangeState()
     {
@@ -181,6 +182,8 @@ public class Demon : Life, I_hp, I_EnemyControl
         {
             if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
             {
+                _areaSkillTimer += Time.deltaTime;
+                
                 if (_attackDelay <= 0)
                 {
                     _state = Enemystate.Attack;
@@ -192,8 +195,18 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
             else
             {
+                _areaSkillTimer = 0;
+                
                 if(_state != Enemystate.Skill)
                     _state = Enemystate.Find;
+            }
+
+            if (_areaSkillTimer >= 4f)
+            {
+                _state = Enemystate.Skill;
+                Animator.SetTrigger("Skill2");
+                _areaSkillTimer = 0;
+                //todo: 가능하면 플레이어가 넉백효과도 받을 수 있는 기능도 구현
             }
         }
     }

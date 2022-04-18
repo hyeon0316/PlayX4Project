@@ -35,7 +35,4 @@ public class EnemyAttack : MonoBehaviour
             _isHitPlayer = false;
         }
     }
-
-
-
 }
