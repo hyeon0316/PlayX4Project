@@ -31,6 +31,7 @@ public class NpcTalk : Interaction
 
         if (CanInteract && Input.GetKeyDown(KeyCode.Space))
         {
+            FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
             if (transform.position.x > GameObject.Find("Player").transform.position.x)
             {
                 GetComponentInChildren<SpriteRenderer>().flipX = true;

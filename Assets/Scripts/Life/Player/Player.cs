@@ -38,7 +38,7 @@ public class Player : Life, I_hp
     /// <summary>
     /// 플레이어 애니메이터 변수
     /// </summary>
-    private Animator _playerAnim;
+    public Animator PlayerAnim;
 
     private Animator _playerEffectAnim;
     /// <summary>
@@ -87,7 +87,7 @@ public class Player : Life, I_hp
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
-        _playerAnim = transform.GetChild(0).GetComponent<Animator>();
+        PlayerAnim = transform.GetChild(0).GetComponent<Animator>();
         _playerEffectAnim = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody>();
@@ -177,7 +177,7 @@ public class Player : Life, I_hp
                 return CheckLiving();
 
             CountTimeList[0] = 1f;
-            _playerAnim.SetTrigger("Hit");
+            PlayerAnim.SetTrigger("Hit");
         }
 
 
@@ -193,7 +193,7 @@ public class Player : Life, I_hp
 
         if (HP <= 0)
         {
-            _playerAnim.SetBool("Dead", true);
+            PlayerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
             return true;
         }
@@ -220,7 +220,7 @@ public class Player : Life, I_hp
         if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
             //달리는 상태로 변환
-            _playerAnim.SetBool("IsRun", true);
+            PlayerAnim.SetBool("IsRun", true);
             //플레이어가 공격중이 아닐때만 이동할 수 있도록 설정
             if (Playerstate != PlayerstateEnum.Attack)
             {
@@ -232,7 +232,7 @@ public class Player : Life, I_hp
         else
         {
             //플레이어가 idel 로 변경
-            _playerAnim.SetBool("IsRun", false);
+            PlayerAnim.SetBool("IsRun", false);
 
         }
 
@@ -249,8 +249,8 @@ public class Player : Life, I_hp
             GetComponent<Rigidbody>().useGravity = false;
             this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.25f);
 
-            _playerAnim.SetBool("Ladder", true);
-            _playerAnim.SetTrigger("LadderTri");
+            PlayerAnim.SetBool("Ladder", true);
+            PlayerAnim.SetTrigger("LadderTri");
         }
         else
         {
@@ -265,7 +265,7 @@ public class Player : Life, I_hp
                 this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y + 0.4f, colliderObj.transform.position.z + 0.5f);
             }
             GetComponent<Rigidbody>().useGravity = true;
-            _playerAnim.SetBool("Ladder", false);
+            PlayerAnim.SetBool("Ladder", false);
         }
     }
 
@@ -293,7 +293,7 @@ public class Player : Life, I_hp
                     gameObject.GetComponent<Rigidbody>().velocity =
                         new Vector3(_rigid.velocity.x, 1 * 10f, _rigid.velocity.z);
                     //점프 애니메이션
-                    _playerAnim.SetBool("IsJump", true);
+                    PlayerAnim.SetBool("IsJump", true);
                 }
                 else
                 {
@@ -304,8 +304,8 @@ public class Player : Life, I_hp
                       new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -5f : 5f, 1 * 10f, _rigid.velocity.z);
                         //점프 애니메이션
                         _isWallslide = false;
-                        _playerAnim.SetBool("IsJump", true);
-                        _playerAnim.SetBool("WallSlide", false);
+                        PlayerAnim.SetBool("IsJump", true);
+                        PlayerAnim.SetBool("WallSlide", false);
                         Physics.gravity = Vector3.down * 25f;
                     }
                 }
@@ -343,19 +343,19 @@ public class Player : Life, I_hp
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < 0)
             {//낙하 애니메이션
-                _playerAnim.SetBool("IsFall", true);
+                PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
             if (_isFry && Distance < 0.1f)
             {
-                _playerAnim.SetBool("IsFall", false);
-                _playerAnim.SetBool("IsJump", false);
+                PlayerAnim.SetBool("IsFall", false);
+                PlayerAnim.SetBool("IsJump", false);
 
                 ChangeFry(false);
                 if (_isWallslide)
                 {
                     _isWallslide = false;
-                    _playerAnim.SetTrigger("WallSlideout");
+                    PlayerAnim.SetTrigger("WallSlideout");
                     Physics.gravity = Vector3.down * 25f;
                 }
             }
@@ -377,7 +377,7 @@ public class Player : Life, I_hp
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                _playerAnim.SetTrigger("AgainAttack");
+                PlayerAnim.SetTrigger("AgainAttack");
                 CountTimeList[1] = 0.34f;
                 Playerstate = PlayerstateEnum.Attack;
                 StartCoroutine(Zattackmove());
@@ -388,7 +388,7 @@ public class Player : Life, I_hp
 
             if (Input.GetKeyDown(KeyCode.X))
             {
-                _playerAnim.SetTrigger("Attack");
+                PlayerAnim.SetTrigger("Attack");
                 CountTimeList[1] = 0.34f;
                 Speed = _slowSpeed;
                // Playerstate = PlayerstateEnum.Attack;
@@ -443,7 +443,7 @@ public class Player : Life, I_hp
             {
                 CountTimeList[2] = 3f;
                 AllstopSkillCor();
-                _playerAnim.SetTrigger("Skill1");
+                PlayerAnim.SetTrigger("Skill1");
             }
         }
 
@@ -503,7 +503,7 @@ public class Player : Life, I_hp
             yield return new WaitForEndOfFrame();
         }
 
-        while (_playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        while (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -515,7 +515,7 @@ public class Player : Life, I_hp
     {
         for (int i = 0; i < 3; ++i)
         {
-            _playerAnim.SetTrigger("Skill2");
+            PlayerAnim.SetTrigger("Skill2");
             _playerEffectAnim.SetTrigger("Skill2");
             yield return new WaitForSecondsRealtime(0.31f);
         }
@@ -564,7 +564,7 @@ public class Player : Life, I_hp
 
     public void Roll()
     {
-        _playerAnim.SetTrigger("Roll");
+        PlayerAnim.SetTrigger("Roll");
         StartCoroutine(RollCor());
     }
 
@@ -645,7 +645,7 @@ public class Player : Life, I_hp
                 this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
                 this.transform.GetChild(0).localScale.y,
                 this.transform.GetChild(0).localScale.z);
-                _playerAnim.SetTrigger("WallSlide");
+                PlayerAnim.SetTrigger("WallSlide");
                 _isWallslide = true;
             }
         }
@@ -659,7 +659,7 @@ public class Player : Life, I_hp
             {
                 Debug.Log("벽떨어짐");
                 _isWallslide = false;
-                _playerAnim.SetTrigger("WallSlideout");
+                PlayerAnim.SetTrigger("WallSlideout");
                 Physics.gravity = Vector3.down * 25;
             }
         }
