@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.AI;
 /*
 1.public으로 선언 된 변수는 앞글자 대문자로 시작
 2. private는 변수 앞에 "_"붙이고  소문자로 시작
@@ -18,7 +19,7 @@ public class Player : Life, I_hp
     /// <summary>
     /// 플레이어 상태를 알려주는 enum 변수
     /// </summary>
-    public enum PlayerstateEnum { Idle, Attack, Skill, Dead }
+    public enum PlayerstateEnum { Idle, Attack, Skill,ncSkill, Dead }
     /// <summary>
     /// 플레이어 상태
     /// </summary>
@@ -113,12 +114,13 @@ public class Player : Life, I_hp
         CheckFry();
         if (!_isLadder && !_isWallslide && !SceneManager.GetActiveScene().name.Equals("Town"))
         {
-            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill))
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead && Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
             {
                 PlayerAttack();
 
             }
-            if (!IsStop && Playerstate != PlayerstateEnum.Dead && !_isRoll)
+            //구르기 상태일때 스킬 사용 불가
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead&&Playerstate != PlayerstateEnum.ncSkill)&& !_isRoll)
             {
                 Skill();
             }
@@ -131,13 +133,13 @@ public class Player : Life, I_hp
         if (!_isLadder)
         {
             if (!SceneManager.GetActiveScene().name.Equals("Town") && !IsStop && (Playerstate != PlayerstateEnum.Dead
-                    && Playerstate != PlayerstateEnum.Skill))
+                    && Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
             {
                 PlayerJump();
                 WallSlide();
             }
 
-            if (!IsStop && (Playerstate != PlayerstateEnum.Dead&& Playerstate != PlayerstateEnum.Skill))
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead&& Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
             {
                 PlayerMove_v1();
             }
@@ -461,7 +463,8 @@ public class Player : Life, I_hp
         {
             if (CountTimeList[4] <= 0)
             {
-
+                CountTimeList[4] = 1f;
+                PlayerAnim.SetTrigger("Skill3");
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -496,7 +499,7 @@ public class Player : Life, I_hp
         Vector3 startpos = this.transform.position;
         Vector3 endpos = startpos + (Vector3.right * distance);
         _playerEffectAnim.SetTrigger("Skill1");
-        Playerstate = PlayerstateEnum.Skill;
+        Playerstate = PlayerstateEnum.ncSkill;
         for (int i = 1; i <= 6; i++)
         {
             this.transform.position = Vector3.Slerp(startpos, endpos, i / 6);
@@ -559,8 +562,31 @@ public class Player : Life, I_hp
 
     public void SkillThree(List<GameObject> hitObj)
     {
-
+        Debug.Log("Three");
+        StartCoroutine(SkillThreeCor(hitObj));
     }
+
+    IEnumerator SkillThreeCor(List<GameObject> hitObj)
+    {
+        Debug.Log("ThreeCor");
+        for (int i = 0; i < hitObj.Count; i++)
+        {
+            hitObj[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
+            hitObj[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
+        }
+
+        for(int i=0;i<hitObj.Count;i++)
+        {
+            hitObj[i].GetComponent<NavMeshAgent>().enabled = false;
+        }
+        Debug.Log("ThreeUp");
+        for (int i = 0; i < hitObj.Count; i++)
+        {
+            hitObj[i].transform.Translate( Vector3.up);
+        }
+        yield return 0;
+    }
+
 
     public void Roll()
     {
@@ -572,8 +598,22 @@ public class Player : Life, I_hp
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        Vector3 dic = new Vector3(h, 0, v * 0.5f).normalized;
-        float Distance = 10f;
+        Vector3 dic = Vector3.zero;
+        if (Mathf.Abs(h) > 0.1f) { 
+         dic = new Vector3(h, 0, v * 0.5f).normalized;
+        }
+        else
+        {
+            if(this.transform.GetChild(0).transform.localScale.x < 0)
+            {
+                dic = Vector3.left;
+            }
+            else
+            {
+                dic = Vector3.right;
+            }
+        }
+        float Distance = 9f;
         Playerstate = PlayerstateEnum.Skill;
         _isRoll = true;
         CountTimeList[0] = 3f;

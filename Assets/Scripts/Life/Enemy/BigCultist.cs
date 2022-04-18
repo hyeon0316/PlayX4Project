@@ -39,15 +39,19 @@ public class BigCultist : Life, I_hp, I_EnemyControl
     // Update is called once per frame
     void Update()
     {
-        if (Enemystate != Enemystate.Dead)
-        {
-            if (_attackDelay > 0)
-                _attackDelay -= Time.deltaTime;
+        if(Enemystate != Enemystate.Stop) {
+            Animator.SetBool("Hitstop", false);
+            if (Enemystate != Enemystate.Dead )
+            {
+                if (_attackDelay > 0)
+                    _attackDelay -= Time.deltaTime;
 
-            FindPlayer();
-            Fieldofview();
-            EnemyMove();
+                FindPlayer();
+                Fieldofview();
+                EnemyMove();
+            }
         }
+       
     }
 
     public void FindPlayer()
