@@ -116,6 +116,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
         {
             _attackDelay += 0.5f;
             Animator.SetTrigger("Hit");
+           
         }
 
         HP -= Cvalue;
@@ -161,6 +162,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
             PlayerObj.GetComponent<I_hp>().Gethit(Power);
+            PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
         }
     }
 

@@ -180,12 +180,26 @@ public class Player : Life, I_hp
 
             CountTimeList[0] = 1f;
             PlayerAnim.SetTrigger("Hit");
+            
         }
 
 
         HP -= Cvalue;
         return CheckLiving();
     }
+
+    //todo :  KnockBack함수를 Life 클래스를 수정하여 제작할지 테스트후 적용
+    /// <summary>
+    /// 1번째 인자 반대편으로 너백당하는 함수
+    /// </summary>
+    /// <param name="EnemyPos">때린 적 위치</param>
+    public void KnockBack(Vector3 EnemyPos)
+    {
+        Vector3 nomal = (this.transform.position - EnemyPos).normalized;
+
+        _rigid.velocity = nomal * 7f + (Vector3.up * 6f);
+    }
+
     /// <summary>
     /// 플레이어가 살아있는지 확인하는 함수, hp 가 0 이하로 떨어진다면 죽는 애니메이션 실행
     /// </summary>

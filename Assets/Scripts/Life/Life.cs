@@ -67,6 +67,9 @@ public class Life :MonoBehaviour
         _speed = speed;
         _living = true;
     }
+
+   
+
 }
 
 public interface I_hp
