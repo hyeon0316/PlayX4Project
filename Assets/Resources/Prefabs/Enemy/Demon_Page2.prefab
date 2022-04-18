@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8180084655686650011}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.16, z: 0.06}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children: []
   m_Father: {fileID: 8180084656213807410}
@@ -157,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 8180084656213807409}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.184, y: 2.6293402, z: 3.752}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_Children:
   - {fileID: 8180084655686650004}
   m_Father: {fileID: 0}
@@ -211,7 +211,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  Attackcrossroad: 1.1
-  HitMaterial: {fileID: 0}
-  FireCollect: {fileID: 0}
-  BombEffect: {fileID: 0}
+  Attackcrossroad: 1.5
+  HitMaterial: {fileID: 2100000, guid: 55c04ce684cb542debc357409498bc4e, type: 2}
+  FireCollect: {fileID: 2327346611091067011, guid: 3fe690dfd604b734ca26c914afc522a4,
+    type: 3}
+  BombEffect: {fileID: 180928408295645589, guid: 44e9f2751afedff448dfb32ad0947faf,
+    type: 3}

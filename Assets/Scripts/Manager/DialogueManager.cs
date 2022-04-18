@@ -64,20 +64,27 @@ public class DialogueManager : MonoBehaviour
         }
         else if(Sentences.Peek().Equals("Delete"))
         {
-            Debug.Log("Skip을 만났을 때");
             IsNextTalk = true;
-            Invoke("ReTalk", 0.5f);
-            _talkPanel.SetActive(false);
-            StartCoroutine(LetterBoxOffCo());
+            CloseTalkPanel();
         }
         else if (Sentences.Peek().Equals("Stop"))
         {
-            Invoke("ReTalk", 0.5f);
-            _talkPanel.SetActive(false);
-            StartCoroutine(LetterBoxOffCo());
+            CloseTalkPanel();
         }
     }
 
+    /// <summary>
+    /// 대화창이 꺼질때 발생하는 이벤트들
+    /// </summary>
+    private void CloseTalkPanel()
+    {
+        FindObjectOfType<CameraManager>().Target = _player.gameObject;
+        Invoke("ReTalk", 0.5f);
+        _talkPanel.SetActive(false);
+        StartCoroutine(LetterBoxOffCo());
+    }
+    
+    
     /// <summary>
     /// 다음 대화 문장이 진행 될때마다 패널이 껏다 켜지기 위함
     /// </summary>

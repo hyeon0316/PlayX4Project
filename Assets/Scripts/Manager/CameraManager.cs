@@ -16,7 +16,7 @@ public class CameraManager : MonoBehaviour
     //카메라 음직임 타입 테스트가 끝나면 사용하는 함수와 함께 주석
     public int CameraMovetype = 0;
     //플레이어 게임 오브젝트
-    public GameObject Player;
+    public GameObject Target;
     //백그라운드 오브젝트
     public GameObject BackgroundImg;
     //v2를 사용할 경우 카메라가 플레이어를 느리게 따라가는데 그 따라가는 속도롤 결정(0.1~ 0.04 사이로 생각)
@@ -126,7 +126,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v1()
     {
-        Vector2 playerposition = MaxMinSize(new Vector2(Player.transform.position.x, Player.transform.position.y));
+        Vector2 playerposition = MaxMinSize(new Vector2(Target.transform.position.x, Target.transform.position.y));
 
         
         this.transform.position = new Vector3( playerposition.x, playerposition.y + 2 ,this.transform.position.z );
@@ -137,7 +137,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     private void CameraMove_v2()
     {
-        Vector3 playerposition = MaxMinSize(new Vector3(Player.transform.position.x, Player.transform.position.y + 1.8f,Player.transform.position.z - 4.5f));
+        Vector3 playerposition = MaxMinSize(new Vector3(Target.transform.position.x, Target.transform.position.y + 1.8f,Target.transform.position.z - 4.5f));
 
         //플레이어가 카메라 화면 좌우로 일정 이상 나간다면 카메라 위치를 다시 잡아주는 라인
         if(OutPlayertoCameraX())
@@ -160,7 +160,7 @@ public class CameraManager : MonoBehaviour
     /// <returns>플레이어가 일정량 이상 나갔다면 true 아니면 false를 반환한다.</returns>
     private bool OutPlayertoCameraX()
     {
-        Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
+        Vector3 P_position = Camera.main.WorldToScreenPoint(Target.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
 
 
@@ -176,7 +176,7 @@ public class CameraManager : MonoBehaviour
     /// <returns>플레이어가 일정량 이상 나갔다면 true 아니면 false를 반환한다.</returns>
     private bool OutPlayertoCameraY()
     {
-        Vector3 P_position = Camera.main.WorldToScreenPoint(Player.transform.position);
+        Vector3 P_position = Camera.main.WorldToScreenPoint(Target.transform.position);
         Vector2 cameraScale = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
 
         

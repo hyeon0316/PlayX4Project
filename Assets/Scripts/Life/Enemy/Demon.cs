@@ -55,7 +55,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     void Start()
     {
         InitBomb(4);
-        Initdata(150, 5, 2); //데이터 입력
+        Initdata(300, 5, 2); //데이터 입력
         _state = Enemystate.Idle;
 
     }
@@ -78,7 +78,6 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         for (int i = 0; i < initCount; i++)
         {
-            ++_bombCount;
             _poolingBomb.Enqueue(CreateNewBomb());
             _poolingEffect.Enqueue(CreateNewEffect());
         }
@@ -121,9 +120,11 @@ public class Demon : Life, I_hp, I_EnemyControl
         {
             if (_poolingBomb.Count > 0)
             {
+                ++_bombCount;
                 var obj = _poolingBomb.Dequeue();
-                obj.transform.position = this.transform.position;
+                //obj.transform.position = this.transform.position;
                 obj.gameObject.SetActive(true);
+                StartCoroutine(DropPosCo(obj));
             }
             else
             {
@@ -131,30 +132,45 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
         }
 
-        if (_poolingBomb.Count <= 0)
+        if (_poolingBomb.Count <=0)
         {
             _state = Enemystate.Skill;
             StartCoroutine(BombSkillCo());
         }
     }
 
+    /// <summary>
+    /// 폭탄이 자기 위치 기준으로 시작하여 랜덤 방향으로 드롭되도록 하는 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DropPosCo(GameObject bomb)
+    {
+        float time = 0;
+        var pos1 = transform.position;
+        var pos = transform.position + Vector3.right *2 + Vector3.down;
+        while (time <= 1f)
+        {
+            time += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+            bomb.transform.position = Vector3.Slerp(pos1, pos, time);
+        }
+        
+    }
+
     private IEnumerator BombSkillCo()
     {
         Animator.SetTrigger("Skill1");
-        yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
-        //todo: 폭탄 파괴, 꺼낸 데이터를 다시 넣어주기
+        yield return new WaitForSeconds(1f);
         Debug.Log("폭발!");
         
         for (int i = 0; i < _bombCount; i++)
         {
             var effectObj = _poolingEffect.Dequeue();
             effectObj.transform.position = GameObject.Find("Bomb").transform.position;
-            //todo: 몸에서 바로 나오는 것이 아닌 원을 그리면서 폭탄을 드롭하기
             effectObj.gameObject.SetActive(true);
             
             ReturnBomb(GameObject.Find("Bomb"));
         }
-
         _bombCount = 0;
     }
 
@@ -176,7 +192,8 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
             else
             {
-                _state = Enemystate.Find;
+                if(_state != Enemystate.Skill)
+                    _state = Enemystate.Find;
             }
         }
     }

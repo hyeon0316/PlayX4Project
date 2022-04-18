@@ -39,7 +39,8 @@ public class NpcTalk : Interaction
             {
                 GetComponentInChildren<SpriteRenderer>().flipX = false;
             }
-            GameObject.Find("Camera").GetComponent<CameraManager>().Player = this.gameObject;
+            
+            FindObjectOfType<CameraManager>().Target = this.gameObject;
             ActionBtn.SetActive(false);
             _dialogueManager.TalkStart();
             if (_dialogueManager.IsNextTalk)
