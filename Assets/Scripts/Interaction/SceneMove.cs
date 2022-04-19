@@ -32,6 +32,7 @@ public class SceneMove : Interaction
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
             }

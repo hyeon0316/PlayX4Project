@@ -23,6 +23,7 @@ public abstract class Interaction : MonoBehaviour
       if (other.CompareTag("Player"))
       {
          Debug.Log("상호작용 가능");
+         ActionBtn.transform.position = this.transform.position + new Vector3(0f, 1f, 0.5f);
          CanInteract = true;
          ActionBtn.SetActive(true);
       }

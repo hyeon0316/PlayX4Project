@@ -36,6 +36,7 @@ public class MapMove : Interaction
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
                 _player.IsStop = true;
