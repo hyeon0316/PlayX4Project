@@ -20,6 +20,11 @@ public class EnemyAttack : MonoBehaviour
         this.transform.parent.GetComponent<I_EnemyControl>().EnemyAttack();
     }
 
+    public void RangedAttack()
+    {
+        FindObjectOfType<Demon>().LaunchFireBall();
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))

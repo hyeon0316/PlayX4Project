@@ -88,7 +88,16 @@ public interface I_hp
     bool CheckLiving();
 }
 
-public enum Enemystate { Idle, Find, Attack , Skill, Stop, Dead};
+public enum Enemystate
+{
+    Idle,
+    Find,
+    Attack,
+    Skill,
+    Skill2,
+    Stop,
+    Dead
+};
 
 public interface I_EnemyControl
 {

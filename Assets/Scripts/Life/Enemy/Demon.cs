@@ -31,12 +31,18 @@ public class Demon : Life, I_hp, I_EnemyControl
     
     public GameObject FireCollect;
     public GameObject BombEffect;
+    public GameObject FireBall;
+    
     private int _bombCount;
     private Queue<GameObject> _poolingBomb = new Queue<GameObject>();
     private Queue<GameObject> _poolingEffect = new Queue<GameObject>();
+    private Queue<GameObject> _poolingFireBall = new Queue<GameObject>();
 
+    private float _teleportTimer;
+    
     private float _areaSkillTimer;
 
+    private float _launchSkillTimer;
 
     private void Awake()
     {
@@ -55,14 +61,15 @@ public class Demon : Life, I_hp, I_EnemyControl
     void Start()
     {
         InitBomb(4);
+        InitFireBall(10);
         Initdata(300, 5, 2); //데이터 입력
         _state = Enemystate.Idle;
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(_state);
         if (_state != Enemystate.Dead)
         {
             if (_attackDelay > 0)
@@ -83,6 +90,13 @@ public class Demon : Life, I_hp, I_EnemyControl
         }
     }
 
+    private void InitFireBall(int initCount)
+    {
+        for (int i = 0; i < initCount; i++)
+        {
+            _poolingFireBall.Enqueue(CreateNewFireBall());
+        }
+    }
     private GameObject CreateNewBomb()
     {
         var newBomb = Instantiate(FireCollect);
@@ -101,6 +115,15 @@ public class Demon : Life, I_hp, I_EnemyControl
         return newEffect;
     }
 
+    private GameObject CreateNewFireBall()
+    {
+        var newFireBall = Instantiate(FireBall);
+        newFireBall.name = "FireBall";
+        newFireBall.gameObject.SetActive(false);
+
+        return newFireBall;
+    }
+
     private void ReturnBomb(GameObject bomb)
     {
         bomb.gameObject.SetActive(false);
@@ -111,6 +134,12 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         effect.gameObject.SetActive(false);
         _poolingEffect.Enqueue(effect);
+    }
+
+    public void ReturnFireBall(GameObject fireBall)
+    {
+        fireBall.gameObject.SetActive(false);
+        _poolingEffect.Enqueue(fireBall);
     }
     
     private void DropBomb()
@@ -123,6 +152,7 @@ public class Demon : Life, I_hp, I_EnemyControl
                 ++_bombCount;
                 var obj = _poolingBomb.Dequeue();
                 //obj.transform.position = this.transform.position;
+                //todo: 폭탄 드롭을 원형을 그리면서 드롭하게 하기
                 obj.gameObject.SetActive(true);
                 StartCoroutine(DropPosCo(obj));
             }
@@ -154,7 +184,6 @@ public class Demon : Life, I_hp, I_EnemyControl
             yield return new WaitForFixedUpdate();
             bomb.transform.position = Vector3.Slerp(pos1, pos, time);
         }
-        
     }
 
     private IEnumerator BombSkillCo()
@@ -180,34 +209,41 @@ public class Demon : Life, I_hp, I_EnemyControl
         if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill1") && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill2") &&
             !Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill3"))
         {
-            if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
+            if (_state != Enemystate.Skill2)
             {
-                _areaSkillTimer += Time.deltaTime;
-                
-                if (_attackDelay <= 0)
+                if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
                 {
-                    _state = Enemystate.Attack;
+                    _areaSkillTimer += Time.deltaTime;
+                    _teleportTimer = 0;
+                    if (_attackDelay <= 0)
+                    {
+                        _state = Enemystate.Attack;
+                    }
+                    else
+                    {
+                        _state = Enemystate.Idle;
+                    }
                 }
                 else
                 {
-                    _state = Enemystate.Idle;
+                    _teleportTimer += Time.deltaTime;
+                    _areaSkillTimer = 0;
+
+                    if (_teleportTimer >= 5f)
+                    {
+                        this.transform.position = PlayerObj.transform.position;
+                    }
+                    _state = Enemystate.Find;
                 }
             }
-            else
-            {
-                _areaSkillTimer = 0;
-                
-                if(_state != Enemystate.Skill)
-                    _state = Enemystate.Find;
-            }
-
-            if (_areaSkillTimer >= 4f)
-            {
-                _state = Enemystate.Skill;
-                Animator.SetTrigger("Skill2");
-                _areaSkillTimer = 0;
-                //todo: 가능하면 플레이어가 넉백효과도 받을 수 있는 기능도 구현
-            }
+        }
+        
+        if (_areaSkillTimer >= 4f)
+        {
+            _state = Enemystate.Skill;
+            Animator.SetTrigger("Skill2");
+            _areaSkillTimer = 0;
+            //todo: 가능하면 플레이어가 넉백효과도 받을 수 있는 기능도 구현
         }
     }
     public void EnemyMove()
@@ -243,6 +279,22 @@ public class Demon : Life, I_hp, I_EnemyControl
             _attackDelay = 3f;
             _enemyNav.isStopped = true;
         }
+        else if (_state == Enemystate.Skill2)
+        {
+            _launchSkillTimer += Time.deltaTime;
+            _enemyNav.isStopped = true;
+            Animator.SetBool("IsWalk", false);
+            Animator.SetTrigger("Fire1");
+            Animator.SetTrigger("Fire2");
+
+            if (_launchSkillTimer >= 5f)
+            {
+                Animator.ResetTrigger("Fire1");
+                _launchSkillTimer = 0;
+                _state = Enemystate.Find;
+            }
+            
+        }
     }
     
     public bool Gethit(int Cvalue)
@@ -260,8 +312,6 @@ public class Demon : Life, I_hp, I_EnemyControl
         return CheckLiving();
     }
     
-    
-   
     private IEnumerator HitCo()
     {
         _spriteRenderer.material = HitMaterial;
@@ -308,6 +358,24 @@ public class Demon : Life, I_hp, I_EnemyControl
         }
     }
 
+    /// <summary>
+    /// 원거리 공격
+    /// </summary>
+    public void LaunchFireBall()
+    {
+        var fireBallObj = _poolingFireBall.Dequeue();
+        if(this.transform.GetChild(0).localScale.x < 0)
+        {
+            fireBallObj.transform.rotation = new Quaternion(0,180,0,0);
+        }
+        else
+        {
+            fireBallObj.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+        fireBallObj.transform.position = GameObject.Find("FirePos").transform.position;
+        fireBallObj.gameObject.SetActive(true);
+    }
+    
     private void LookPlayer()
     {
         if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill1") &&
