@@ -9,6 +9,10 @@ public class ButtonEvent : MonoBehaviour
     public GameObject Option;
     public GameObject Quit;
     public GameObject Exit;
+    public GameObject Replay;
+    public GameObject Quit_Option;
+    public GameObject Option_Option;
+    public GameObject Quit_Main;
 
     public void PB()
     {
@@ -26,6 +30,14 @@ public class ButtonEvent : MonoBehaviour
     {
         Option.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Option(W)", typeof(Sprite)) as Sprite;
     }
+    public void OB_Option()
+    {
+        Option_Option.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Option(B)", typeof(Sprite)) as Sprite;
+    }
+    public void OW_Option()
+    {
+        Option_Option.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Option(W)", typeof(Sprite)) as Sprite;
+    }
     public void QB()
     {
         Quit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(B)", typeof(Sprite)) as Sprite;
@@ -34,6 +46,14 @@ public class ButtonEvent : MonoBehaviour
     {
         Quit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(W)", typeof(Sprite)) as Sprite;
     }
+    public void QB_Option()
+    {
+        Quit_Option.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(B)", typeof(Sprite)) as Sprite;
+    }
+    public void QW_Option()
+    {
+        Quit_Option.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(W)", typeof(Sprite)) as Sprite;
+    }
     public void EB()
     {
         Exit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Exit(B)", typeof(Sprite)) as Sprite;
@@ -41,5 +61,21 @@ public class ButtonEvent : MonoBehaviour
     public void EW()
     {
         Exit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Exit(W)", typeof(Sprite)) as Sprite;
+    }
+    public void RB()
+    {
+        Replay.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Replay(B)", typeof(Sprite)) as Sprite;
+    }
+    public void RW()
+    {
+        Replay.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Replay(W)", typeof(Sprite)) as Sprite;
+    }
+    public void QB_Main()
+    {
+        Quit_Main.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(B)", typeof(Sprite)) as Sprite;
+    }
+    public void QW_Main()
+    {
+        Quit_Main.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(W)", typeof(Sprite)) as Sprite;
     }
 }

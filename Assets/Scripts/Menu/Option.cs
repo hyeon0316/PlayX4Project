@@ -9,8 +9,10 @@ public class Option : MonoBehaviour
 
     bool  IsPause;
 
-    public GameObject Exit;
+    public GameObject Quit;
     public GameObject Option_page;
+    public GameObject Menu_Page;
+    public string thisScene;
  void Start()
     {
         {
@@ -22,41 +24,62 @@ public class Option : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            thisScene = SceneManager.GetActiveScene().name;
             if (IsPause == false)
             {
-                Option_page.SetActive(true);
+                Menu_Page.SetActive(true);
                 Time.timeScale = 0;  //시간 정지
                 IsPause = true;
                 return;
             }
 
             if(IsPause ==true)
-            {     Option_page.SetActive(false);
+            {     Menu_Page.SetActive(false);
+                Option_page.SetActive(false);
                 Time.timeScale = 1;
                 IsPause = false;
                 return;
             }
         }
     }
+
+    public void Restart()
+        {
+        Time.timeScale = 1f;
+        SceneManager.LoadSceneAsync(thisScene);
+    }
     public void OptionDown()
     {
         Option_page.SetActive(true);
+        Menu_Page.SetActive(false);
     }
-    public void Option_Exit()
+    public void Menu_Option()
+    {
+        Menu_Page.SetActive(true);
+    }
+    public void Option_Quit()
     { 
-        Exit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Exit(B)", typeof(Sprite)) as Sprite;
+        Quit.GetComponent<Image>().sprite = Resources.Load("Raw and SpriteSheets/Menu Buttons/Large Buttons/Quit(B)", typeof(Sprite)) as Sprite;
         Option_page.SetActive(false);
+        Menu_Page.SetActive(false);
 
 
         if (IsPause == true)
         {
             Option_page.SetActive(false);
+            Menu_Page.SetActive(false);
             Time.timeScale = 1;
             IsPause = false;
             return;
         }
-
-
     }
-    
-}
+
+  public void Eixt()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
+    }
+  }

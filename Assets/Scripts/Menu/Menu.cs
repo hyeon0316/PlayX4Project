@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
-    public GameObject Option_page;
+
 
     public void OnClick()
     {
-        SceneManager.LoadScene("Dungeon");
+        SceneManager.LoadScene("Town");
     }
 
   
