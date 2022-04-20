@@ -84,7 +84,8 @@ public class Player : Life, I_hp
     private float _slowSpeed;
     private float _oriSpeed;
 
-
+    private float _stepSmooth = 1f;
+    
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -129,6 +130,7 @@ public class Player : Life, I_hp
 
     private void FixedUpdate()
     {
+        UpDownStair();
         UpdateUI();
         if (!_isLadder)
         {
@@ -150,7 +152,25 @@ public class Player : Life, I_hp
             LadderMove();
         }
     }
-
+    
+    /// <summary>
+    /// 2층에서 계단 오를때 판정
+    /// </summary>
+    private void UpDownStair()
+    {
+        if (GameObject.Find("Collider_SecondFloor").activeSelf)
+        {
+            RaycastHit hit;
+            Debug.DrawRay(this.transform.position + Vector3.down * 0.7f, transform.TransformDirection(Vector3.left),
+                Color.red);
+            if (Physics.Raycast(this.transform.position + Vector3.down * 0.7f,
+                    transform.TransformDirection(Vector3.left), out hit, 0.3f, LayerMask.GetMask("Stair")))
+            {
+                Debug.Log("계단");
+            }
+        }
+    }
+    
     /// <summary>
     /// 카운트 해야하는 변수들의 시간을 줄여주는 함수
     /// </summary>
@@ -342,8 +362,8 @@ public class Player : Life, I_hp
         //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
         Ray ray = new Ray(transform.position - new Vector3(0, (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0), Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
-        Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
-        LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj");
+        //Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
+        LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj","Stair");
 
         if (Physics.Raycast(ray, out hit, layerMask))
         {
