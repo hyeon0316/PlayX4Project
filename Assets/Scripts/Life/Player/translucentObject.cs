@@ -68,56 +68,44 @@ public class translucentObject : MonoBehaviour
 
             for (int j = 0; j < Lst_TransparentedRenderer.Count; ++j)
             {
-                //현재 반투명화 된것이 플레이어랑 카메라 사이에 있는지 확인하는 함수, 없다면 마테리얼을 불투명으로 변경한다.
-                if (raycastHits.Count > 0)
-                {
-                    for (int i = 0; i < raycastHits.Count; i++)
-                    {
-                        int id = raycastHits[i].collider.GetInstanceID();
-                        //여기를 통과한다는 것은 
-                        if (Lst_TransparentedRenderer[j].Equals(Dic_SaveObjectInfo[id]))
-                        {
-                            continue;
-                        }
+                int index = Lst_TransparentedRenderer[j].InstanceId;
 
-                        int index = Lst_TransparentedRenderer[j].InstanceId;
-                        if (Dic_SaveColor[index].a >= 1f)
-                        {
-                            //불투명 마테리얼로 변경
-                            Lst_TransparentedRenderer[j].Mesh_Renderer.material = Lst_TransparentedRenderer[j].OrinMaterial;
-                            //변경한 마테리얼이기때문에 반투명 리스트에서 삭제
-                            Lst_TransparentedRenderer.RemoveAt(j);
-                        }
-                        else
-                        {
-                            Dic_SaveColor[Lst_TransparentedRenderer[j].InstanceId] = Change_Color(Dic_SaveColor[Lst_TransparentedRenderer[j].InstanceId], false);
-                        }
-                    }
+                if(Dic_SaveColor[index].a >= 1f)
+                {
+                    Lst_TransparentedRenderer[j].Mesh_Renderer.material = Lst_TransparentedRenderer[j].OrinMaterial;
+
+                    Lst_TransparentedRenderer.RemoveAt(j);
                 }
                 else
                 {
-                    int index = Lst_TransparentedRenderer[j].InstanceId;
-                    if (Dic_SaveColor[index].a >= 1f)
-                    {
-                        //불투명 마테리얼로 변경
-                        Lst_TransparentedRenderer[j].Mesh_Renderer.material = Lst_TransparentedRenderer[j].OrinMaterial;
-                        //변경한 마테리얼이기때문에 반투명 리스트에서 삭제
-                        Lst_TransparentedRenderer.RemoveAt(j);
-                    }
-                    else
-                    {
-                        Dic_SaveColor[Lst_TransparentedRenderer[j].InstanceId] = Change_Color(Dic_SaveColor[Lst_TransparentedRenderer[j].InstanceId], false);
-                    }
+                    MaterialPropertyBlock material = new MaterialPropertyBlock();
+                    material.SetTexture("Albedo", Dic_SaveObjectInfo[index].OrinMaterial.mainTexture);
+                    Dic_SaveColor[index] = Change_Color(Dic_SaveColor[index], false);
+                    material.SetColor("_Color", Dic_SaveColor[index]);
+                    Lst_TransparentedRenderer[j].Mesh_Renderer.SetPropertyBlock(material);
                 }
 
             }
         }
         raycastHits.Clear();
         //카메라에서부터 플레이어의 방향과 거리를 구한다.
+
+        SpriteRenderer renderer = _player.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        float width = (renderer.sprite.rect.width / renderer.sprite.pixelsPerUnit ) * _player.transform.localScale.x;
+      //  float height = (renderer.sprite.rect.height / renderer.sprite.pixelsPerUnit ) * _player.transform.GetChild(0).transform.localScale.y;
+        Vector3 PlayerRight = _player.transform.position + Vector3.right * (width * 0.5f);
+        Vector3 PlayerLeft = _player.transform.position + Vector3.left * (width * 0.5f);
+      //  Vector3 PlayerUp = _player.transform.position + Vector3.up * (height * 0.5f);
+       // Vector3 PlayerDown = _player.transform.position + Vector3.down *( height * 0.5f);
+
         Vector3 DirToCam = (_camera.transform.position - _player.transform.position).normalized;
         float Distance = (_camera.transform.position - _player.transform.position).magnitude;
         //카메라와 플레이어 사이의 오브젝트 반투명화
         HitRayTransparentObject2(_player.transform.position, DirToCam, Distance);
+        HitRayTransparentObject2(PlayerRight, DirToCam, Distance);
+       HitRayTransparentObject2(PlayerLeft, DirToCam, Distance);
+      //  HitRayTransparentObject2(PlayerUp, DirToCam, Distance);
+       // HitRayTransparentObject2(PlayerDown, DirToCam, Distance);
 
     }
 
@@ -190,9 +178,7 @@ public class translucentObject : MonoBehaviour
         //오브젝트가 1개 이상 있다면 실행
         if (HitObject.Length >= 1)
         {
-            for(int i = 0; i < HitObject.Length; i++) {
-                raycastHits.Add(HitObject[i]);
-            }
+            
             for (int i = 0; i < HitObject.Length; ++i)
             {
                 //맞은 오브젝트의 id 값을 가져와서 저장 및 수정
@@ -211,6 +197,8 @@ public class translucentObject : MonoBehaviour
                      Dic_SaveObjectInfo[instanceid] = rendererInfo;
                 }
 
+                if (!raycastHits.Contains(HitObject[i]))
+                    raycastHits.Add(HitObject[i]);
 
                 MaterialPropertyBlock material = new MaterialPropertyBlock();
 
@@ -260,9 +248,9 @@ public class translucentObject : MonoBehaviour
 
         if (down)
         {
-            if(color.a - 0.05f > 0.3f)
+            if(color.a - 0.1f > 0.3f)
             {
-                color = new Color(1f, 1f, 1f, color.a - 0.05f);
+                color = new Color(1f, 1f, 1f, color.a - 0.1f);
             }
         }
         else

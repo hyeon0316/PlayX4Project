@@ -158,6 +158,7 @@ public class Player : Life, I_hp
     /// </summary>
     private void UpDownStair()
     {
+        if(GameObject.Find("Collider_SecondFloor") != null)
         if (GameObject.Find("Collider_SecondFloor").activeSelf)
         {
             RaycastHit hit;
@@ -596,31 +597,12 @@ public class Player : Life, I_hp
 
     public void SkillThree(List<GameObject> hitObj)
     {
-        Debug.Log("Three");
-        StartCoroutine(SkillThreeCor(hitObj));
+        Playerstate = PlayerstateEnum.ncSkill;
+        PlayerAnim.SetTrigger("Skill3");
+        CountTimeList[0] += 1f;
     }
 
-    IEnumerator SkillThreeCor(List<GameObject> hitObj)
-    {
-        Debug.Log("ThreeCor");
-        for (int i = 0; i < hitObj.Count; i++)
-        {
-            hitObj[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
-            hitObj[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
-        }
-
-        for(int i=0;i<hitObj.Count;i++)
-        {
-            hitObj[i].GetComponent<NavMeshAgent>().enabled = false;
-        }
-        Debug.Log("ThreeUp");
-        for (int i = 0; i < hitObj.Count; i++)
-        {
-            hitObj[i].transform.Translate( Vector3.up);
-        }
-        yield return 0;
-    }
-
+   
 
     public void Roll()
     {
