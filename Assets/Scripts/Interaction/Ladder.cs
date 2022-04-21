@@ -7,92 +7,49 @@ public class Ladder : Interaction
 
     public Player Player;
 
-    private bool _isladder;
-
-    private bool _isPlayeruse;
-
-    
+    private static bool _isLadder;//사다리를 탈 수 있을때
 
     protected override void Awake()
     {
         base.Awake();
         Player = GameObject.Find("Player").GetComponent<Player>();
-        _isPlayeruse = false;
     }
 
+    private void Update()
+    {
+        StartInteract();
+    }
+    
     public override void StartInteract()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (_isPlayeruse)
+        if (CanInteract)
         {
-            if (other.CompareTag("Player")) { 
-            Player.ChangeLadder(this.gameObject, false);
-            _isladder = false;
-            _isPlayeruse = false;
-            }
-        }
-    }
-
-    public void OnTriggerStay(Collider other)
-    {
-
-        // GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(true);
-
-        //플레이어가 사용하고 있지 않을때
-        if (!_isPlayeruse) { 
-            if (other.CompareTag("Player")) {
-                Debug.Log("충돌 확인");
-              
-           
-                _isladder = true;
-            }
-        }
-        else//플레이어가 사용중일때
-        {
-            if (other.CompareTag("Player"))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                _isladder = true;
+                Player.ChangeLadder(this.gameObject, true);
+                Invoke("LadderOn", 0.1f);
             }
-        }
-    }
 
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("충돌 탈출 확인");
-            //   GameObject.Find("UICanvas").transform.Find("ActionBtn").gameObject.SetActive(false);
-            _isladder = false;
-        }
-    }
-
-    public void Update()
-    {
-        if (!_isPlayeruse) { 
-            if (_isladder)
+            if (_isLadder)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    Player.ChangeLadder(this.gameObject, true);
-                    _isladder = false;
-                    _isPlayeruse = true;
-                }
+                Debug.Log("사다리에서 탈출");
+                ActionBtn.gameObject.SetActive(false);
+                Player.ChangeLadder(this.gameObject, false);
+                _isLadder = false;
             }
-        }
-        else
-        {
-            if (_isladder)
+            else
             {
-                
-                   
-                
+                Debug.Log("거짓");
+                ActionBtn.gameObject.SetActive(true);
+                ActionBtn.transform.position = this.transform.position + new Vector3(0f, -1f, -0.5f);
             }
         }
     }
 
-
+    private void LadderOn()
+    {
+        Debug.Log("참");
+        _isLadder = true;
+    }
+    
 }

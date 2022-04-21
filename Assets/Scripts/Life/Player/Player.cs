@@ -149,6 +149,7 @@ public class Player : Life, I_hp
         else
         {
             //사다리 타고 있을때
+            PlayerAnim.speed = 0;
             LadderMove();
         }
     }
@@ -281,35 +282,63 @@ public class Player : Life, I_hp
     public void ChangeLadder(GameObject colliderObj, bool changeLadder)
     {
         _isLadder = changeLadder;
+        //사다리 탔을 때
         if (_isLadder)
         {
-            GetComponent<Rigidbody>().useGravity = false;
-            this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.25f);
-
-            PlayerAnim.SetBool("Ladder", true);
-            PlayerAnim.SetTrigger("LadderTri");
+            if (colliderObj.transform.Find("Collider").transform.Find("Top"))
+            {
+                GameObject.Find("Colliders").transform.Find("Collider_Dungeon2").transform.Find("UnderCollider").gameObject.SetActive(false);
+                Debug.Log("위쪽에서");
+                ClimbLadder(colliderObj,-0.5f);
+            }
+            else if (colliderObj.transform.Find("Collider").transform.Find("Bottom"))
+            {
+                Debug.Log("아래쪽에서");
+                ClimbLadder(colliderObj, 1f);
+            }
         }
-        else
+        else//사다리에서 내릴 때 순간이동하여 다른 바닥에 착지
         {
             Ray ray = new Ray(this.transform.position, Vector3.forward);
 
             if (Physics.Raycast(ray, 1f, LayerMask.GetMask("Wall")))
             {
-                this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y, colliderObj.transform.position.z - 0.25f);
+                Debug.Log("벽일때");
+                this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y,
+                    colliderObj.transform.position.z - 1f);
             }
-            else
+            else//위쪽에서 내릴 때
             {
-                this.transform.position = new Vector3(colliderObj.transform.position.x, this.transform.position.y + 0.4f, colliderObj.transform.position.z + 0.5f);
+                GameObject.Find("Colliders").transform.Find("Collider_Dungeon2").transform.Find("UnderCollider").gameObject.SetActive(true);
+                this.transform.position = new Vector3(colliderObj.transform.position.x - 1f, this.transform.position.y + 0.5f,
+                    colliderObj.transform.position.z);
             }
             GetComponent<Rigidbody>().useGravity = true;
             PlayerAnim.SetBool("Ladder", false);
         }
     }
 
+    /// <summary>
+    /// 사다리에 상호작용을 했을 때
+    /// </summary>
+    /// <param name="startPos">사다리 탑승 시 y축 시작부분</param>
+    private void ClimbLadder(GameObject ladder, float startPos)
+    {
+        GetComponent<Rigidbody>().useGravity = false;
+        this.transform.position = new Vector3(ladder.transform.position.x, this.transform.position.y + startPos,
+            ladder.transform.position.z - 0.1f);
+
+        PlayerAnim.SetBool("Ladder", true);
+        PlayerAnim.SetTrigger("LadderTri");
+    }
+
     private void LadderMove()
     {
-        float v = Input.GetAxisRaw("Vertical");
+        float v = Input.GetAxisRaw("Vertical") * 2;
 
+        if (v != 0)
+            PlayerAnim.speed = 1;
+        
         this.transform.Translate(Vector3.up * v * Time.deltaTime);
     }
 
@@ -433,12 +462,6 @@ public class Player : Life, I_hp
             }
            
         }
-        else
-        {
-           
-        }
-
-
     }
 
     IEnumerator Zattackmove()
