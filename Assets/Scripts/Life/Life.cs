@@ -74,6 +74,8 @@ public class Life :MonoBehaviour
 
 public interface I_hp
 {
+
+    //todo : 계수를 추가하는 매개변수를 추가하여 데이지를 조절할 수 있도록 설정할것
     /// <summary>
     /// 체력이 감소하는, 증가하는 함수.
     /// </summary>

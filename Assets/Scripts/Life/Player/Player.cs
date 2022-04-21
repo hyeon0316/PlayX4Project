@@ -644,19 +644,40 @@ public class Player : Life, I_hp
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;
             gameObjects[i].transform.position += Vector3.up;
+            gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
         }
 
-      
 
+        yield return new WaitForSeconds(0.05f);
+        if(gameObjects.Length >= 1) {
+            PlayerAnim.SetBool("FlyattackHit", true);
+            _rigid.useGravity = false;
+        this.transform.position += Vector3.up;
+         
+        }
+        else
+        {
+            PlayerAnim.SetBool("FlyattackHit", false);
+        }
         yield return new WaitForSeconds(1f);
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         Debug.Log("wait");
         for(int i = 0; i < gameObjects.Length; i++)
         {
-            gameObjects[i].transform.position = new Vector3(0,0,0);
+            gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Find;
+            gameObjects[i].GetComponent<NavMeshAgent>().enabled = true;
+            gameObjects[i].transform.position += Vector3.down;
+            gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstop");
         }
-       // yield return 0;
-       
+
+        if (gameObjects.Length >= 1)
+        {
+            _rigid.useGravity = true;
+            this.transform.position += Vector3.down;
+            PlayerAnim.SetBool("FlyattackHit", false);
+        }
+        // yield return 0;
+
     }
 
     public void Roll()
