@@ -39,8 +39,10 @@ public class LadderWalf : MonoBehaviour
             
             _camera.CameraMovetype = 0;
             _camera.BackgroudUpdate();
-            _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x,
-                _camera.BackgroundImg.transform.position.y, CameraZ);
+            /*_camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x,
+                _camera.BackgroundImg.transform.position.y, CameraZ);*/
+            _camera.transform.position = new Vector3(_player.transform.position.x,
+                _player.transform.position.y + StartPos, _player.transform.position.z + CameraZ);
             _camera.ChangeCameraType();
             _fade.FadeOut();
             _isLadderWalf = false;

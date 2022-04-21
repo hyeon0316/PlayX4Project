@@ -15119,8 +15119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapColliderName: Collider_Dungeon2
   NextLadderWalf: {fileID: 1794999513}
-  CameraZ: 0
-  StartPos: 1
+  CameraZ: -4.5
+  StartPos: 2
 --- !u!1001 &280921950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51449,6 +51449,11 @@ PrefabInstance:
       propertyPath: _player
       value: 
       objectReference: {fileID: 1155815479}
+    - target: {fileID: 3959288532345245728, guid: b28f808f70349cc4a93b1ad7963c2a91,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3959288532345245729, guid: b28f808f70349cc4a93b1ad7963c2a91,
         type: 3}
       propertyPath: Player
@@ -92734,7 +92739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapColliderName: Collider_UnderDungeon
   NextLadderWalf: {fileID: 280861068}
-  CameraZ: 7.5
+  CameraZ: -4.5
   StartPos: -2
 --- !u!4 &1797708889 stripped
 Transform:
