@@ -523,6 +523,7 @@ public class Player : Life, I_hp
             {
                 CountTimeList[4] = 1f;
                 PlayerAnim.SetTrigger("Skill3");
+             
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -621,11 +622,42 @@ public class Player : Life, I_hp
     public void SkillThree(List<GameObject> hitObj)
     {
         Playerstate = PlayerstateEnum.ncSkill;
-        PlayerAnim.SetTrigger("Skill3");
+       // PlayerAnim.SetTrigger("Skill3");
         CountTimeList[0] += 1f;
+
+        StartCoroutine(SkillThreeCor(hitObj));
     }
 
-   
+    IEnumerator SkillThreeCor(List<GameObject> hitObj)
+    {
+        GameObject[] gameObjects = new GameObject[hitObj.Count];
+
+
+        Debug.LogFormat("hitobj : {0}", hitObj.Count);
+        for(int i = 0; i < gameObjects.Length; i++)
+        {
+            gameObjects[i] = hitObj[i];
+        }
+
+        for(int i = 0; i < gameObjects.Length; i++)
+        {
+            gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
+            gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;
+            gameObjects[i].transform.position += Vector3.up;
+        }
+
+      
+
+        yield return new WaitForSeconds(1f);
+        Debug.LogFormat("hitobj : {0}", hitObj.Count);
+        Debug.Log("wait");
+        for(int i = 0; i < gameObjects.Length; i++)
+        {
+            gameObjects[i].transform.position = new Vector3(0,0,0);
+        }
+       // yield return 0;
+       
+    }
 
     public void Roll()
     {
