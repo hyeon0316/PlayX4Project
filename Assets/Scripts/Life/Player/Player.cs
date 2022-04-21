@@ -440,17 +440,17 @@ public class Player : Life, I_hp
                     Speed = _oriSpeed;
                 }
             }
-
+            if (!_isFry) { 
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 PlayerAnim.SetTrigger("AgainAttack");
                 CountTimeList[1] = 0.34f;
-                Playerstate = PlayerstateEnum.Attack;
+                
                 StartCoroutine(Zattackmove());
 
                   _isAgainAttack = true;
             }
-
+            }
 
             if (Input.GetKeyDown(KeyCode.X))
             {
@@ -497,7 +497,7 @@ public class Player : Life, I_hp
     public void Skill()
     {
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             if (CountTimeList[2] <= 0)
             {
@@ -507,7 +507,7 @@ public class Player : Life, I_hp
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             if (CountTimeList[3] <= 0)
             {

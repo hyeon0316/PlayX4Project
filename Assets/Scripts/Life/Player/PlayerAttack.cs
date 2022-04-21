@@ -47,8 +47,11 @@ public class PlayerAttack : MonoBehaviour
     {
         Player.GetComponent<Player>().Playerstate = global::Player.PlayerstateEnum.Idle;
     }
+    public void PlayerStateAttack()
+    {
+        Player.GetComponent<Player>().Playerstate = global::Player.PlayerstateEnum.Attack;
+    }
 
-    
 
     public void HitEnemy()
     {
