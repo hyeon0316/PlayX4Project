@@ -96,7 +96,7 @@ public class Player : Life, I_hp
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
-        Initdata(30, 10, 3);
+        Initdata(30, 10, 5);
         _oriSpeed = Speed;
         _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;
@@ -273,7 +273,24 @@ public class Player : Life, I_hp
             {
 
                 Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
-                _rigid.MovePosition(this.transform.position + movement);
+
+                _rigid.velocity = this._rigid.velocity.y * Vector3.up;
+                if (Mathf.Abs( _rigid.velocity.x) < 15f)
+                {
+                    _rigid.velocity += Vector3.right * h  * Speed;
+                }
+                if (Mathf.Abs(_rigid.velocity.z) < 7.5f) 
+                {
+                    _rigid.velocity += Vector3.forward * v * 0.5f * Speed;
+                }
+
+
+                
+
+
+                //  _rigid.AddForce(new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed, ForceMode.VelocityChange);
+                //_rigid.velocity = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
+                // _rigid.MovePosition(this.transform.position + movement);
             }
         }
         else
@@ -376,7 +393,7 @@ public class Player : Life, I_hp
                     if (_isWallslide)
                     {
                         gameObject.GetComponent<Rigidbody>().velocity =
-                      new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -5f : 5f, 1 * 10f, _rigid.velocity.z);
+                      new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -9f : 9f, 5f, _rigid.velocity.z);
                         //점프 애니메이션
                         _isWallslide = false;
                         PlayerAnim.SetBool("IsJump", true);
@@ -430,7 +447,7 @@ public class Player : Life, I_hp
                 if (_isWallslide)
                 {
                     _isWallslide = false;
-                    PlayerAnim.SetTrigger("WallSlideout");
+                    PlayerAnim.SetBool("WallSlide", false);
                     Physics.gravity = Vector3.down * 25f;
                 }
             }
@@ -498,7 +515,8 @@ public class Player : Life, I_hp
     public void AllstopSkillCor()
     {
       //  StopAllCoroutines();
-        for(int i = 0; i < enumerators.Length; i++)
+        for(int i = 0; i < enumerators.Length
+            ; i++)
         {
             if(enumerators[i] != null)
             StopCoroutine(enumerators[i]);
@@ -655,45 +673,80 @@ public class Player : Life, I_hp
             gameObjects[i] = hitObj[i];
         }
 
-        for(int i = 0; i < gameObjects.Length; i++)
+       
+        for (int i = 0; i < gameObjects.Length; i++)
         {
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;
-            gameObjects[i].transform.position += Vector3.up;
+            
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
         }
+        
 
-
-        yield return new WaitForSeconds(0.05f);
-        if(gameObjects.Length >= 1) {
-            PlayerAnim.SetBool("FlyattackHit", true);
-            _rigid.useGravity = false;
-        this.transform.position += Vector3.up;
-         
-        }
-        else
+        for (int timeline = 0; timeline < 10; timeline++)
         {
-            PlayerAnim.SetBool("FlyattackHit", false);
+            
+            for (int i = 0; i < gameObjects.Length; i++)
+            {
+                gameObjects[i].transform.position += Vector3.up * 0.1f;
+            }
+            
+            yield return new WaitForEndOfFrame();
+
         }
+
+        yield return new WaitForSeconds(0.02f);
+        if (gameObjects.Length >= 1)
+        {
+            
+            for (int timeline = 0; timeline < 10; timeline++)
+            {
+
+
+                _rigid.useGravity = false;
+                this.transform.position += Vector3.up * 0.1f;
+
+
+                yield return new WaitForEndOfFrame();
+
+            }
+        }
+       
+        
+        
+        //yield return new WaitForSeconds(0.05f);
+
         yield return new WaitForSeconds(1f);
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         Debug.Log("wait");
-        for(int i = 0; i < gameObjects.Length; i++)
+
+        for (int timeline = 0; timeline < 10; timeline++)
+        {
+            yield return new WaitForEndOfFrame();
+            for (int i = 0; i < gameObjects.Length; i++)
+            {
+                gameObjects[i].transform.position += Vector3.down * 0.1f;
+            }
+            if (gameObjects.Length >= 1)
+            {
+                _rigid.useGravity = true;
+                this.transform.position += Vector3.down * 0.1f;
+               
+            }
+            
+        }
+
+        for (int i = 0; i < gameObjects.Length; i++)
         {
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Find;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = true;
-            gameObjects[i].transform.position += Vector3.down;
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstop");
-        }
 
-        if (gameObjects.Length >= 1)
-        {
-            _rigid.useGravity = true;
-            this.transform.position += Vector3.down;
-            PlayerAnim.SetBool("FlyattackHit", false);
         }
-        // yield return 0;
-
+      
+        
+        yield return null;
+        
     }
 
     public void Roll()
@@ -793,7 +846,7 @@ public class Player : Life, I_hp
                 this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
                 this.transform.GetChild(0).localScale.y,
                 this.transform.GetChild(0).localScale.z);
-                PlayerAnim.SetTrigger("WallSlide");
+                PlayerAnim.SetBool("WallSlide", true);
                 _isWallslide = true;
             }
         }
@@ -807,7 +860,7 @@ public class Player : Life, I_hp
             {
                 Debug.Log("벽떨어짐");
                 _isWallslide = false;
-                PlayerAnim.SetTrigger("WallSlideout");
+                PlayerAnim.SetBool("WallSlide", false);
                 Physics.gravity = Vector3.down * 25;
             }
         }
