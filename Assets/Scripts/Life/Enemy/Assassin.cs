@@ -235,7 +235,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
 
             this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
         }
-        else
+        else if (_EnemyNav.pathEndPosition.x < this.transform.position.x)
         {
             this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
         }

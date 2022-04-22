@@ -196,10 +196,9 @@ public class Twisted : Life, I_hp, I_EnemyControl
         Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
         if (PlayerObj.transform.position.x > this.transform.position.x)
         {
-
             this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
         }
-        else
+        else if (_EnemyNav.pathEndPosition.x < this.transform.position.x)
         {
             this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
         }

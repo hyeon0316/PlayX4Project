@@ -85,7 +85,9 @@ public class Player : Life, I_hp
     private float _oriSpeed;
 
     private float _stepSmooth = 1f;
-    
+
+    private IEnumerator[] enumerators = new IEnumerator[3];
+
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -106,6 +108,10 @@ public class Player : Life, I_hp
             BulletPool[i] = BulletParent.GetChild(i).gameObject;
             BulletPool[i].SetActive(false);
         }
+        
+        
+        
+
     }
 
 
@@ -217,9 +223,12 @@ public class Player : Life, I_hp
     /// <param name="EnemyPos">때린 적 위치</param>
     public void KnockBack(Vector3 EnemyPos)
     {
+        //무적이 아닐때만 넉백을 입는다.
+        if (CountTimeList[0] < 0) { 
         Vector3 nomal = (this.transform.position - EnemyPos).normalized;
 
-        _rigid.velocity = nomal * 7f + (Vector3.up * 6f);
+        _rigid.velocity = nomal * 4f + (Vector3.up * 5f);
+        }
     }
 
     /// <summary>
@@ -444,7 +453,7 @@ public class Player : Life, I_hp
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 PlayerAnim.SetTrigger("AgainAttack");
-                CountTimeList[1] = 0.34f;
+                CountTimeList[1] = 0.98f;
                 
                 StartCoroutine(Zattackmove());
 
@@ -488,10 +497,12 @@ public class Player : Life, I_hp
 
     public void AllstopSkillCor()
     {
-        StopAllCoroutines();
-        /*  StopCoroutine(SkillOneCor());
-          StopCoroutine(SkillTwoCor());
-          StopCoroutine(RollCor());*/
+      //  StopAllCoroutines();
+        for(int i = 0; i < enumerators.Length; i++)
+        {
+            if(enumerators[i] != null)
+            StopCoroutine(enumerators[i]);
+        }
     }
 
     public void Skill()
@@ -501,6 +512,7 @@ public class Player : Life, I_hp
         {
             if (CountTimeList[2] <= 0)
             {
+                CountTimeList[0] += 1.5f;
                 CountTimeList[2] = 3f;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill1");
@@ -513,7 +525,8 @@ public class Player : Life, I_hp
             {
                 CountTimeList[3] = 2f;
                 AllstopSkillCor();
-                StartCoroutine(SkillTwoCor());
+                enumerators[1] = SkillTwoCor();
+                StartCoroutine(enumerators[1]);
                 Playerstate = PlayerstateEnum.Skill;
             }
         }
@@ -521,6 +534,7 @@ public class Player : Life, I_hp
         {
             if (CountTimeList[4] <= 0)
             {
+                CountTimeList[0] += 1.5f;
                 CountTimeList[4] = 1f;
                 PlayerAnim.SetTrigger("Skill3");
              
@@ -539,7 +553,8 @@ public class Player : Life, I_hp
 
     public void SkillOne()
     {
-        StartCoroutine(SkillOneCor());
+        enumerators[0] = SkillOneCor();
+        StartCoroutine(enumerators[0]);
     }
 
     IEnumerator SkillOneCor()
@@ -552,7 +567,7 @@ public class Player : Life, I_hp
 
         if (Physics.Raycast(ray, out hit, 4f, LayerMask.GetMask("Wall")))
         {
-            distance = (hit.transform.position.x - this.transform.position.x) * 0.8f;
+            distance = -hit.distance * 0.8f;
         }
 
         Vector3 startpos = this.transform.position;
@@ -624,8 +639,8 @@ public class Player : Life, I_hp
         Playerstate = PlayerstateEnum.ncSkill;
        // PlayerAnim.SetTrigger("Skill3");
         CountTimeList[0] += 1f;
-
-        StartCoroutine(SkillThreeCor(hitObj));
+        enumerators[2] = SkillThreeCor(hitObj);
+        StartCoroutine(enumerators[2]);
     }
 
     IEnumerator SkillThreeCor(List<GameObject> hitObj)
