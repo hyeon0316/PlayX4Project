@@ -19,13 +19,10 @@ public class MapMove : Interaction
         _player = GameObject.Find("Player").GetComponent<Player>();
         _camera = GameObject.Find("Camera").GetComponent<CameraManager>();
     }
-    private void Start()
-    {
-        _fade.FadeOut();
-    }
     
     private void Update()
     {
+        
         StartInteract();
     }
     public override void StartInteract()
@@ -44,11 +41,7 @@ public class MapMove : Interaction
             
             if (_fade.IsFade)
             {
-                for (int i = 0; i < GameObject.Find("Colliders").transform.childCount; i++)
-                {
-                    GameObject.Find("Colliders").transform.GetChild(i).gameObject.SetActive(false);
-                }
-                GameObject.Find("Colliders").transform.Find(MapColliderName).gameObject.SetActive(true);
+                FindObjectOfType<GameManager>().ActivateCollider(MapColliderName);
                 _player.transform.position = NextMap.transform.position;
 
                 _camera.CameraMovetype = 0;

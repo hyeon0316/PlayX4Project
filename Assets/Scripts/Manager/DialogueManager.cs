@@ -22,17 +22,23 @@ public class DialogueManager : MonoBehaviour
     public bool IsNextTalk = false;
 
     public GameObject TalkPanel;
-    
-    
+
+    private GameManager _gameManager;
+        
     private void Awake()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         TalkPanel = GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject;
         _player = GameObject.Find("Player").GetComponent<Player>();
         //부모 오브젝트까지 같이 반환,
         //RectTransform으로 가져오는 것이기 때문에
         _letterBox = _letterBoxParent.GetComponentsInChildren<RectTransform>();
     }
-
+    private void Start()
+    {
+        GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
+    }
+    
     public void TalkStart()
     {
         _dialogueText = TalkPanel.GetComponentInChildren<Text>();
@@ -75,8 +81,12 @@ public class DialogueManager : MonoBehaviour
                 tmp.RemoveAt(i);
             }
             Npc.Sentences = tmp.ToArray();
-            
             CloseTalkPanel();
+            if (Npc.transform.Find("Captain") || Npc.transform.Find("Lady"))
+            {
+                _gameManager.Walf[0].SetActive(true);
+            }
+            
         }
         else if (Sentences.Peek().Equals("Stop"))
         {
@@ -137,7 +147,7 @@ public class DialogueManager : MonoBehaviour
         float time = 0f;
         while (time <= 1.0f)
         {
-            time += Time.deltaTime* 2;
+            time += Time.deltaTime * 2;
             LetterBoxMove(time);
             yield return null;
         }

@@ -187,7 +187,6 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
       yield return new WaitForEndOfFrame();
     }
-
     Destroy(this.transform.gameObject);
   }
 
