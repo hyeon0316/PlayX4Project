@@ -88,6 +88,9 @@ public class Player : Life, I_hp
 
     private IEnumerator[] enumerators = new IEnumerator[3];
 
+    private RaycastHit _wallslidehit;
+    private int _wallslideObject;
+
     public void Awake()
     {
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
@@ -108,9 +111,10 @@ public class Player : Life, I_hp
             BulletPool[i] = BulletParent.GetChild(i).gameObject;
             BulletPool[i].SetActive(false);
         }
-        
-        
-        
+        _wallslideObject = this.gameObject.GetInstanceID();
+
+
+
 
     }
 
@@ -127,7 +131,7 @@ public class Player : Life, I_hp
 
             }
             //구르기 상태일때 스킬 사용 불가
-            if (!IsStop && (Playerstate != PlayerstateEnum.Dead&&Playerstate != PlayerstateEnum.ncSkill)&& !_isRoll)
+            if (!IsStop && (Playerstate != PlayerstateEnum.Dead&&Playerstate != PlayerstateEnum.ncSkill)&& !_isRoll && !_isFry)
             {
                 Skill();
             }
@@ -226,8 +230,8 @@ public class Player : Life, I_hp
         //무적이 아닐때만 넉백을 입는다.
         if (CountTimeList[0] < 0) { 
         Vector3 nomal = (this.transform.position - EnemyPos).normalized;
-
-        _rigid.velocity = nomal * 4f + (Vector3.up * 5f);
+            _rigid.velocity = Vector3.zero;
+        _rigid.velocity = nomal * 6f + (Vector3.up * 5f);
         }
     }
 
@@ -254,6 +258,7 @@ public class Player : Life, I_hp
     /// </summary>
     private void PlayerMove_v1()
     {
+        
         float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
         float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
                                                //플레이어가 가는 방향으로 보도록 sprite 돌려주기
@@ -273,16 +278,13 @@ public class Player : Life, I_hp
             {
 
                 Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
-
+                
                 _rigid.velocity = this._rigid.velocity.y * Vector3.up;
-                if (Mathf.Abs( _rigid.velocity.x) < 15f)
-                {
-                    _rigid.velocity += Vector3.right * h  * Speed;
-                }
-                if (Mathf.Abs(_rigid.velocity.z) < 7.5f) 
-                {
-                    _rigid.velocity += Vector3.forward * v * 0.5f * Speed;
-                }
+                
+                _rigid.velocity += Vector3.right * h   * Speed;
+               
+                _rigid.velocity += Vector3.forward * v * 0.5f  * Speed;
+                
 
 
                 
@@ -389,16 +391,23 @@ public class Player : Life, I_hp
                 }
                 else
                 {
+
                     //벽에 슬라이드중
                     if (_isWallslide)
                     {
-                        gameObject.GetComponent<Rigidbody>().velocity =
-                      new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -9f : 9f, 5f, _rigid.velocity.z);
-                        //점프 애니메이션
-                        _isWallslide = false;
-                        PlayerAnim.SetBool("IsJump", true);
-                        PlayerAnim.SetBool("WallSlide", false);
-                        Physics.gravity = Vector3.down * 25f;
+                   
+                            
+                                gameObject.GetComponent<Rigidbody>().velocity =
+                            new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -9f : 9f, 10f, _rigid.velocity.z);
+                            //점프 애니메이션
+                        
+                            _isWallslide = false;
+                            PlayerAnim.SetBool("IsJump", true);
+                            PlayerAnim.SetBool("WallSlide", false);
+                            Physics.gravity = Vector3.down * 25f;
+                            
+                        
+                        
                     }
                 }
 
@@ -444,8 +453,10 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsJump", false);
 
                 ChangeFry(false);
+                _wallslideObject = this.gameObject.GetInstanceID();
                 if (_isWallslide)
                 {
+                    
                     _isWallslide = false;
                     PlayerAnim.SetBool("WallSlide", false);
                     Physics.gravity = Vector3.down * 25f;
@@ -834,20 +845,24 @@ public class Player : Life, I_hp
     {
 
         float Distance = (_playerSprite.sprite.rect.width * 0.48f) / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x;
-
-        if (Physics.Raycast(ray, Distance, LayerMask.GetMask("Wall")))
+        
+        if (Physics.Raycast(ray, out _wallslidehit, Distance, LayerMask.GetMask("Wall")))
         {
+            
             Debug.Log("1벽충돌");
-            if (_isFry && !_isWallslide)
-            {
-                Debug.Log("2벽충돌");
-                Physics.gravity = Vector3.down * 5f;
-                _rigid.velocity = Vector3.zero;
-                this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
-                this.transform.GetChild(0).localScale.y,
-                this.transform.GetChild(0).localScale.z);
-                PlayerAnim.SetBool("WallSlide", true);
-                _isWallslide = true;
+            if(_wallslidehit.transform.gameObject.GetInstanceID() != _wallslideObject) { 
+                if (_isFry && !_isWallslide)
+                {
+                    Debug.Log("2벽충돌");
+                    Physics.gravity = Vector3.down * 5f;
+                    _rigid.velocity = Vector3.zero;
+                    this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
+                    this.transform.GetChild(0).localScale.y,
+                    this.transform.GetChild(0).localScale.z);
+                    PlayerAnim.SetBool("WallSlide", true);
+                    _isWallslide = true;
+                    _wallslideObject = _wallslidehit.transform.gameObject.GetInstanceID();
+                }
             }
         }
     }
@@ -862,6 +877,7 @@ public class Player : Life, I_hp
                 _isWallslide = false;
                 PlayerAnim.SetBool("WallSlide", false);
                 Physics.gravity = Vector3.down * 25;
+                _wallslideObject = this.gameObject.GetInstanceID();
             }
         }
     }

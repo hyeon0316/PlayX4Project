@@ -161,8 +161,9 @@ public class BigCultist : Life, I_hp, I_EnemyControl
         if (_enemyAttack.IshitPlayer )
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
-            PlayerObj.GetComponent<I_hp>().Gethit(Power);
             PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
+            PlayerObj.GetComponent<I_hp>().Gethit(Power);
+            
         }
     }
 

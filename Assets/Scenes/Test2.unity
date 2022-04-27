@@ -4397,6 +4397,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 33161220d679375439782b0bafd42d80,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89f8a15cf08f66e43b506b2feb85e1f1, type: 2}
     - target: {fileID: 919132149155446097, guid: 33161220d679375439782b0bafd42d80,
         type: 3}
       propertyPath: m_Name
@@ -7515,6 +7520,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.33
       objectReference: {fileID: 0}
+    - target: {fileID: 1317145674460572160, guid: 029ac4ddda38ff34eb2229ada1f07828,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633603256612202441, guid: 029ac4ddda38ff34eb2229ada1f07828,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633603256612202441, guid: 029ac4ddda38ff34eb2229ada1f07828,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 0408bf302386a434c9fd283f6b96ec62,
+        type: 2}
     - target: {fileID: 7150615281681587575, guid: 029ac4ddda38ff34eb2229ada1f07828,
         type: 3}
       propertyPath: m_SortingLayer
@@ -15155,6 +15176,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 33161220d679375439782b0bafd42d80,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89f8a15cf08f66e43b506b2feb85e1f1, type: 2}
     - target: {fileID: 919132149155446097, guid: 33161220d679375439782b0bafd42d80,
         type: 3}
       propertyPath: m_Name
@@ -15773,7 +15799,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670146632}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0408bf302386a434c9fd283f6b96ec62, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
