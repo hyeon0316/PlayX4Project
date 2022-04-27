@@ -386,8 +386,8 @@ public class Player : Life, I_hp
                     //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
                     gameObject.GetComponent<Rigidbody>().velocity =
                         new Vector3(_rigid.velocity.x, 1 * 10f, _rigid.velocity.z);
-                    //점프 애니메이션
-                    PlayerAnim.SetBool("IsJump", true);
+                    
+                   
                 }
                 else
                 {
@@ -436,10 +436,10 @@ public class Player : Life, I_hp
             float Distance = hit.distance;
             Debug.Log(Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.1f)
+            if (!_isFry && Distance > 0.085f)
             {
                 ChangeFry(true);
-
+                PlayerAnim.SetBool("IsJump", true);
             }
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < 0)
@@ -447,7 +447,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if (_isFry && Distance < 0.1f)
+            if (_isFry && Distance < 0.085f)
             {
                 PlayerAnim.SetBool("IsFall", false);
                 PlayerAnim.SetBool("IsJump", false);
