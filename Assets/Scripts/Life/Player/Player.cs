@@ -72,6 +72,9 @@ public class Player : Life, I_hp
     /// 플레이어가 대화하고 있는지 확인하느변수
     /// </summary>
     public bool IsStop = false;
+
+
+    private bool _isWall = false;
     /// <summary>
     /// 벽타고 있는중인지 확인
     /// </summary>
@@ -148,7 +151,7 @@ public class Player : Life, I_hp
                     && Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
             {
                 PlayerJump();
-                WallSlide();
+               // WallSlide();
             }
 
             if (!IsStop && (Playerstate != PlayerstateEnum.Dead&& Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
@@ -277,10 +280,36 @@ public class Player : Life, I_hp
             if (Playerstate != PlayerstateEnum.Attack)
             {
 
-                Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
+             //   Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
                 
                 _rigid.velocity = this._rigid.velocity.y * Vector3.up;
-                
+
+                if (_isWall)
+                {
+                    if (_isWallslide) { 
+                        //오른쪽
+                        if (this.transform.GetChild(0).localScale.x > 0)
+                        {
+                            h = Mathf.Clamp(h, 0, 1);
+                        }
+                        else
+                        {
+                            h = Mathf.Clamp(h, -1, 0);
+                        }
+                    }
+                    else
+                    {
+                        if (this.transform.GetChild(0).localScale.x > 0)
+                        {
+                            h = Mathf.Clamp(h, -1, 0);
+                        }
+                        else
+                        {
+                            h = Mathf.Clamp(h, 0, 1);
+                        }
+                    }
+                }
+
                 _rigid.velocity += Vector3.right * h   * Speed;
                
                 _rigid.velocity += Vector3.forward * v * 0.5f  * Speed;
@@ -398,7 +427,7 @@ public class Player : Life, I_hp
                    
                             
                                 gameObject.GetComponent<Rigidbody>().velocity =
-                            new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -9f : 9f, 10f, _rigid.velocity.z);
+                            new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -7f : 7f, 8f, _rigid.velocity.z);
                             //점프 애니메이션
                         
                             _isWallslide = false;
@@ -453,6 +482,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsJump", false);
 
                 ChangeFry(false);
+                _isWall = false;
                 _wallslideObject = this.gameObject.GetInstanceID();
                 if (_isWallslide)
                 {
@@ -848,7 +878,7 @@ public class Player : Life, I_hp
         
         if (Physics.Raycast(ray, out _wallslidehit, Distance, LayerMask.GetMask("Wall")))
         {
-            
+            _isWall = true;
             Debug.Log("1벽충돌");
             if(_wallslidehit.transform.gameObject.GetInstanceID() != _wallslideObject) { 
                 if (_isFry && !_isWallslide)
@@ -869,10 +899,12 @@ public class Player : Life, I_hp
 
     private void OnCollisionExit(Collision collision)
     {
-        if (_isWallslide)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            _isWall = false;
+            if (_isWallslide)
             {
+            
                 Debug.Log("벽떨어짐");
                 _isWallslide = false;
                 PlayerAnim.SetBool("WallSlide", false);
@@ -882,31 +914,12 @@ public class Player : Life, I_hp
         }
     }
 
-    /*  private void OnCollisionEnter(Collision collision)
+     private void OnCollisionEnter(Collision collision)
       {
 
-          if(Mathf.Abs(Input.GetAxis("Vertical")) < 0.1f) { 
-              if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
-                  for(int i = 0; i < collision.contactCount; i++)
-                  {
-                      Debug.LogFormat(" Collision  :{0}", collision.contacts[i].point);
-                  }
+        
+            WallSlide();
+        
 
-                  if (ContactWall(collision.transform.position)) { 
-                      if (_isFry && !_isWallslide)
-                      {
-
-                          Physics.gravity = Vector3.down * 5f;
-                          _rigid.velocity = Vector3.zero;
-                          this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
-                          this.transform.GetChild(0).localScale.y,
-                          this.transform.GetChild(0).localScale.z);
-                           _playerAnim.SetTrigger("WallSlide");
-                          _isWallslide = true;
-                      }
-                  }
-              }
-          }
-
-      }*/
+      }
 }
