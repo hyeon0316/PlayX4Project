@@ -60,6 +60,8 @@ public class PlayerAttack : MonoBehaviour
         {
             for (int i = 0; i < hitEnemyObj.Count; i++)
             {
+                if (hitEnemyObj[i] == null) continue;
+
                 if (hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power))
                 {
                     //적이 사망

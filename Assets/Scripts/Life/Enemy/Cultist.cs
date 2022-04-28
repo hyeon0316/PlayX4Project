@@ -155,7 +155,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
             yield return new WaitForEndOfFrame();
         }
 
-        Destroy(this.transform.gameObject);
+        Destroy(this.transform.gameObject, Time.deltaTime);
     }
 
     public void EnemyAttack()
