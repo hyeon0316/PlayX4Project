@@ -13,23 +13,16 @@ public class GameManager : MonoBehaviour
     
     public GameObject[] EnemyPos;
 
-    public PlayableDirector playableDirector;
-    public TimelineAsset[] Timeline;
-    
-    // Start is called before the first frame update
-    void Start()
+    private DialogueManager _dialogueManager;
+
+    private string[] _eventSentences;
+
+    private void Awake()
     {
-        //InitTimeline();
+        _dialogueManager = FindObjectOfType<DialogueManager>();
+        _eventSentences = new string[]{"살려줘!!!", "이 녀석들이 날 납치했어!!!", "Stop"};
     }
 
-   
-
-    private void InitTimeline()
-    {
-        playableDirector.Pause();
-    }
-
-   
     /// <summary>
     /// 다른 콜리더는 끄고 필요한 콜리더만 켜주는 함수
     /// </summary>
@@ -56,8 +49,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayCutScene(int timelieIndex)
+    public void PlayCutScene()
     {
-        playableDirector.Play(Timeline[timelieIndex]);
+        StartCoroutine(PlayCutSceneCo());
     }
+
+    /// <summary>
+    /// 2층 이벤트컷씬 실행 함수
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayCutSceneCo()
+    {
+        yield return new WaitForSeconds(0.5f);
+        EnemyCounter.IsPlayerStop = false;
+        FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
+        _dialogueManager.TalkStart();
+        yield return new WaitForSeconds(1f);
+        if (FindObjectOfType<Player>().transform.GetChild(0).localScale.x > 0)
+        {
+            FindObjectOfType<Player>().transform.GetChild(0).localScale = new Vector3(-2.5f, 2.5f, 1);
+        }
+        FindObjectOfType<CameraManager>().Target = GameObject.Find("EnemyPos_Second").gameObject;
+        _dialogueManager.TalkPanel.transform.position = FindObjectOfType<NpcTalk>().transform.position + new Vector3(0.7f, 1.7f, -1.7f);
+        _dialogueManager.OnDialogue(_eventSentences);
+    }
+    
 }

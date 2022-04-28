@@ -38,6 +38,28 @@ public class DialogueManager : MonoBehaviour
     {
         GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
     }
+    private void Update()
+    {
+        TalkCheck();
+    }
+
+    private void TalkCheck()
+    {
+        if (TalkPanel.activeSelf)
+        {
+            //텍스트가 전부 채워졌을때
+            if (_dialogueText.text.Equals(_currentSentence))
+            {
+                _isTyping = false;
+            }
+
+            //대화 진행
+            if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
+            {
+                NextSentence();
+            }
+        }
+    }
     
     public void TalkStart()
     {
@@ -131,7 +153,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     /// <param name="line">한 글자씩 출력할 문장</param>
     /// <returns></returns>
-    IEnumerator TypingCo(string line)
+    private IEnumerator TypingCo(string line)
     {
         _dialogueText.text = "";
         foreach (char letter in line.ToCharArray())
@@ -141,7 +163,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
     
-    IEnumerator LetterBoxOnCo()
+    private IEnumerator LetterBoxOnCo()
     {
         _player.IsStop = true;
         float time = 0f;
@@ -153,7 +175,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
     
-    IEnumerator LetterBoxOffCo()
+    private IEnumerator LetterBoxOffCo()
     {
         float time = 1f;
         while (time >= 0f)
@@ -177,28 +199,5 @@ public class DialogueManager : MonoBehaviour
         
         _letterBox[2].anchoredPosition = Vector2.Lerp(new Vector2(_letterBox[2].anchoredPosition.x, 150),
             new Vector2(_letterBox[2].anchoredPosition.x, 0), value);
-    }
-    
-    private void Update()
-    {
-        TalkCheck();
-    }
-
-    private void TalkCheck()
-    {
-        if (TalkPanel.activeSelf)
-        {
-            //텍스트가 전부 채워졌을때
-            if (_dialogueText.text.Equals(_currentSentence))
-            {
-                _isTyping = false;
-            }
-
-            //대화 진행
-            if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
-            {
-                NextSentence();
-            }
-        }
     }
 }

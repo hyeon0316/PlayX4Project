@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class Chest : Interaction
 {
-
-
     protected override void Awake()
     {
         base.Awake();
     }
-
-    public override void StartInteract()
+    private void Update()
     {
-        throw new System.NotImplementedException();
+        StartInteract();
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void StartInteract()
     {
         if (CanInteract)
         {
@@ -35,7 +30,7 @@ public class Chest : Interaction
         {
             
         }
-
-        
     }
+
+    
 }
