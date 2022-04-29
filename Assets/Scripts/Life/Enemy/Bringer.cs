@@ -136,7 +136,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
     }
   }
 
-  public bool Gethit(int Cvalue)
+  public bool Gethit(float Cvalue , float coefficient)
   {
     if (Cvalue > 0)
     {
@@ -144,7 +144,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
       Animator.SetTrigger("Hit");
     }
 
-    HP -= Cvalue;
+    HP -= Cvalue * coefficient;
     
         
     return CheckLiving();
@@ -190,13 +190,13 @@ public class Bringer : Life, I_hp, I_EnemyControl
         Destroy(this.transform.gameObject, Time.deltaTime);
     }
 
-  public void EnemyAttack()
+  public void EnemyAttack(float coefficient)
   {
     //적의 공격범위 콜리더가 플레이어 콜리더 범위에 들어왔을때 플레이어에게 데미지를 줌
     if (_enemyAttack.IshitPlayer)
     {
       Debug.LogFormat("{0},{1}", this.name, "hit");
-      PlayerObj.GetComponent<I_hp>().Gethit(Power);
+      PlayerObj.GetComponent<I_hp>().Gethit(Power , coefficient);
     }
   }
 

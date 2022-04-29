@@ -203,7 +203,7 @@ public class Player : Life, I_hp
     /// </summary>
     /// <param name="Cvalue"> 양수가 들어오면 데미지를 입고 음수가 들어오면 회복을 할 수 있다.</param>
     /// <returns>플레이어가 사망한다면 true 아니면 false를 반환한다</returns>
-    public bool Gethit(int Cvalue)
+    public bool Gethit(float Cvalue ,float coefficient)
     {
         //데미지가 들어오니 무적 카운트와 hit 애니메이션 실행
         if (Cvalue > 0)
@@ -219,7 +219,7 @@ public class Player : Life, I_hp
         }
 
 
-        HP -= Cvalue;
+        HP -= (Cvalue * coefficient);
         return CheckLiving();
     }
 
@@ -674,7 +674,7 @@ public class Player : Life, I_hp
         {
             BulletPool[index].transform.rotation = new Quaternion(0, 0, 0, 0);
         }
-        BulletPool[index].GetComponent<Bullet>().Power = Power;
+        BulletPool[index].GetComponent<Bullet>().Power = Power * 1;//계수 추가
         BulletPool[index].GetComponent<Bullet>().Speed = 5;
 
     }
@@ -696,11 +696,21 @@ public class Player : Life, I_hp
 
     public void SkillThree(List<GameObject> hitObj)
     {
+
+        //이 함수를 호출하는 타이밍이 공격을 시작하고 나서이다. 그전에 공격할지 말지를 정해야 할것
         Playerstate = PlayerstateEnum.ncSkill;
        // PlayerAnim.SetTrigger("Skill3");
+       
+       if(hitObj.Count > 0) { 
         CountTimeList[0] += 1f;
         enumerators[2] = SkillThreeCor(hitObj);
         StartCoroutine(enumerators[2]);
+        }
+        else
+        {
+            
+            PlayerAnim.SetTrigger("NotFlyattack");
+        }
     }
 
     IEnumerator SkillThreeCor(List<GameObject> hitObj)
@@ -881,7 +891,7 @@ public class Player : Life, I_hp
             _isWall = true;
             Debug.Log("1벽충돌");
             if(_wallslidehit.transform.gameObject.GetInstanceID() != _wallslideObject) { 
-                if (_isFry && !_isWallslide)
+                if (!_isWallslide)
                 {
                     Debug.Log("2벽충돌");
                     Physics.gravity = Vector3.down * 5f;
@@ -917,7 +927,7 @@ public class Player : Life, I_hp
      private void OnCollisionEnter(Collision collision)
       {
 
-        
+        if (_isFry) 
             WallSlide();
         
 

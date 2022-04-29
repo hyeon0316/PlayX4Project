@@ -297,7 +297,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         }
     }
     
-    public bool Gethit(int Cvalue)
+    public bool Gethit(float Cvalue, float coefficient)
     {
         if (_state != Enemystate.Dead)
         {
@@ -307,7 +307,7 @@ public class Demon : Life, I_hp, I_EnemyControl
                 DropBomb();
             }
         }
-        HP -= Cvalue;
+        HP -= Cvalue * coefficient;
         
         return CheckLiving();
     }
@@ -349,12 +349,12 @@ public class Demon : Life, I_hp, I_EnemyControl
     /// <summary>
     /// 실제 데미지를 주는 함수(공격 애니메이션 따로)
     /// </summary>
-    public void EnemyAttack()
+    public void EnemyAttack(float coefficient)
     {
         if (_enemyAttack.IshitPlayer)
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
-            PlayerObj.GetComponent<I_hp>().Gethit(Power);
+            PlayerObj.GetComponent<I_hp>().Gethit(Power,coefficient);
         }
     }
 

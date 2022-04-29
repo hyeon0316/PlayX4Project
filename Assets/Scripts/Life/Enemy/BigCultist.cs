@@ -110,7 +110,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
 
 
 
-    public bool Gethit(int Cvalue)
+    public bool Gethit(float Cvalue, float coefficient)
     {
         if (Cvalue > 0)
         {
@@ -119,7 +119,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
            
         }
 
-        HP -= Cvalue;
+        HP -= Cvalue * coefficient;
 
         return CheckLiving();
     }
@@ -156,14 +156,14 @@ public class BigCultist : Life, I_hp, I_EnemyControl
 
     }
 
-    public void EnemyAttack()
+    public void EnemyAttack(float coefficient)
     {
        
         if (_enemyAttack.IshitPlayer )
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
             PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
-            PlayerObj.GetComponent<I_hp>().Gethit(Power);
+            PlayerObj.GetComponent<I_hp>().Gethit(Power,coefficient);
             
         }
     }

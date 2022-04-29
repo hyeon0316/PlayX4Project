@@ -12,7 +12,7 @@ public class BringerTrap : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
-         other.GetComponent<I_hp>().Gethit(_power);
+         other.GetComponent<I_hp>().Gethit(_power , 1);
       }
    }
    

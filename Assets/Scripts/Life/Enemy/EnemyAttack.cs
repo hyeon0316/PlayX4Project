@@ -14,10 +14,10 @@ public class EnemyAttack : MonoBehaviour
     /// <summary>
     /// 이벤트 함수로 실행
     /// </summary>
-   public void Attackhit()
+   public void Attackhit(float coefficient)
     {
         Debug.Log("공격에니메이션실행");
-        this.transform.parent.GetComponent<I_EnemyControl>().EnemyAttack();
+        this.transform.parent.GetComponent<I_EnemyControl>().EnemyAttack(coefficient);
     }
 
     public void RangedAttack()

@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("bullet 히트");
-            other.GetComponent<I_hp>().Gethit(Power);
+            other.GetComponent<I_hp>().Gethit(Power, 1);
             this.GetComponent<Animator>().SetTrigger("impact");
         }
     }

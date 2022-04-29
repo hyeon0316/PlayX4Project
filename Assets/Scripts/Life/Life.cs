@@ -10,21 +10,21 @@ using UnityEngine;
 */
 public class Life :MonoBehaviour
 {
-    private int _maxhp;
+    private float _maxhp;
 
-    public int _Maxhp
+    public float _Maxhp
     {
         get { return _maxhp; }
     }
 
-    private int _hp;
+    private float _hp;
 
     public float RideoHp
     {
         get { return _hp / _maxhp; }
     }
 
-    public int HP
+    public float HP
     {
         get { return _hp; }
         set { _hp = value; }
@@ -59,7 +59,7 @@ public class Life :MonoBehaviour
     /// <param name="hp"> 채력값 설정</param>
     /// <param name="power">공격력 설정</param>
     /// <param name="speed">이동속도 설정</param>
-    public void Initdata(int hp,int power, float speed)
+    public void Initdata(float hp,int power, float speed)
     {
         _hp = hp;
         _maxhp = _hp;
@@ -80,8 +80,9 @@ public interface I_hp
     /// 체력이 감소하는, 증가하는 함수.
     /// </summary>
     /// <param name="Cvalue">변화할 체력양</param>
+    ///  <param name="coefficient">들어가는 데미지의 계수</param>
     /// <returns>만약 체력이 0이 된다면 true 를 아니면 false 를 반환한다.</returns>
-    bool Gethit(int Cvalue);
+    bool Gethit(float Cvalue , float coefficient);
 
     /// <summary>
     /// hp 가 0 이하로 떨어져 죽었는지 확인하는 함수
@@ -109,7 +110,7 @@ public interface I_EnemyControl
     IEnumerator DeadAniPlayer();
 
 
-    void EnemyAttack();
+    void EnemyAttack(float coefficient);
 
 
     void EnemyMove();

@@ -114,7 +114,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
 
 
 
-    public bool Gethit(int Cvalue)
+    public bool Gethit(float Cvalue, float coefficient)
     {
         if (Cvalue > 0)
         {
@@ -122,7 +122,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
             Animator.SetTrigger("Hit");
         }
 
-        HP -= Cvalue;
+        HP -= Cvalue * coefficient;
 
         return CheckLiving();
     }
@@ -158,7 +158,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
         Destroy(this.transform.gameObject, Time.deltaTime);
     }
 
-    public void EnemyAttack()
+    public void EnemyAttack(float coefficient)
     {
         Debug.Log("파이어볼생성");
 
@@ -174,7 +174,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
         {
             InsFireball.transform.rotation = new Quaternion(0, 0, 0, 0);
         }
-        InsFireball.GetComponent<FireBall>().Power = Power;
+        InsFireball.GetComponent<FireBall>().Power = Power * coefficient;
         
     }
 

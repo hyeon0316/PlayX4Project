@@ -144,13 +144,13 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         //todo: 자신 체력 회복(전체적인 밸런스 정해지면 그때 수치 기입)
     }
     
-    public bool Gethit(int Cvalue)
+    public bool Gethit(float Cvalue,float coefficient)
     {
         if (Cvalue > 0)
         {
             Animator.SetTrigger("Hit");
         }
-        HP -= Cvalue;
+        HP -= Cvalue * coefficient;
         
         return CheckLiving();
     }
@@ -184,7 +184,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     
     
 
-    public void EnemyAttack()
+    public void EnemyAttack(float coefficient)
     {
         throw new System.NotImplementedException();
     }

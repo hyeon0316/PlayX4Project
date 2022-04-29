@@ -18,12 +18,12 @@ public class PlayerAttack : MonoBehaviour
         _canAttack = true;
     }
 
-    public void AnimEventendAttack()
+    public void AnimEventendAttack(float coefficient)
     {
 
         Debug.Log("EndEvent");
         _canAttack = false;
-        HitEnemy();
+        HitEnemy(coefficient);
     }
 
     public void SkillOneAni()
@@ -53,7 +53,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
 
-    public void HitEnemy()
+    public void HitEnemy(float coefficient)
     {
         Debug.Log(hitEnemyObj.Count);
         if (hitEnemyObj.Count > 0)
@@ -62,7 +62,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 if (hitEnemyObj[i] == null) continue;
 
-                if (hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power))
+                if (hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power, coefficient))
                 {
                     //적이 사망
                 }

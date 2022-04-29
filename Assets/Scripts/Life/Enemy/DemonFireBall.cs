@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DemonFireBall : MonoBehaviour
 {
-    public int Power;
+    public float Power;
 
     public float Speed = 2f;
     
@@ -14,7 +14,7 @@ public class DemonFireBall : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<I_hp>().Gethit(Power);
+            other.GetComponent<I_hp>().Gethit(Power,1);
             GameObject.Find("Demon_Page2").GetComponent<Demon>().ReturnFireBall(this.gameObject);
         }
     }
