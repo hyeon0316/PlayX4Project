@@ -8531,6 +8531,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Page1
       objectReference: {fileID: 0}
+    - target: {fileID: 8844315805519010293, guid: 762af868af4b3354b8416622c7581de3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8844315805519010294, guid: 762af868af4b3354b8416622c7581de3,
         type: 3}
       propertyPath: m_RootOrder

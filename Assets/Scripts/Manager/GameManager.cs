@@ -15,12 +15,15 @@ public class GameManager : MonoBehaviour
 
     private DialogueManager _dialogueManager;
 
-    private string[] _eventSentences;
+    private string[] _eventSentences_SecondFloor;
+    private string[] _eventSentences_BossRoom;
 
     private void Awake()
     {
         _dialogueManager = FindObjectOfType<DialogueManager>();
-        _eventSentences = new string[]{"살려줘!!!", "이 녀석들이 날 납치했어!!!", "Stop"};
+        _eventSentences_SecondFloor = new string[]{"살려줘!!!", "이 녀석들이 날 납치했어!!!", "Stop"};
+        _eventSentences_BossRoom = new string[]
+            {"......", "처음 보는 한낱 조무래기가 잘도 여기까지 왔구나..", "긴 말은 필요 없다.", "죽어라.", "Stop"};
     }
 
     /// <summary>
@@ -49,16 +52,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayCutScene()
+    public void PlayCutScene(int playList)
     {
-        StartCoroutine(PlayCutSceneCo());
+        if(playList == 1)
+            StartCoroutine(SecondFloorCutSceneCo());
+        else if(playList == 2)
+            StartCoroutine(BossCutSceneCo());
     }
 
     /// <summary>
-    /// 2층 이벤트컷씬 실행 함수
+    /// 2층 이벤트컷씬 실행 
     /// </summary>
     /// <returns></returns>
-    private IEnumerator PlayCutSceneCo()
+    private IEnumerator SecondFloorCutSceneCo()
     {
         yield return new WaitForSeconds(0.5f);
         EnemyCounter.IsPlayerStop = false;
@@ -69,9 +75,27 @@ public class GameManager : MonoBehaviour
         {
             FindObjectOfType<Player>().transform.GetChild(0).localScale = new Vector3(-2.5f, 2.5f, 1);
         }
-        FindObjectOfType<CameraManager>().Target = GameObject.Find("EnemyPos_Second").gameObject;
+
+        FindObjectOfType<CameraManager>().Target = GameObject.Find("EnemyPos_Second");
         _dialogueManager.TalkPanel.transform.position = FindObjectOfType<NpcTalk>().transform.position + new Vector3(0.7f, 1.7f, -1.7f);
-        _dialogueManager.OnDialogue(_eventSentences);
+        _dialogueManager.OnDialogue(_eventSentences_SecondFloor);
     }
-    
+
+    /// <summary>
+    /// 보스방 진입 시 이벤트컷씬 실행 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator BossCutSceneCo()
+    {
+        Necromancer.IsCutScene = true;
+        yield return new WaitForSeconds(0.5f);
+        EnemyCounter.IsPlayerStop = false;
+        FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
+        _dialogueManager.TalkStart();
+        yield return new WaitForSeconds(0.5f);
+        FindObjectOfType<CameraManager>().Target = GameObject.Find("Demon_Page1");
+        yield return new WaitForSeconds(0.5f);
+        _dialogueManager.TalkPanel.transform.position = GameObject.Find("Demon_Page1").transform.position + new Vector3(0.7f, 0.7f, 0);
+        _dialogueManager.OnDialogue(_eventSentences_BossRoom);
+    }
 }

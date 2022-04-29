@@ -113,6 +113,7 @@ public class DialogueManager : MonoBehaviour
         else if (Sentences.Peek().Equals("Stop"))
         {
             CloseTalkPanel();
+            Necromancer.IsCutScene = false;
         }
     }
 
@@ -144,8 +145,12 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void ReTalk()
     {
-        Npc.ActionBtn.SetActive(true);
-        Npc.CanInteract = true;
+        //todo: 보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
+        if (!GameObject.Find("EnemyPos_Boss").activeSelf)
+        {
+            Npc.ActionBtn.SetActive(true);
+            Npc.CanInteract = true;
+        }
     }
 
     /// <summary>

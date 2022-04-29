@@ -27,6 +27,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     public GameObject Portal;
 
     public static bool IsSkill;
+    public static bool IsCutScene;
 
     //todo: 잡몹 or 중간보스 소환 시 소환 이펙트 추가하기
     
@@ -61,7 +62,14 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     /// </summary>
     public void EnemyMove()
     {
-        _selectPattern = Random.Range(-1, 5);
+        if (IsCutScene)
+        {
+            _selectPattern = 1;
+        }
+        else
+        {
+            _selectPattern = Random.Range(-1, 5);
+        }
 
         switch (_selectPattern)
         {
