@@ -46,21 +46,24 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
   private void Update()
   {
-    if (Enemystate != Enemystate.Dead)
-    {
-      if (_attackDelay > 0)
-        _attackDelay -= Time.deltaTime;
+        if (Enemystate != Enemystate.Stop)
+        {
+            if (Enemystate != Enemystate.Dead)
+            {
+                if (_attackDelay > 0)
+                    _attackDelay -= Time.deltaTime;
 
-      FindPlayer();
-      Fieldofview();
-      EnemyMove();
+                FindPlayer();
+                Fieldofview();
+                EnemyMove();
 
-      if (_canSkill && HP <= _Maxhp / 2)
-      {
-        ActiveSkill();
-      }
-     
-    }
+                if (_canSkill && HP <= _Maxhp / 2)
+                {
+                    ActiveSkill();
+                }
+
+            }
+        }
   }
 
   /// <summary>
