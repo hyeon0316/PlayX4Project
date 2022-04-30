@@ -42,14 +42,17 @@ public class Assassin : Life, I_hp, I_EnemyControl
 
     public void Update()
     {
-        if (Enemystate != Enemystate.Dead)
+        if (Enemystate != Enemystate.Stop)
         {
-            if (_attackDelay > 0)
-                _attackDelay -= Time.deltaTime;
+            if (Enemystate != Enemystate.Dead)
+            {
+                if (_attackDelay > 0)
+                    _attackDelay -= Time.deltaTime;
 
-            FindPlayer();
-            Fieldofview();
-            EnemyMove();
+                FindPlayer();
+                Fieldofview();
+                EnemyMove();
+            }
         }
     }
 

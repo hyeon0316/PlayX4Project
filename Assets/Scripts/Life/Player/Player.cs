@@ -635,16 +635,17 @@ public class Player : Life, I_hp
         Vector3 endpos = startpos + (Vector3.right * distance);
         _playerEffectAnim.SetTrigger("Skill1");
         Playerstate = PlayerstateEnum.ncSkill;
+        _rigid.velocity = Vector3.zero;
         for (int i = 1; i <= 6; i++)
         {
+            Playerstate = PlayerstateEnum.ncSkill;
             this.transform.position = Vector3.Slerp(startpos, endpos, i / 6);
             yield return new WaitForEndOfFrame();
         }
 
-        while (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
+
+
+        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length* 1.5f);
 
         Playerstate = PlayerstateEnum.Idle;
     }
