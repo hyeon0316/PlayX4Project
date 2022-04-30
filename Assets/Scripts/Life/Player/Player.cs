@@ -575,6 +575,7 @@ public class Player : Life, I_hp
                 CountTimeList[2] = 3f;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill1");
+                Debug.Log("!!");
             }
         }
 

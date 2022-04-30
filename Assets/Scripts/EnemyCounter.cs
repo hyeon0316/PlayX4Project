@@ -26,8 +26,13 @@ public class EnemyCounter : MonoBehaviour
         {
             if (this.transform.name.Equals("EnemyPos_Second"))
             {
-                Debug.Log("2층");
-                _gameManager.PlayCutScene();
+                _gameManager.PlayCutScene(1);
+                IsPlayerStop = true;
+            }
+            else if (this.transform.name.Equals("EnemyPos_Boss"))
+            {
+                //todo:보스 컷씬
+                _gameManager.PlayCutScene(2);
                 IsPlayerStop = true;
             }
             _isFreeze = true;
@@ -42,7 +47,7 @@ public class EnemyCounter : MonoBehaviour
             _isFreeze = false;
         }
 
-        if (this.transform.name.Equals("EnemyPos_Second") && IsPlayerStop)
+        if (IsPlayerStop)
         {
             FindObjectOfType<Player>().IsStop = true;
         }

@@ -22,20 +22,23 @@ public class Necromancer : Life, I_hp, I_EnemyControl
 
     private int _selectPattern;
 
-    private EnemyspawnManager _enemyspawnManager;
+    private bool _canSpecialSummon;
 
-    private bool _canSkill;
+    public GameObject Portal;
+
+    public static bool IsSkill;
+    public static bool IsCutScene;
 
     //todo: 잡몹 or 중간보스 소환 시 소환 이펙트 추가하기
     
     private void Awake()
     {
-        _canSkill = true;
-        _enemyspawnManager = GameObject.Find("EnemyParent").GetComponent<EnemyspawnManager>();
+        _canSpecialSummon = true;
         Initdata(50, 5, 3);
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();
         _enemyNav = this.GetComponent<NavMeshAgent>();
+        Portal = GameObject.Find("PortalParent");
     }
 
     private void Start()
@@ -47,10 +50,10 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     {
         LookPlayer();
 
-        if (_canSkill && HP <= _Maxhp / 2)
+        if (_canSpecialSummon && HP <= _Maxhp / 2)
         {
             StartCoroutine(SpecialSummon());
-            _canSkill = false;
+            _canSpecialSummon = false;
         }
     }
 
@@ -59,7 +62,14 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     /// </summary>
     public void EnemyMove()
     {
-        _selectPattern = Random.Range(-1, 5);
+        if (IsCutScene)
+        {
+            _selectPattern = 1;
+        }
+        else
+        {
+            _selectPattern = Random.Range(-1, 5);
+        }
 
         switch (_selectPattern)
         {
@@ -116,7 +126,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         Animator.SetBool("IsWalk", false);
         Animator.SetTrigger("Skill2");
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
-        _enemyspawnManager.Spawn(Random.Range(0, 4));
+        Portal.transform.GetChild(0).gameObject.SetActive(true);
         Animator.SetBool("IsWalk", true);
     }
 
@@ -125,12 +135,13 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     /// </summary>
     private IEnumerator SpecialSummon()
     {
+        IsSkill = true;
         CancelInvoke("EnemyMove");
         _enemyNav.isStopped = true;
         Animator.SetBool("IsWalk", false);
         Animator.SetTrigger("Skill1");
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
-        _enemyspawnManager.Spawn(4);
+        Portal.transform.GetChild(0).gameObject.SetActive(true);
         Debug.Log("특수소환!");
         Invoke("EnemyMove", 3f);
     }
