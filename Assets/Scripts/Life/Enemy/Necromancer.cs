@@ -29,8 +29,6 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     public static bool IsSkill;
     public static bool IsCutScene;
 
-    //todo: 잡몹 or 중간보스 소환 시 소환 이펙트 추가하기
-    
     private void Awake()
     {
         _canSpecialSummon = true;
@@ -106,13 +104,16 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill"))
         {
             //todo: 바라보는 방향 설정
-            if (PlayerObj.transform.position.x > this.transform.position.x)
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
             {
-                transform.GetComponentInChildren<SpriteRenderer>().flipX = false;
-            }
-            else
-            {
-                transform.GetComponentInChildren<SpriteRenderer>().flipX = true;
+                if (PlayerObj.transform.position.x > this.transform.position.x)
+                {
+                    transform.GetComponentInChildren<SpriteRenderer>().flipX = false;
+                }
+                else
+                {
+                    transform.GetComponentInChildren<SpriteRenderer>().flipX = true;
+                }
             }
         }
     }
@@ -154,38 +155,45 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
         //todo: 자신 체력 회복(전체적인 밸런스 정해지면 그때 수치 기입)
     }
-    
-    public bool Gethit(float Cvalue,float coefficient)
+
+    public bool Gethit(float Cvalue, float coefficient)
     {
-        if (Cvalue > 0)
+        if (HP > 0)
         {
-            Animator.SetTrigger("Hit");
+            if (Cvalue > 0)
+            {
+                Animator.SetTrigger("Hit");
+            }
+            HP -= Cvalue * coefficient;
+            return CheckLiving();
         }
-        HP -= Cvalue * coefficient;
-        
-        return CheckLiving();
+        return false;
     }
 
     public bool CheckLiving()
     {
         if (HP <= 0)
         {
-            Animator.SetTrigger("Dead");
+            Animator.SetTrigger("Stop");
             StartCoroutine(DeadAniPlayer());
             return true;
         }
-       
         else
             return false;
     }
     public IEnumerator DeadAniPlayer()
     {
+        CancelInvoke("EnemyMove");
         _enemyNav.isStopped = true;
+        yield return new WaitForSeconds(3f);
+        Animator.SetTrigger("Dead");
         while (true)
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
+                GameObject boss2 = Resources.Load<GameObject>("Prefabs/Enemy/Demon_Page2");
+                Instantiate(boss2, this.transform.position, this.transform.rotation);
                 break;
             }
             yield return new WaitForEndOfFrame();

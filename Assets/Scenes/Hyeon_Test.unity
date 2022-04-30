@@ -8521,6 +8521,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8844315804988702802, guid: 762af868af4b3354b8416622c7581de3,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844315804988702802, guid: 762af868af4b3354b8416622c7581de3,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844315804988702802, guid: 762af868af4b3354b8416622c7581de3,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844315804988702802, guid: 762af868af4b3354b8416622c7581de3,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844315804988702802, guid: 762af868af4b3354b8416622c7581de3,
+        type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8844315805519010281, guid: 762af868af4b3354b8416622c7581de3,
         type: 3}
       propertyPath: Portal
@@ -8544,7 +8569,7 @@ PrefabInstance:
     - target: {fileID: 8844315805519010294, guid: 762af868af4b3354b8416622c7581de3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.184
+      value: 4.76
       objectReference: {fileID: 0}
     - target: {fileID: 8844315805519010294, guid: 762af868af4b3354b8416622c7581de3,
         type: 3}

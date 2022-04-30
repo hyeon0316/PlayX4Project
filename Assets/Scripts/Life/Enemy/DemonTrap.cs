@@ -26,7 +26,7 @@ public class DemonTrap : MonoBehaviour
         _timer += Time.deltaTime;
 
         if (_timer >= 0.2f)
-            GameObject.Find("Demon_Page2").GetComponent<Demon>().ReturnEffect(this.gameObject);
+            FindObjectOfType<Demon>().ReturnEffect(this.gameObject);
 
     }
 }

@@ -56,7 +56,8 @@ public class Demon : Life, I_hp, I_EnemyControl
         _defaultMaterial = _spriteRenderer.material;
     }
 
- 
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +71,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     void Update()
     {
         Debug.Log(_state);
-        if (_state != Enemystate.Dead)
+        if (_state != Enemystate.Dead && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Start"))
         {
             if (_attackDelay > 0)
                 _attackDelay -= Time.deltaTime;
