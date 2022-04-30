@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FillAmount : MonoBehaviour
+public class FillAmount_D : MonoBehaviour
 {
     public Image skillFilter;
     public Text coolTimeCounter; //남은 쿨타임을 표시할 텍스트
@@ -13,24 +13,25 @@ public class FillAmount : MonoBehaviour
     private float currentCoolTime; //남은 쿨타임을 추적 할 변수
     public GameObject time;
 
-    private bool canUseSkill = true; //스킬을 사용할 수 있는지 확인하는 변수
-    public GameObject Skill_Z;
-    public Image Skill_Z_Image;
+    private bool canUseSkill_D = true; //스킬을 사용할 수 있는지 확인하는 변수
+  
 
-    public Sprite Skill;
-    public Sprite skill_black;
+    public GameObject Skill_Z;
+    public Image Skill_D_Image;
+
+   
     Image thisImg;
     void start()
     {
-        Skill_Z_Image = Skill_Z.GetComponent<Image>();
-
-        skillFilter.fillAmount = 0; //처음에 스킬 버튼을 가리지 않음
+       
+        Skill_D_Image = Skill_Z.GetComponent<Image>();
+        skillFilter.fillAmount = 0; 
         thisImg = GetComponent<Image>();
     }
 
-    public void UseSkill()
+    public void UseSkill_D()
     {
-        if (canUseSkill)
+        if (canUseSkill_D)
         {
             Debug.Log("Use Skill");
             skillFilter.fillAmount = 1; //스킬 버튼을 가림
@@ -41,25 +42,26 @@ public class FillAmount : MonoBehaviour
 
             StartCoroutine("CoolTimeCounter");
 
-            canUseSkill = false; //스킬을 사용하면 사용할 수 없는 상태로 바꿈
-            Skill_Z_Image.sprite = Resources.Load<Sprite>("GUI_Parts/Icons/skill/sword4(B)")
+            canUseSkill_D = false; //스킬을 사용하면 사용할 수 없는 상태로 바꿈
+            Skill_D_Image.sprite = Resources.Load<Sprite>("GUI_Parts/Icons/skill/sword4(B)")
                 as Sprite;
-            time.SetActive(true);
-
+            time.SetActive(true);     
         }
         else
         {
             Debug.Log("아직 스킬을 사용할 수 없습니다.");
         }
     }
+
     private void Update()
     {
-        if (canUseSkill == true)
+        if (canUseSkill_D == true)
         {
-            Skill_Z_Image.sprite = Resources.Load<Sprite>("GUI_Parts/Icons/skill/sword1")
+            Skill_D_Image.sprite = Resources.Load<Sprite>("GUI_Parts/Icons/skill/sword1")
                 as Sprite;
         }
     }
+
     IEnumerator Cooltime()
     {
         while (skillFilter.fillAmount > 0)
@@ -69,12 +71,9 @@ public class FillAmount : MonoBehaviour
             yield return null;
         }
 
-        canUseSkill = true; //스킬 쿨타임이 끝나면 스킬을 사용할 수 있는 상태로 바꿈
-
+        canUseSkill_D = true; //스킬 쿨타임이 끝나면 스킬을 사용할 수 있는 상태로 바꿈
         yield break;
     }
-
-
     IEnumerator CoolTimeCounter()
     {
         while (currentCoolTime > 0)
@@ -94,6 +93,10 @@ public class FillAmount : MonoBehaviour
 
             yield break;
     }
+
+    //-----------------------------------------------------------------------------
+
+
 }
 
 

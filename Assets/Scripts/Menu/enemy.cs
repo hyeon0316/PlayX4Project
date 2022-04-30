@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class enemy : MonoBehaviour
 {
  
-    public GameObject blakc;
-    public GameObject skill_black;
-    public GameObject scriptFill;
-
+   
+    public GameObject scriptFill_D;
+    public GameObject scriptFill_S;
+    public GameObject scriptFill_A;
 
     void Start()
     {
@@ -22,15 +22,16 @@ public class enemy : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             Player_HpGauge.currentFill -= 0.1f;
+            scriptFill_A.GetComponent<FillAmount_A>().UseSkill_A();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             Enemy_HpGauge.currentFill -= 0.05f;
+            scriptFill_S.GetComponent<FillAmount_S>().UseSkill_S();
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-
-            scriptFill.GetComponent<FillAmount>().UseSkill();
+            scriptFill_D.GetComponent<FillAmount_D>().UseSkill_D();
             //Instantiate(blakc).transform.SetParent(GameObject.Find("Canvas").transform, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))

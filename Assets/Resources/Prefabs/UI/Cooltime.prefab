@@ -93,7 +93,7 @@ MonoBehaviour:
   coolTime: 2
   time: {fileID: 1854884748256807669}
   Skill_Z: {fileID: 9147921269019081168, guid: 5bc42756228612c4db00fc33f2d744b2, type: 3}
-  Skill_Z_Image: {fileID: 6868014500491532001, guid: 902523504d519974e9b2ef4a1ab8d0bc,
+  Skill_Z_Image: {fileID: 8086447482622451113, guid: 71d0f8a35bcb2f84e80dd529727c6f09,
     type: 3}
   Skill: {fileID: 21300000, guid: cffcb24044798bd4a9fbbf86cacb7610, type: 3}
   skill_black: {fileID: 21300000, guid: 4057c7b72879b0746bd0c2d2cbb5e65b, type: 3}
