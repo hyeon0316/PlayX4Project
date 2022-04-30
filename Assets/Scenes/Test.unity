@@ -58044,7 +58044,7 @@ MonoBehaviour:
   Player: {fileID: 694330108}
   skillFilter: {fileID: 1760583882}
   coolTimeCounter: {fileID: 579385317}
-  coolTime: 5
+  coolTime: 0
   time: {fileID: 579385315}
   Skill_S: {fileID: 520461464}
   Skill_S_Image: {fileID: 520461466}

@@ -24,11 +24,7 @@ public class FillAmount_S : MonoBehaviour
     Image thisImg;
     void start()
     {
-        
-
-      
-
-
+       
        Skill_S_Image = Skill_S.GetComponent<Image>();
         skillFilter.fillAmount = 0; 
         thisImg = GetComponent<Image>();
@@ -36,6 +32,7 @@ public class FillAmount_S : MonoBehaviour
 
     public void UseSkill_S()
     {
+        coolTime = FindObjectOfType<Player>().CountTimeList[2];
         if (canUseSkill_S)
         {
             Debug.Log("Use Skill");
@@ -43,7 +40,7 @@ public class FillAmount_S : MonoBehaviour
             StartCoroutine("Cooltime");
 
             currentCoolTime = coolTime;
-            coolTimeCounter.text = "" + currentCoolTime.ToString("N1");
+            coolTimeCounter.text = "" + currentCoolTime;
 
             StartCoroutine("CoolTimeCounter");
 
@@ -89,7 +86,7 @@ public class FillAmount_S : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
 
             currentCoolTime -= 1.0f;
-            coolTimeCounter.text = "" + currentCoolTime.ToString("N1");
+            coolTimeCounter.text = "" + currentCoolTime;
           
         }
         if (currentCoolTime == 0)

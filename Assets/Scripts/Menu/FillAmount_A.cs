@@ -31,6 +31,7 @@ public class FillAmount_A : MonoBehaviour
 
     public void UseSkill_A()
     {
+        coolTime = FindObjectOfType<Player>().CountTimeList[3];
         if (canUseSkill_A)
         {
             Debug.Log("Use Skill");
