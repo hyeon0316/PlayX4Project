@@ -636,8 +636,8 @@ public class Player : Life, I_hp
         
         Playerstate = PlayerstateEnum.ncSkill;
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.1f);
-        _playerEffectAnim.SetTrigger("Skill1");
-        _playerEffectAnim.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(0.7f, 0.7f, 0.7f, 1);
+        
+      
         _rigid.velocity = Vector3.zero;
         for (int i = 1; i <= 16; i++)
         {
@@ -645,13 +645,13 @@ public class Player : Life, I_hp
             this.transform.position = Vector3.Slerp(startpos, endpos, i / 16);
             yield return new WaitForEndOfFrame();
         }
+        _playerEffectAnim.SetTrigger("Skill1");
 
 
-
-        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
+       /* yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
             - PlayerAnim.GetCurrentAnimatorStateInfo(0).length * (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime+0.03f));
-        _playerEffectAnim.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1);
-        Playerstate = PlayerstateEnum.Idle;
+       
+        Playerstate = PlayerstateEnum.Idle;*/
     }
 
     IEnumerator SkillTwoCor()
