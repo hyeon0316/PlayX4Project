@@ -178,7 +178,8 @@ public class Bringer : Life, I_hp, I_EnemyControl
   public IEnumerator DeadAniPlayer()
   {
     Enemystate = Enemystate.Dead;
-    _EnemyNav.isStopped = true;
+        _EnemyNav.enabled = true;
+        _EnemyNav.isStopped = true;
     _EnemyNav.path.ClearCorners();
     while (true)
     {

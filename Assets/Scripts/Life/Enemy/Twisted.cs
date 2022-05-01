@@ -146,6 +146,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
     public IEnumerator DeadAniPlayer()
     {
         Enemystate = Enemystate.Dead;
+        _EnemyNav.enabled = true;
         _EnemyNav.isStopped = true;
         _EnemyNav.path.ClearCorners();
         while (true)

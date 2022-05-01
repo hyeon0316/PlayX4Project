@@ -633,20 +633,23 @@ public class Player : Life, I_hp
 
         Vector3 startpos = this.transform.position;
         Vector3 endpos = startpos + (Vector3.right * distance);
-        _playerEffectAnim.SetTrigger("Skill1");
+        
         Playerstate = PlayerstateEnum.ncSkill;
+        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.1f);
+        _playerEffectAnim.SetTrigger("Skill1");
+        _playerEffectAnim.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(0.7f, 0.7f, 0.7f, 1);
         _rigid.velocity = Vector3.zero;
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 16; i++)
         {
             Playerstate = PlayerstateEnum.ncSkill;
-            this.transform.position = Vector3.Slerp(startpos, endpos, i / 6);
+            this.transform.position = Vector3.Slerp(startpos, endpos, i / 16);
             yield return new WaitForEndOfFrame();
         }
 
 
 
-        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length* 1.5f);
-
+        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.7f);
+        _playerEffectAnim.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1);
         Playerstate = PlayerstateEnum.Idle;
     }
 
@@ -703,16 +706,19 @@ public class Player : Life, I_hp
         Playerstate = PlayerstateEnum.ncSkill;
        // PlayerAnim.SetTrigger("Skill3");
        
-       if(hitObj.Count > 0) { 
+        if(hitObj.Count == 0)
+        {
+            PlayerAnim.SetTrigger("NotFlyattack");
+            Playerstate = PlayerstateEnum.Idle;
+        }else if (hitObj.Count == 1 && hitObj[0].gameObject.name.Contains("Demon")) {
+            _playerEffectAnim.SetTrigger("Skill3");
+        }else if(hitObj.Count > 0) { 
         CountTimeList[0] += 1f;
         enumerators[2] = SkillThreeCor(hitObj);
         StartCoroutine(enumerators[2]);
+        _playerEffectAnim.SetTrigger("Skill3");
         }
-        else
-        {
-            
-            PlayerAnim.SetTrigger("NotFlyattack");
-        }
+        
     }
 
     IEnumerator SkillThreeCor(List<GameObject> hitObj)
@@ -796,7 +802,7 @@ public class Player : Life, I_hp
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstop");
 
         }
-      
+        Playerstate = PlayerstateEnum.Idle;
         
         yield return null;
         
