@@ -29,6 +29,7 @@ public  class Prison : Interaction
             {
                 _fade.FadeIn();
                 FindObjectOfType<Player>().IsStop = true;
+                FindObjectOfType<Inventory>().DeleteIngredient();
             }
             
             if (_fade.IsFade)

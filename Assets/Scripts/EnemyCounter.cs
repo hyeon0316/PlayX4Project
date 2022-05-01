@@ -43,6 +43,10 @@ public class EnemyCounter : MonoBehaviour
     {
         if (this.transform.childCount == 0 && _isFreeze)
         {
+            if (this.transform.name.Equals("EnemyPos_Second"))
+            {
+                FindObjectOfType<Inventory>().AddIngredient("PrisonKey");
+            }
             _gameManager.ActivateWalf(EnemyPosIndex,WalfIndex);
             _isFreeze = false;
         }

@@ -20,7 +20,7 @@ public class HpGauge : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _GaugeImage.fillAmount = _player.RideoHp;
+        _GaugeImage.fillAmount = _player.HpRatio;
     }
 
     // Update is called once per frame
@@ -31,6 +31,6 @@ public class HpGauge : MonoBehaviour
 
     private void ManageHp()
     {
-        _GaugeImage.fillAmount = Mathf.Lerp(_GaugeImage.fillAmount, _player.RideoHp, Time.deltaTime * LerpSpeed);
+        _GaugeImage.fillAmount = Mathf.Lerp(_GaugeImage.fillAmount, _player.HpRatio, Time.deltaTime * LerpSpeed);
     }
 }
