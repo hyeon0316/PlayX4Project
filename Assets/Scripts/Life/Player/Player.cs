@@ -648,7 +648,8 @@ public class Player : Life, I_hp
 
 
 
-        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.7f);
+        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
+            - PlayerAnim.GetCurrentAnimatorStateInfo(0).length * (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime+0.03f));
         _playerEffectAnim.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1);
         Playerstate = PlayerstateEnum.Idle;
     }
