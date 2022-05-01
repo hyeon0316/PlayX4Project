@@ -19,7 +19,7 @@ public class Life :MonoBehaviour
 
     private float _hp;
 
-    public float HpRideo
+    public float HpRatio
     {
         get { return _hp / _maxhp; }
     }
