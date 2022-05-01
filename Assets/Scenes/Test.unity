@@ -64793,6 +64793,62 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2449393819598743394, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393819655078100, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820004068663, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820093646800, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820565270220, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820747855156, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8e34c2e2890bc47439251b0791cc6156,
+        type: 3}
+    - target: {fileID: 2449393820747855159, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.22037192
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820747855159, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7670679
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820747855159, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820747855159, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -13.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449393820836101000, guid: 829067ae951aca042b27bf35b80acdaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2914809196170822496, guid: 829067ae951aca042b27bf35b80acdaf,
         type: 3}
       propertyPath: m_Pivot.x
