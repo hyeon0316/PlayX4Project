@@ -29,6 +29,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     public static bool IsSkill;
     public static bool IsCutScene;
 
+    private string[] _eventSentences;
     private void Awake()
     {
         _canSpecialSummon = true;
@@ -37,6 +38,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         Animator = this.GetComponentInChildren<Animator>();
         _enemyNav = this.GetComponent<NavMeshAgent>();
         Portal = GameObject.Find("PortalParent");
+        _eventSentences = new string[] {"죽여버리겠다!!", "Stop"};
     }
 
     private void Start()
@@ -175,6 +177,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         if (HP <= 0)
         {
             Animator.SetTrigger("Stop");
+            CancelInvoke("EnemyMove");
             StartCoroutine(DeadAniPlayer());
             return true;
         }
@@ -183,9 +186,11 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     }
     public IEnumerator DeadAniPlayer()
     {
-        CancelInvoke("EnemyMove");
         _enemyNav.isStopped = true;
+        FindObjectOfType<DialogueManager>().OnDialogue(_eventSentences);
+        FindObjectOfType<DialogueManager>().TalkPanel.transform.position = GameObject.Find("Demon_Page1").transform.position + new Vector3(0.7f, 0.7f, 0);
         yield return new WaitForSeconds(3f);
+        FindObjectOfType<DialogueManager>().TalkPanel.SetActive(false);
         Animator.SetTrigger("Dead");
         while (true)
         {
@@ -193,7 +198,8 @@ public class Necromancer : Life, I_hp, I_EnemyControl
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
                 GameObject boss2 = Resources.Load<GameObject>("Prefabs/Enemy/Demon_Page2");
-                Instantiate(boss2, this.transform.position, this.transform.rotation);
+                GameObject go = Instantiate(boss2, this.transform.position, this.transform.rotation);
+                go.transform.parent = GameObject.Find("EnemyPos_Boss").transform;
                 break;
             }
             yield return new WaitForEndOfFrame();

@@ -239,8 +239,9 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
         }
         
-        if (_areaSkillTimer >= 4f)
+        if (_areaSkillTimer >= 1.5f)
         {
+            PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
             _state = Enemystate.Skill;
             Animator.SetTrigger("Skill2");
             _areaSkillTimer = 0;
