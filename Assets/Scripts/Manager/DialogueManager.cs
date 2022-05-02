@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -24,6 +25,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject TalkPanel;
 
     private GameManager _gameManager;
+
+    private GameObject _playerUI;
         
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class DialogueManager : MonoBehaviour
         //부모 오브젝트까지 같이 반환,
         //RectTransform으로 가져오는 것이기 때문에
         _letterBox = _letterBoxParent.GetComponentsInChildren<RectTransform>();
+        _playerUI = GameObject.Find("PlayerUICanvas");
     }
     private void Start()
     {
@@ -123,7 +127,7 @@ public class DialogueManager : MonoBehaviour
     private void CloseTalkPanel()
     {
         FindObjectOfType<CameraManager>().Target = _player.gameObject;
-        Invoke("ReTalk", 0.5f);
+        Invoke("ReTalk", 0.1f);
         TalkPanel.SetActive(false);
         StartCoroutine(LetterBoxOffCo());
     }
@@ -146,8 +150,11 @@ public class DialogueManager : MonoBehaviour
     private void ReTalk()
     {
         //todo: 보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
-        Npc.ActionBtn.SetActive(true);
-        Npc.CanInteract = true;
+        if(!FindObjectOfType<GameManager>().EnemyPos[3].activeSelf)
+        {
+            Npc.ActionBtn.SetActive(true);
+            Npc.CanInteract = true;
+        }
     }
 
     /// <summary>
@@ -167,6 +174,8 @@ public class DialogueManager : MonoBehaviour
     
     private IEnumerator LetterBoxOnCo()
     {
+        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
+            _playerUI.SetActive(false);
         _player.IsStop = true;
         float time = 0f;
         while (time <= 1.0f)
@@ -187,6 +196,8 @@ public class DialogueManager : MonoBehaviour
             yield return null;
         }
         _player.IsStop = false;
+        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
+            _playerUI.SetActive(true);
     }
     
 
