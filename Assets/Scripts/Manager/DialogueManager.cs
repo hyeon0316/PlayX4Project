@@ -112,7 +112,6 @@ public class DialogueManager : MonoBehaviour
             {
                 _gameManager.Walf[0].SetActive(true);
             }
-            
         }
         else if (Sentences.Peek().Equals("Stop"))
         {
@@ -149,7 +148,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void ReTalk()
     {
-        //todo: 보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
+        //보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
         if(!FindObjectOfType<GameManager>().EnemyPos[3].activeSelf)
         {
             Npc.ActionBtn.SetActive(true);

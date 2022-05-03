@@ -50,6 +50,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
                 FindPlayer();
                 Fieldofview();
                 EnemyMove();
+                LookPlayer();
             }
         }
     }
@@ -71,7 +72,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
                     Enemystate = Enemystate.Idle;
                     Animator.SetBool("isRun", false);
                 }
-
             }
         }
         else//추적 범위 밖
@@ -88,13 +88,16 @@ public class Twisted : Life, I_hp, I_EnemyControl
     {
         if (Enemystate == Enemystate.Find)
         {
-            if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
+            if (Mathf.Abs(PlayerObj.transform.position.z - this.transform.position.z) < 0.45f)
             {
-                if (_attackDelay <= 0)
+                if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
                 {
-                    _attackDelay = 5f;
-                    Enemystate = Enemystate.Attack;
-                    Animator.SetTrigger("AttackTrigger");
+                    if (_attackDelay <= 0)
+                    {
+                        _attackDelay = 3f;
+                        Enemystate = Enemystate.Attack;
+                        Animator.SetTrigger("AttackTrigger");
+                    }
                 }
             }
         }
@@ -114,25 +117,23 @@ public class Twisted : Life, I_hp, I_EnemyControl
         }
     }
 
-
-
-
-    public bool Gethit(float Cvalue,float coefficient)
+    public bool Gethit(float Cvalue, float coefficient)
     {
-        if (Cvalue > 0)
+        if (HP > 0)
         {
-            _attackDelay += 0.5f;
-            Animator.SetTrigger("Hit");
+            if (Cvalue > 0)
+            {
+                _attackDelay += 0.5f;
+                Animator.SetTrigger("Hit");
+            }
+            HP -= Cvalue * coefficient;
+            return CheckLiving();
         }
-
-        HP -= Cvalue * coefficient;
-
-        return CheckLiving();
+        return false;
     }
 
     public bool CheckLiving()
     {
-
         if (HP <= 0)
         {
             Animator.SetBool("Dead", true);
@@ -146,9 +147,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
     public IEnumerator DeadAniPlayer()
     {
         Enemystate = Enemystate.Dead;
-        _EnemyNav.enabled = true;
         _EnemyNav.isStopped = true;
-        _EnemyNav.path.ClearCorners();
         while (true)
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Twised-Cultist_Death")
@@ -186,16 +185,17 @@ public class Twisted : Life, I_hp, I_EnemyControl
             else
             {
                 _EnemyNav.isStopped = true;
-                _EnemyNav.path.ClearCorners();
                 Enemystate = Enemystate.Idle;
             }
         }
         else
         {
             _EnemyNav.isStopped = true;
-            _EnemyNav.path.ClearCorners();
         }
+    }
 
+    private void LookPlayer()
+    {
         //적 보는 방향 전환라인
         Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
         if (PlayerObj.transform.position.x > this.transform.position.x)
@@ -207,4 +207,5 @@ public class Twisted : Life, I_hp, I_EnemyControl
             this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
         }
     }
+    
 }
