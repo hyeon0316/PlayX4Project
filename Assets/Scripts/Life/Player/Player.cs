@@ -314,8 +314,8 @@ public class Player : Life, I_hp
 
                 if (_isStair)
                 {
-                    transform.position += Vector3.up * 0.25f;
-                    transform.position += Vector3.right * h * 0.05f;
+                    transform.position += Vector3.up * 0.05f;
+                    transform.position += Vector3.right * h * 0.03f;
                     _isStair = false;
                 }
                  
