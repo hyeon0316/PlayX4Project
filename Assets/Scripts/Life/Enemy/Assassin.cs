@@ -28,6 +28,8 @@ public class Assassin : Life, I_hp, I_EnemyControl
 
     private bool SkillOneChance;
 
+    private float _findDistance;
+
     public void Awake()
     {
         Initdata(50, 5, 3);//데이터 입력
@@ -38,6 +40,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
         _EnemyNav = this.GetComponent<NavMeshAgent>();
         _EnemyNav.stoppingDistance = Attackcrossroad;
         SkillOneChance = true;
+        _findDistance = 5f;
     }
 
     public void Update()
@@ -52,6 +55,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
                 FindPlayer();
                 Fieldofview();
                 EnemyMove();
+                LookPlayer();
             }
         }
     }
@@ -60,7 +64,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
 
     public void FindPlayer()
     {
-        if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f)
+        if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < _findDistance)
         {
             if (Enemystate != Enemystate.Attack)
             {
@@ -91,8 +95,8 @@ public class Assassin : Life, I_hp, I_EnemyControl
 
             if (SkillOneChance)
             {
-                SkillOneChance = false;
                 StartCoroutine(SkillOne());
+                SkillOneChance = false;
             }
         }
 
@@ -111,24 +115,23 @@ public class Assassin : Life, I_hp, I_EnemyControl
         }
     }
 
-
-
     public bool Gethit(float Cvalue, float coefficient)
     {
-        if (Cvalue > 0)
+        if (HP > 0)
         {
-            _attackDelay += 0.12f;
-            Animator.SetTrigger("Hit");
+            if (Cvalue > 0)
+            {
+                _attackDelay += 0.12f;
+                Animator.SetTrigger("Hit");
+            }
+            HP -= Cvalue * coefficient;
+            return CheckLiving();
         }
-
-        HP -= Cvalue * coefficient;
-
-        return CheckLiving();
+        return false;
     }
 
     public bool CheckLiving()
     {
-
         if (HP <= 0)
         {
             Animator.SetBool("Dead", true);
@@ -142,9 +145,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
     public IEnumerator DeadAniPlayer()
     {
         Enemystate = Enemystate.Dead;
-        _EnemyNav.enabled = true;
         _EnemyNav.isStopped = true;
-        _EnemyNav.path.ClearCorners();
         while (true)
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Assassin_Death")
@@ -154,7 +155,6 @@ public class Assassin : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
-
         Destroy(this.transform.gameObject,Time.deltaTime);
     }
 
@@ -165,7 +165,6 @@ public class Assassin : Life, I_hp, I_EnemyControl
     {
         if (_enemyAttack.IshitPlayer )
         {
-
             PlayerObj.GetComponent<I_hp>().Gethit(Power,coefficient);
         }
     }
@@ -174,29 +173,26 @@ public class Assassin : Life, I_hp, I_EnemyControl
     {
         _attackDelay = 10f;
         _enemystate = Enemystate.Attack;
-        Animator.SetBool("Skill", true);
-
-       
+        Animator.SetBool("Skill", true);//순간이동
+        _EnemyNav.isStopped = true;
         yield return new WaitForSecondsRealtime(0.64f);
        
-
         if (PlayerObj.transform.GetChild(0).localScale.x < 0)
         {
-            this.transform.position = PlayerObj.transform.position + Vector3.right* Attackcrossroad;
-            this.transform.GetChild(0).localScale = new Vector3(-2.5f, 2.5f, 1);
+            this.transform.position = PlayerObj.transform.position + Vector3.right * Attackcrossroad;
         }
         else
         {
             this.transform.position = PlayerObj.transform.position + Vector3.left * Attackcrossroad;
-            this.transform.GetChild(0).localScale = new Vector3(2.5f, 2.5f, 1);
         }
-        Animator.SetTrigger("SkillOneTrigger");
+        Animator.SetTrigger("SkillOneTrigger");//공격
         Animator.SetBool("Skill", false);
 
         yield return new WaitForSecondsRealtime(0.15f);
+        _EnemyNav.isStopped = false;
         _attackDelay = 0.4f;
         _enemystate = Enemystate.Idle;
-        yield return 0;
+        _findDistance = 10;
     }
 
     /// <summary>
@@ -204,7 +200,6 @@ public class Assassin : Life, I_hp, I_EnemyControl
     /// </summary>
     public void EnemyMove()
     {
-
         if (Enemystate == Enemystate.Find)
         {
             _EnemyNav.isStopped = false;
@@ -215,36 +210,46 @@ public class Assassin : Life, I_hp, I_EnemyControl
             }
             else
             {
-                Vector3 position = new Vector3(this.transform.position.x + (this.transform.position.x - PlayerObj.transform.position.x)
+                Vector3 position = new Vector3(
+                    PlayerObj.transform.GetChild(0).localScale.x == 2.5f
+                        ? this.transform.position.x - 2f
+                        : this.transform.position.x + 2f
                     , this.transform.position.y,
                     this.transform.position.z);
-                _EnemyNav.speed = 1.25f;
-                ; _EnemyNav.SetDestination(position);
+                _EnemyNav.speed = 1.25f; 
+                _EnemyNav.SetDestination(position);
             }
-
         }
         else
         {
             _EnemyNav.isStopped = true;
-            _EnemyNav.path.ClearCorners();
-            
-
-        }
-
-
-        //적 보는 방향 전환라인
-        Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
-        if (_EnemyNav.pathEndPosition.x > this.transform.position.x)
-        {
-
-            this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
-        }
-        else if (_EnemyNav.pathEndPosition.x < this.transform.position.x)
-        {
-            this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
         }
     }
 
-
-
+    private void LookPlayer()
+    {
+        Vector3 thisScale = new Vector3(2.5f, 2.5f, 1);
+        if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Assassin_Ambush"))
+        {
+            if (_EnemyNav.pathEndPosition.x > this.transform.position.x)
+            {
+                this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
+            }
+            else
+            {
+                this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
+            }
+        }
+        else
+        {
+            if (PlayerObj.transform.position.x > this.transform.position.x)
+            {
+                this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
+            }
+            else
+            {
+                this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
+            }
+        }
+    }
 }
