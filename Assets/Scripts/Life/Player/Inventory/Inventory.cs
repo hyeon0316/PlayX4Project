@@ -20,15 +20,16 @@ public class Inventory : MonoBehaviour
     /// </summary>
     /// <param name="itemName">추가 할 아이템 이름</param>
     /// <param name="itemCount">추가 할 개수</param>
-    public void AddUsed(string itemName, int itemCount)
+    public void AddUsed(Item item, int itemCount)
     {
-        if (_usedSlot.Item != null && _usedSlot.Item.name.Equals(itemName))
+        if (_usedSlot.Item != null && _usedSlot.Item == item)
         {
             _usedSlot.ItemCount += itemCount;
         }
         else
         {
-            _usedSlot.Item = Resources.Load<Item>($"Items/{itemName}");
+            _usedSlot.Item = item;
+            _usedSlot.SlotImage.sprite = item.ItemImage;
             _usedSlot.ItemCount = itemCount;
             _usedSlot.SlotImage.gameObject.SetActive(true);
         }

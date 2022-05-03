@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Chest : Interaction
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    public Item DropItem;
+    public int ItemCount;
+  
     private void Update()
     {
         StartInteract();
     }
+    
     public override void StartInteract()
     {
         if (CanInteract)
@@ -21,14 +21,15 @@ public class Chest : Interaction
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                this.GetComponent<BoxCollider>().enabled = false;
                 this.GetComponent<Animator>().SetTrigger("Open");
-                CanInteract = false;
-                ActionBtn.SetActive(false);
+                FindObjectOfType<Inventory>().AddUsed(DropItem, ItemCount);
+                if(FindObjectOfType<GameManager>().Walf[3].activeSelf)
+                {
+                    FindObjectOfType<Inventory>().AddMaterial("SecretKey");
+                    FindObjectOfType<Door>().GetComponent<BoxCollider>().enabled = true;
+                }
             }
-        }
-        else
-        {
-            
         }
     }
 
