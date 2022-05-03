@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7958977711947390893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4636624295044548361}
+  m_Layer: 0
+  m_Name: DropItemPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4636624295044548361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7958977711947390893}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.774, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8905513455152665756}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4896134561795521296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43,6 +73,7 @@ Transform:
   m_LocalPosition: {x: 20.04, y: 5.4, z: 5.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4636624295044548361}
   - {fileID: 8905513455597664426}
   - {fileID: 8943027567622935413}
   - {fileID: 8943027566879818189}
@@ -76,6 +107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanInteract: 0
   ActionBtn: {fileID: 0}
+  DropItem: {fileID: 0}
+  ItemCount: 0
 --- !u!95 &8905513455152665758
 Animator:
   serializedVersion: 3
@@ -124,7 +157,7 @@ Transform:
   m_Children:
   - {fileID: 8943027567215953742}
   m_Father: {fileID: 8905513455152665756}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8905513454636217502
 PrefabInstance:
@@ -136,7 +169,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 22dd572005f1b8a4b9643aa1fca477aa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22dd572005f1b8a4b9643aa1fca477aa,
         type: 3}
@@ -316,7 +349,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d8b274fc62d289c4eaf866fff5ae69ed,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d8b274fc62d289c4eaf866fff5ae69ed,
         type: 3}
