@@ -106,8 +106,8 @@ public class translucentObject : MonoBehaviour
         SpriteRenderer renderer = _player.transform.GetChild(0).GetComponent<SpriteRenderer>();
         float width = (renderer.sprite.rect.width / renderer.sprite.pixelsPerUnit ) * _player.transform.localScale.x;
       //  float height = (renderer.sprite.rect.height / renderer.sprite.pixelsPerUnit ) * _player.transform.GetChild(0).transform.localScale.y;
-        Vector3 PlayerRight = _player.transform.position + Vector3.right * (width * 0.5f);
-        Vector3 PlayerLeft = _player.transform.position + Vector3.left * (width * 0.5f);
+        Vector3 PlayerRight = _player.transform.position + Vector3.right * (width * 0.25f);
+        Vector3 PlayerLeft = _player.transform.position + Vector3.left * (width * 0.25f);
       //  Vector3 PlayerUp = _player.transform.position + Vector3.up * (height * 0.5f);
        // Vector3 PlayerDown = _player.transform.position + Vector3.down *( height * 0.5f);
 
