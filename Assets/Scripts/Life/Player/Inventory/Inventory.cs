@@ -5,33 +5,53 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private Slot[] _slots;
 
+    private UsedSlot _usedSlot;
+    private MaterialSlot _materialSlot;
+    
     private void Awake()
     {
-        _slots = GetComponentsInChildren<Slot>();
+        _usedSlot = FindObjectOfType<UsedSlot>();
+        _materialSlot = FindObjectOfType<MaterialSlot>();
     }
 
-    public void AddUsed(string itemName)
+    /// <summary>
+    /// 소모 아이템을 슬롯에 추가 해 주는 기능(이미 같은 아이템을 추가 할 경우 개수만 증가)
+    /// </summary>
+    /// <param name="itemName">추가 할 아이템 이름</param>
+    /// <param name="itemCount">추가 할 개수</param>
+    public void AddUsed(Item item, int itemCount)
     {
-        _slots[0].SlotImage.gameObject.SetActive(true); 
-        _slots[0].Item = Resources.Load<Item>($"Items/{itemName}");
+        if (_usedSlot.Item != null && _usedSlot.Item == item)
+        {
+            _usedSlot.ItemCount += itemCount;
+        }
+        else
+        {
+            _usedSlot.Item = item;
+            _usedSlot.SlotImage.sprite = item.ItemImage;
+            _usedSlot.ItemCount = itemCount;
+            _usedSlot.SlotImage.gameObject.SetActive(true);
+        }
     }
 
-    public void DeleteUsed()
+    public void ClearUsed()
     {
-        //todo: 소모 아이템 이므로 따로 아이템 개수 변수를 한번씩 줄여주는 방식 
+        _usedSlot.ItemCount = 0;
+        _usedSlot.Item = null;
+        _usedSlot.SlotImage.gameObject.SetActive(false);
     }
     
-    public void AddIngredient(string itemName)
+    public void AddMaterial(string itemName)
     {
-        _slots[1].SlotImage.gameObject.SetActive(true); 
-        _slots[1].Item = Resources.Load<Item>($"Items/{itemName}");
+        _materialSlot.Item = Resources.Load<Item>($"Items/{itemName}");
+        _materialSlot.SlotImage.sprite = _materialSlot.Item.ItemImage;
+        _materialSlot.SlotImage.gameObject.SetActive(true); 
     }
 
-    public void DeleteIngredient()
+    public void DeleteMaterial()
     {
-        _slots[1].SlotImage.gameObject.SetActive(false); 
+        _materialSlot.SlotImage.gameObject.SetActive(false); 
     }
 
 

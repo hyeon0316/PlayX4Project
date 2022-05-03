@@ -7,7 +7,7 @@ public class Door : Interaction
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.GetComponent<BoxCollider>().enabled = false;
     }
 
     // Update is called once per frame
@@ -24,6 +24,7 @@ public class Door : Interaction
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 this.GetComponent<Animator>().SetTrigger("OpenDoor");
+                this.GetComponent<BoxCollider>().enabled = false;
             }
         }
     }
