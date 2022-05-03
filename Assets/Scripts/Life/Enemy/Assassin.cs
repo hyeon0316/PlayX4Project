@@ -60,8 +60,6 @@ public class Assassin : Life, I_hp, I_EnemyControl
         }
     }
 
-
-
     public void FindPlayer()
     {
         if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < _findDistance)
