@@ -61,9 +61,9 @@ public class Player : Life, I_hp
     private bool _isFry = false;
 
     /// <summary>
-    /// 플레이어가 1번째 공격 이후 2번째 공격을 할 수 있는지 확인한것을 확인할 수 있는 변수
+    /// 계단 확인
     /// </summary>
-    private bool _isCheck = false;
+    private bool _isStair= false;
     /// <summary>
     /// 플레이어가 2번째 공격을 할 수 있는지 확인하는 변수
     /// </summary>
@@ -172,18 +172,20 @@ public class Player : Life, I_hp
     /// </summary>
     private void UpDownStair()
     {
-        if(GameObject.Find("Collider_SecondFloor") != null)
-        if (GameObject.Find("Collider_SecondFloor").activeSelf)
+        
+        RaycastHit hit;
+        Debug.DrawRay(this.transform.position + Vector3.down * 0.7f, transform.TransformDirection(Vector3.left),
+            Color.red);
+        if (Physics.Raycast(this.transform.position + Vector3.down * 0.7f,
+                transform.TransformDirection(Vector3.left), out hit, 0.5f, LayerMask.GetMask("Stair")))
         {
-            RaycastHit hit;
-            Debug.DrawRay(this.transform.position + Vector3.down * 0.7f, transform.TransformDirection(Vector3.left),
-                Color.red);
-            if (Physics.Raycast(this.transform.position + Vector3.down * 0.7f,
-                    transform.TransformDirection(Vector3.left), out hit, 0.3f, LayerMask.GetMask("Stair")))
-            {
-                Debug.Log("계단");
-            }
+            _isStair = true;
         }
+        else
+        {
+            _isStair = false;
+        }
+        
     }
     
     /// <summary>
@@ -310,8 +312,15 @@ public class Player : Life, I_hp
                     }
                 }
 
+                if (_isStair)
+                {
+                    transform.position += Vector3.up * 0.25f;
+                    transform.position += Vector3.right * h * 0.05f;
+                    _isStair = false;
+                }
+                 
                 _rigid.velocity += Vector3.right * h   * Speed;
-               
+                
                 _rigid.velocity += Vector3.forward * v * 0.5f  * Speed;
                 
 
@@ -454,7 +463,12 @@ public class Player : Life, I_hp
     {
         RaycastHit hit;
         //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
-        Ray ray = new Ray(transform.position - new Vector3(0, (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0), Vector3.down);
+
+
+        Ray ray = new Ray(transform.position - new Vector3(_playerSprite.sprite.rect.width/ _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x 
+            * -Input.GetAxisRaw("Horizontal")
+            , (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0),
+            Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
         //Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
         LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj","Stair");
@@ -463,9 +477,9 @@ public class Player : Life, I_hp
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-            Debug.Log(Distance);
+          //  Debug.Log(Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.085f)
+            if (!_isFry && Distance > 0.1f & _rigid.velocity.y > 5f)
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
@@ -476,7 +490,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if (_isFry && Distance < 0.085f)
+            if (_isFry && Distance < 0.1f)
             {
                 PlayerAnim.SetBool("IsFall", false);
                 PlayerAnim.SetBool("IsJump", false);
