@@ -334,6 +334,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     public IEnumerator DeadAniPlayer()
     {
+        _enemyNav.enabled = true;
         _enemyNav.isStopped = true;
         while (true)
         {

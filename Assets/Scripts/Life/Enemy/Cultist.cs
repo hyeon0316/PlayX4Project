@@ -140,6 +140,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
     public IEnumerator DeadAniPlayer()
     {
         Enemystate = Enemystate.Dead;
+        _EnemyNav.enabled = true;
         _EnemyNav.isStopped = true;
         while (true)
         {
