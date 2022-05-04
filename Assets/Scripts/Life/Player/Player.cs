@@ -323,12 +323,6 @@ public class Player : Life, I_hp
                 _rigid.velocity += Vector3.right * h   * Speed;
                 
                 _rigid.velocity += Vector3.forward * v * 0.5f  * Speed;
-                
-
-
-                
-
-
                 //  _rigid.AddForce(new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed, ForceMode.VelocityChange);
                 //_rigid.velocity = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
                 // _rigid.MovePosition(this.transform.position + movement);
@@ -338,7 +332,7 @@ public class Player : Life, I_hp
         {
             //플레이어가 idel 로 변경
             PlayerAnim.SetBool("IsRun", false);
-
+            _rigid.velocity =  new Vector3(_rigid.velocity.x * 0.75f, _rigid.velocity.y * 1f, _rigid.velocity.z * 0.75f);
         }
 
 
