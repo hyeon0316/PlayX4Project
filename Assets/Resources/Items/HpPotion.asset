@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: HpPotion
   m_EditorClassIdentifier: 
   Type: 0
-  HillValue: 0
-  ItemCoolDown: 0
-  ItemImage: {fileID: 0}
+  HillValue: 30
+  ItemCoolDown: 5
+  ItemImage: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}

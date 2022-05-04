@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         if (FindObjectOfType<Player>().transform.GetChild(0).localScale.x > 0)
         {
-            FindObjectOfType<Player>().transform.GetChild(0).localScale = new Vector3(-2.5f, 2.5f, 1);
+            FindObjectOfType<Player>().ChangeDirection(-2.5f);
         }
 
         FindObjectOfType<CameraManager>().Target = GameObject.Find("EnemyPos_Second");

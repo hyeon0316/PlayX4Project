@@ -950,4 +950,16 @@ public class Player : Life, I_hp
         
 
       }
+     
+     /// <summary>
+     /// 플레이어의 방향을 바꿔주는 함수
+     /// </summary>
+     /// <param name="scaleX"></param>
+     public void ChangeDirection(float scaleX = 2.5f)
+     {
+         if(scaleX == 2.5f)
+             this.transform.GetChild(0).localScale = new Vector3(scaleX, 2.5f, 1);
+         else if(scaleX == -2.5f)
+             this.transform.GetChild(0).localScale = new Vector3(scaleX, 2.5f, 1);
+     }
 }

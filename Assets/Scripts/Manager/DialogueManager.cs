@@ -55,12 +55,17 @@ public class DialogueManager : MonoBehaviour
             if (_dialogueText.text.Equals(_currentSentence))
             {
                 _isTyping = false;
+                _textDelay = 0.1f;
             }
 
             //대화 진행
             if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
             {
                 NextSentence();
+            }
+            else if (_isTyping && Input.GetKeyDown(KeyCode.Space))
+            {
+                _textDelay = 0.0001f;
             }
         }
     }
@@ -88,8 +93,13 @@ public class DialogueManager : MonoBehaviour
 
     public void NextSentence()
     {
-        if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop"))
+        if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop") && !Sentences.Peek().Equals("Camera"))
         {
+            if (Sentences.Peek().Contains("보다 싶이"))
+            {
+                FindObjectOfType<CameraManager>().Target = Npc.gameObject;
+                StartCoroutine(DelayChangeDirCo());
+            }
             TalkPanel.SetActive(false);
             Invoke("DelayTalk",0.5f);
         }
@@ -118,6 +128,18 @@ public class DialogueManager : MonoBehaviour
             CloseTalkPanel();
             Necromancer.IsCutScene = false;
         }
+        else if (Sentences.Peek().Equals("Camera"))
+        {
+            Sentences.Dequeue();
+            FindObjectOfType<CameraManager>().Target = GameObject.Find("CameraMovePos").gameObject;
+            _player.ChangeDirection(-2.5f);
+        }
+    }
+
+    private IEnumerator DelayChangeDirCo()
+    {
+        yield return new WaitForSeconds(2f);
+        _player.ChangeDirection();
     }
 
     /// <summary>

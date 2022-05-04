@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public enum ItemType
 {
     Used, //소모품
-    Ingredient, //재료
+    Material, //재료
 }
 
 [CustomEditor(typeof(Item))]
@@ -33,13 +33,16 @@ public class ItemInspector : Editor
         _item.ItemImage = (Sprite) EditorGUILayout.ObjectField("아이템 이미지", _item.ItemImage, typeof(Sprite),true);
         switch (_item.Type)
         {
-            case ItemType.Ingredient:
+            case ItemType.Material:
                 break;
             case ItemType.Used:
-                _item.HillValue = EditorGUILayout.FloatField("회복량", _item.HillValue);
-                _item.ItemCoolDown = EditorGUILayout.FloatField("아이템 쿨타임", _item.ItemCoolDown);
+                SerializedProperty hillValue = serializedObject.FindProperty("HillValue");
+                EditorGUILayout.PropertyField(hillValue);
+                SerializedProperty itemImage = serializedObject.FindProperty("ItemCoolDown");
+                EditorGUILayout.PropertyField(itemImage);
                 break;
         }
+        serializedObject.ApplyModifiedProperties();//변경 값 적용
     }
 }
 
