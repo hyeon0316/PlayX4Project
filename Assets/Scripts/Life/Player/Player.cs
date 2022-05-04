@@ -176,6 +176,7 @@ public class Player : Life, I_hp
         RaycastHit hit;
         Debug.DrawRay(this.transform.position + Vector3.down * 0.7f, transform.TransformDirection(Vector3.left),
             Color.red);
+        
         if (Physics.Raycast(this.transform.position + Vector3.down * 0.7f,
                 transform.TransformDirection(Vector3.left), out hit, 0.5f, LayerMask.GetMask("Stair")))
         {
