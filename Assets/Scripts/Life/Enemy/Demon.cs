@@ -28,6 +28,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     public Material HitMaterial;
     private Material _defaultMaterial;
 
+    public Transform FirePos;
     
     public GameObject FireCollect;
     public GameObject BombEffect;
@@ -100,7 +101,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     }
     private GameObject CreateNewBomb()
     {
-        var newBomb = Instantiate(FireCollect);
+        var newBomb = Instantiate(FireCollect, FirePos);
         newBomb.name = "Bomb";
         newBomb.gameObject.SetActive(false);
 
@@ -109,7 +110,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private GameObject CreateNewEffect()
     {
-        var newEffect = Instantiate(BombEffect);
+        var newEffect = Instantiate(BombEffect,FirePos);
         newEffect.name = "Effect";
         newEffect.gameObject.SetActive(false);
 
@@ -118,7 +119,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private GameObject CreateNewFireBall()
     {
-        var newFireBall = Instantiate(FireBall);
+        var newFireBall = Instantiate(FireBall,FirePos);
         newFireBall.name = "FireBall";
         newFireBall.gameObject.SetActive(false);
 
@@ -369,6 +370,7 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
+
         Destroy(this.transform.gameObject, Time.deltaTime);
     }
 
