@@ -341,6 +341,8 @@ public class Player : Life, I_hp
         {
             //플레이어가 idel 로 변경
             PlayerAnim.SetBool("IsRun", false);
+            
+            if(!_isFry)
             _rigid.velocity =  new Vector3(_rigid.velocity.x * 0.75f, _rigid.velocity.y * 1f, _rigid.velocity.z * 0.75f);
         }
 
@@ -437,8 +439,6 @@ public class Player : Life, I_hp
                     //벽에 슬라이드중
                     if (_isWallslide)
                     {
-                   
-                            
                                 gameObject.GetComponent<Rigidbody>().velocity =
                             new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -7f : 7f, 8f, _rigid.velocity.z);
                             //점프 애니메이션
