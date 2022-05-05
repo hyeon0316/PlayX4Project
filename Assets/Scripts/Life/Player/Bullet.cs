@@ -38,12 +38,16 @@ public class Bullet : MonoBehaviour
         {
             float beforehp = other.GetComponent<Life>().HpRatio;
             Debug.Log("bullet 히트");
-            if (other.GetComponent<I_hp>().Gethit(Power, 1)) {
-                EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp, true);
-            }
-            else
+            if (other.GetComponent<Life>().HpRatio > 0)
             {
-                EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp);
+                if (other.GetComponent<I_hp>().Gethit(Power, 1))
+                {
+                    EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp, true);
+                }
+                else
+                {
+                    EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp);
+                }
             }
             this.GetComponent<Animator>().SetTrigger("impact");
         }

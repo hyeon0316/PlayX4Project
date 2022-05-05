@@ -241,7 +241,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         
         if (_areaSkillTimer >= 1.5f)
         {
-            PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
+           // PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
             _state = Enemystate.Skill;
             Animator.SetTrigger("Skill2");
             _areaSkillTimer = 0;
@@ -357,6 +357,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         if (_enemyAttack.IshitPlayer)
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
+            if(_state == Enemystate.Skill) PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
             PlayerObj.GetComponent<I_hp>().Gethit(Power,coefficient);
         }
     }

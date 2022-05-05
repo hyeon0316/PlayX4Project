@@ -234,11 +234,20 @@ public class Player : Life, I_hp
     public void KnockBack(Vector3 EnemyPos)
     {
         //무적이 아닐때만 넉백을 입는다.
-        if (CountTimeList[0] < 0) { 
+        if (CountTimeList[0] < 0) {
+        StartCoroutine(StopTime(1f));
         Vector3 nomal = (this.transform.position - EnemyPos).normalized;
-            _rigid.velocity = Vector3.zero;
-        _rigid.velocity = nomal * 6f + (Vector3.up * 5f);
+        Vector3 vector3 = new Vector3(nomal.x, 0.8f, nomal.z);
+        _rigid.velocity = Vector3.zero;
+        _rigid.velocity = vector3 * 5f;
         }
+    }
+
+    IEnumerator StopTime(float time)
+    {
+        IsStop = true;
+        yield return new WaitForSeconds(time);
+        IsStop = false;
     }
 
     /// <summary>
