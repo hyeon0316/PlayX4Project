@@ -55,16 +55,49 @@ public class PlayerAttack : MonoBehaviour
 
     public void HitEnemy(float coefficient)
     {
+        bool hitBoss = false;
         Debug.Log(hitEnemyObj.Count);
         if (hitEnemyObj.Count > 0)
         {
+            for(int i = 0; i < hitEnemyObj.Count; i++)
+            {
+                if(hitEnemyObj[i].GetComponent<Life>().LifeId >= 10)
+                {
+                    hitBoss = true;
+                }
+            }
+
             for (int i = 0; i < hitEnemyObj.Count; i++)
             {
                 if (hitEnemyObj[i] == null) continue;
+                
+                
 
+                
+
+                float beforehp = hitEnemyObj[i].GetComponent<Life>().HpRatio;
                 if (hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power, coefficient))
                 {
-                    //적이 사망
+                    if (hitBoss)
+                    {
+                        if (hitEnemyObj[i].GetComponent<Life>().LifeId >= 10)
+                            EnemyHpbar.Instance.SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp, true);
+                    }
+                    else
+                    {
+                        EnemyHpbar.Instance.SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp, true);
+                    }
+                }
+                else
+                {
+                    if (hitBoss) { 
+                        if(hitEnemyObj[i].GetComponent<Life>().LifeId >= 10)
+                        EnemyHpbar.Instance.SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp);
+                    }
+                    else
+                    {
+                        EnemyHpbar.Instance.SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp);
+                    }
                 }
             }
             hitEnemyObj.Clear();

@@ -102,7 +102,7 @@ public class Player : Life, I_hp
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
-        Initdata(30, 10, 5);
+        Initdata(0,30, 10, 5);
         _oriSpeed = Speed;
         _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;
@@ -480,7 +480,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsJump", true);
             }
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
-            if (_isFry && _rigid.velocity.y < 0)
+            if (_isFry && _rigid.velocity.y < 9.8f)
             {//낙하 애니메이션
                 PlayerAnim.SetBool("IsFall", true);
             }

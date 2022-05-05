@@ -63,7 +63,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         InitBomb(4);
         InitFireBall(10);
-        Initdata(300, 5, 2); //데이터 입력
+        Initdata(101,300, 5, 2); //데이터 입력
         _state = Enemystate.Idle;
     }
 

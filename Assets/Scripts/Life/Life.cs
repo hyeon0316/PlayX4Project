@@ -10,6 +10,13 @@ using UnityEngine;
 */
 public class Life :MonoBehaviour
 {
+    private int _lifeId;
+
+    public int LifeId
+    {
+        get { return _lifeId; }
+    }
+
     private float _maxhp;
 
     public float _Maxhp
@@ -59,8 +66,9 @@ public class Life :MonoBehaviour
     /// <param name="hp"> 채력값 설정</param>
     /// <param name="power">공격력 설정</param>
     /// <param name="speed">이동속도 설정</param>
-    public void Initdata(float hp,int power, float speed)
+    public void Initdata(int id, float hp,int power, float speed)
     {
+        _lifeId = id;
         _hp = hp;
         _maxhp = _hp;
         _power = power;

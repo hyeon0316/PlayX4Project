@@ -29,7 +29,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
     // Start is called before the first frame update
     private void Awake()
     {
-        Initdata(30, 10, 2.5f);//데이터 입력
+        Initdata(2,30, 10, 2.5f);//데이터 입력
         Enemystate = Enemystate.Attack;
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();
