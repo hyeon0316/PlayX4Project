@@ -159,7 +159,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         {
            
             ++_bombCount;
-            if(_bombCount >= 3) { 
+            if(_bombCount >= 5) { 
                 for(int i= 0;i< 2; i++) {
                     if (_poolingBomb.Count > 0)
                     {
