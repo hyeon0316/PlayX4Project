@@ -239,7 +239,7 @@ public class Player : Life, I_hp
         Vector3 nomal = (this.transform.position - EnemyPos).normalized;
         Vector3 vector3 = new Vector3(nomal.x, 0.8f, nomal.z);
         _rigid.velocity = Vector3.zero;
-        _rigid.velocity = vector3 * 5f;
+        _rigid.velocity = vector3 * 7f;
         }
     }
 
