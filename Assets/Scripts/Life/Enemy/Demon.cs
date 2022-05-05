@@ -62,7 +62,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     void Start()
     {
         InitBomb(4);
-        InitFireBall(10);
+        InitFireBall(20);
         Initdata(101,300, 5, 2); //데이터 입력
         _state = Enemystate.Idle;
     }
@@ -140,7 +140,8 @@ public class Demon : Life, I_hp, I_EnemyControl
     public void ReturnFireBall(GameObject fireBall)
     {
         fireBall.gameObject.SetActive(false);
-        _poolingEffect.Enqueue(fireBall);
+        _poolingFireBall.Enqueue(fireBall);
+
     }
     
     private void DropBomb()
@@ -212,29 +213,45 @@ public class Demon : Life, I_hp, I_EnemyControl
         {
             if (_state != Enemystate.Skill2)
             {
-                if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
-                {
-                    _areaSkillTimer += Time.deltaTime;
-                    _teleportTimer = 0;
-                    if (_attackDelay <= 0)
+                if(Vector3.Distance(PlayerObj.transform.position, this.transform.position) < 5f) { 
+                    if (Vector3.Distance(PlayerObj.transform.position, this.transform.position) < Attackcrossroad + 0.25f)
                     {
-                        _state = Enemystate.Attack;
+                        _areaSkillTimer += Time.deltaTime;
+                        _teleportTimer = 0;
+                        if (_attackDelay <= 0)
+                        {
+                            _state = Enemystate.Attack;
+                        }
+                        else
+                        {
+                            _state = Enemystate.Idle;
+                        }
                     }
                     else
                     {
-                        _state = Enemystate.Idle;
+                        _state = Enemystate.Find;
                     }
                 }
                 else
                 {
-                    _teleportTimer += Time.deltaTime;
-                    _areaSkillTimer = 0;
+                     _teleportTimer += Time.deltaTime;
+                     _areaSkillTimer = 0;
 
-                    if (_teleportTimer >= 5f)
-                    {
-                        this.transform.position = PlayerObj.transform.position;
+                     if (_teleportTimer >= 5f)
+                     {
+                       // this.transform.position = PlayerObj.transform.position;
+                       _state = Enemystate.Find;
+                       
+                     }else {
+                            if(Mathf.Abs( PlayerObj.transform.position.z - transform.position.z ) < 0.3f) { 
+                                _state = Enemystate.Range;
+                            }
+                            else
+                            {
+                                _state = Enemystate.Find;
+                                //_teleportTimer = 0;
+                            }
                     }
-                    _state = Enemystate.Find;
                 }
             }
         }
@@ -295,6 +312,12 @@ public class Demon : Life, I_hp, I_EnemyControl
                 _launchSkillTimer = 0;
                 _state = Enemystate.Find;
             }
+            
+        }else if(_state == Enemystate.Range)
+        {
+            Animator.SetTrigger("Fire1");
+            _attackDelay = 3f;
+            _enemyNav.isStopped = true;
             
         }
     }

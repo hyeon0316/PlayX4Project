@@ -6,7 +6,7 @@ public class DemonFireBall : MonoBehaviour
 {
     public float Power;
 
-    public float Speed = 2f;
+    public float Speed = 10f;
     
     private float _timer;
     

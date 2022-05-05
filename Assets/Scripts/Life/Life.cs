@@ -106,6 +106,7 @@ public enum Enemystate
     Attack,
     Skill,
     Skill2,
+    Range,
     Stop,
     Dead
 };
