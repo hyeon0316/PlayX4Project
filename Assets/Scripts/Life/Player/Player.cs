@@ -796,9 +796,9 @@ public class Player : Life, I_hp
        
         for (int i = 0; i < gameObjects.Length; i++)
         {
+            if (gameObjects[i].name.Contains("Demon")) continue;
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
-            gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;
-            
+            gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;   
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
         }
         
@@ -808,6 +808,7 @@ public class Player : Life, I_hp
             
             for (int i = 0; i < gameObjects.Length; i++)
             {
+                if (gameObjects[i].name.Contains("Demon")) continue;
                 gameObjects[i].transform.position += Vector3.up * 0.1f;
             }
             
@@ -845,6 +846,7 @@ public class Player : Life, I_hp
             yield return new WaitForEndOfFrame();
             for (int i = 0; i < gameObjects.Length; i++)
             {
+                if (gameObjects[i].name.Contains("Demon")) continue;
                 gameObjects[i].transform.position += Vector3.down * 0.1f;
             }
             if (gameObjects.Length >= 1)
@@ -858,6 +860,7 @@ public class Player : Life, I_hp
 
         for (int i = 0; i < gameObjects.Length; i++)
         {
+            if (gameObjects[i].name.Contains("Demon")) continue;
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Find;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = true;
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstop");

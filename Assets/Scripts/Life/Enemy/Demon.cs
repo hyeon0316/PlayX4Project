@@ -28,7 +28,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     public Material HitMaterial;
     private Material _defaultMaterial;
 
-    public Transform FirePos;
+    public Transform PollParent;
     
     public GameObject FireCollect;
     public GameObject BombEffect;
@@ -38,7 +38,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     private Queue<GameObject> _poolingBomb = new Queue<GameObject>();
     private Queue<GameObject> _poolingEffect = new Queue<GameObject>();
     private Queue<GameObject> _poolingFireBall = new Queue<GameObject>();
-
+    private List<GameObject> _useBomb = new List<GameObject>();
     private float _teleportTimer;
     
     private float _areaSkillTimer;
@@ -62,7 +62,8 @@ public class Demon : Life, I_hp, I_EnemyControl
     // Start is called before the first frame update
     void Start()
     {
-        InitBomb(4);
+        PollParent = GameObject.Find("BossEnemypollParent").transform;
+        InitBomb(10);
         InitFireBall(20);
         Initdata(101,300, 5, 2); //데이터 입력
         _state = Enemystate.Idle;
@@ -107,7 +108,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     }
     private GameObject CreateNewBomb()
     {
-        var newBomb = Instantiate(FireCollect, FirePos);
+        var newBomb = Instantiate(FireCollect, PollParent);
         newBomb.name = "Bomb";
         newBomb.gameObject.SetActive(false);
 
@@ -116,7 +117,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private GameObject CreateNewEffect()
     {
-        var newEffect = Instantiate(BombEffect,FirePos);
+        var newEffect = Instantiate(BombEffect, PollParent);
         newEffect.name = "Effect";
         newEffect.gameObject.SetActive(false);
 
@@ -125,7 +126,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private GameObject CreateNewFireBall()
     {
-        var newFireBall = Instantiate(FireBall,FirePos);
+        var newFireBall = Instantiate(FireBall, PollParent);
         newFireBall.name = "FireBall";
         newFireBall.gameObject.SetActive(false);
 
@@ -156,14 +157,21 @@ public class Demon : Life, I_hp, I_EnemyControl
         int rand = Random.Range(0, 2);
         if (rand == 1)
         {
-            if (_poolingBomb.Count > 0)
-            {
-                ++_bombCount;
-                var obj = _poolingBomb.Dequeue();
-                //obj.transform.position = this.transform.position;
-                //todo: 폭탄 드롭을 원형을 그리면서 드롭하게 하기
-                obj.gameObject.SetActive(true);
-                StartCoroutine(DropPosCo(obj));
+           
+            ++_bombCount;
+            if(_bombCount >= 3) { 
+                for(int i= 0;i< 2; i++) {
+                    if (_poolingBomb.Count > 0)
+                    {
+                        var obj = _poolingBomb.Dequeue();
+                        _useBomb.Add(obj);
+                        //obj.transform.position = this.transform.position;
+                        //todo: 폭탄 드롭을 원형을 그리면서 드롭하게 하기
+                        obj.gameObject.SetActive(true);
+                        StartCoroutine(DropPosCo(obj));
+                    }
+                   
+                }
             }
             else
             {
@@ -171,10 +179,11 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
         }
 
-        if (_poolingBomb.Count <=0)
+        if (_bombCount >=3)
         {
             _state = Enemystate.Skill;
             StartCoroutine(BombSkillCo());
+            _bombCount = 0;
         }
     }
 
@@ -186,7 +195,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         float time = 0;
         var pos1 = transform.position;
-        var pos = transform.position + Vector3.right *2 + Vector3.down;
+        var pos = transform.position + (Vector3.right *Random.Range(-1,1) * 3f) + Vector3.up;
         while (time <= 1f)
         {
             time += Time.deltaTime;
@@ -197,19 +206,36 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private IEnumerator BombSkillCo()
     {
+       
+        yield return new WaitForSeconds(1f);
+        float time = 0;
+        
+        while (time <= 0.5f)
+        {
+            for (int i = 0; i < _useBomb.Count; i++)
+            {
+                time += Time.deltaTime;
+                
+                _useBomb[i].transform.position = Vector3.Slerp(_useBomb[i].transform.position, PlayerObj.transform.position + Vector3.down, 0.1f);
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        //공중에 있는 폭탄이 플레이어를 약간 추적후 폭팔한다.
+
         Animator.SetTrigger("Skill1");
         yield return new WaitForSeconds(1f);
         Debug.Log("폭발!");
         
-        for (int i = 0; i < _bombCount; i++)
+        for (int i = 0; i < 2; i++)
         {
-            var effectObj = _poolingEffect.Dequeue();
+            var effectObj = _poolingEffect.Dequeue();   
             effectObj.transform.position = GameObject.Find("Bomb").transform.position;
             effectObj.gameObject.SetActive(true);
             
             ReturnBomb(GameObject.Find("Bomb"));
         }
         _bombCount = 0;
+        _useBomb.Clear();
     }
     
 
@@ -365,6 +391,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     public IEnumerator DeadAniPlayer()
     {
+        PollParent.gameObject.SetActive(false);
         _enemyNav.enabled = true;
         _enemyNav.isStopped = true;
         while (true)

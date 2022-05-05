@@ -5553,6 +5553,16 @@ PrefabInstance:
       propertyPath: FirePos
       value: 
       objectReference: {fileID: 2139720067}
+    - target: {fileID: 8180084656213807405, guid: 4ba33d61d472ff24783bfdef490faf2d,
+        type: 3}
+      propertyPath: PollParent
+      value: 
+      objectReference: {fileID: 585893528}
+    - target: {fileID: 8180084656213807405, guid: 4ba33d61d472ff24783bfdef490faf2d,
+        type: 3}
+      propertyPath: PoolParent
+      value: 
+      objectReference: {fileID: 998366875}
     - target: {fileID: 8180084656213807409, guid: 4ba33d61d472ff24783bfdef490faf2d,
         type: 3}
       propertyPath: m_Name
@@ -6331,6 +6341,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.049999997, y: 0.05000001, z: 0.0100000035}
   m_Center: {x: 0.000000014901161, y: -0.000000007450581, z: 0.005000092}
+--- !u!1 &585893527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585893528}
+  m_Layer: 0
+  m_Name: BossEnemypollParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &585893528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585893527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &587353831
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9953,6 +9993,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 990408118}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &998366874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 998366875}
+  m_Layer: 0
+  m_Name: PoolParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &998366875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998366874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1004568899
 GameObject:
   m_ObjectHideFlags: 0
