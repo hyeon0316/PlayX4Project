@@ -83,6 +83,11 @@ public class Demon : Life, I_hp, I_EnemyControl
         EnemyMove();
     }
 
+    public void OnDestroy()
+    {
+        GameObject.Find("EndingChest").GetComponent<BoxCollider>().enabled = true;
+    }
+
     private void InitBomb(int initCount)
     {
         for (int i = 0; i < initCount; i++)
