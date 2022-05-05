@@ -157,7 +157,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         int rand = Random.Range(0, 2);
         if (rand == 1)
         {
-           
+           if(_useBomb.Count < 2)
             ++_bombCount;
             if(_bombCount >= 3) { 
                 for(int i= 0;i< 2; i++) {
