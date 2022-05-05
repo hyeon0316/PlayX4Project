@@ -22,10 +22,6 @@ public class Lobby : MonoBehaviour
         _eventText = EventWindow.GetComponentInChildren<Text>();
     }
 
-    private void Update()
-    {
-        Debug.Log(Sentences.Count);
-    }
 
     public void StartGame()
     {

@@ -15,8 +15,7 @@ public class DemonFireBall : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<I_hp>().Gethit(Power,1);
-         //   GameObject.Find("Demon_Page2").GetComponent<Demon>().ReturnFireBall(this.gameObject);
-            GameObject.FindObjectOfType<Demon>().ReturnFireBall(this.gameObject);
+            FindObjectOfType<Demon>().ReturnFireBall(this.gameObject);
         }
     }
     
@@ -36,7 +35,7 @@ public class DemonFireBall : MonoBehaviour
         _timer += Time.deltaTime;
         if(_timer > 10f)
         {
-            GameObject.Find("Demon_Page2").GetComponent<Demon>().ReturnFireBall(this.gameObject);
+            FindObjectOfType<Demon>().ReturnFireBall(this.gameObject);
         }
         this.transform.Translate(Vector3.left* Speed * Time.deltaTime);
     }

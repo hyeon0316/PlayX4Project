@@ -261,12 +261,20 @@ public class Player : Life, I_hp
         {
             PlayerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
+            StartCoroutine(ReviveCo());
             return true;
         }
         else
             return false;
     }
-
+    private IEnumerator ReviveCo()
+    {
+        //todo: 나중에는 죽었던 시점의 전 방으로 부활
+        GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Dungeon");
+    }
+    
     /// <summary>
     /// 플레이어 이동 방식 버전 1
     /// rigidbody 속 movePosition 사용
