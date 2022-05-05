@@ -93,17 +93,28 @@ public class EnemyHpbar : Singleton<EnemyHpbar>
 
     IEnumerator LerpHpbar(Transform hpbar ,float hp, float beforehp)
     {
+        int count = 0;
         hpbar.GetChild(3).GetComponent<Image>().fillAmount = beforehp;
         hpbar.GetChild(2).GetComponent<Image>().fillAmount = beforehp;
         
         do
         {
+            if (count++ > 50)
+            {
+                count = 0;
+                break;
+            }
             hpbar.GetChild(3).GetComponent<Image>().fillAmount =Mathf.Clamp01(Mathf.Lerp( hpbar.GetChild(3).GetComponent<Image>().fillAmount, hp, 0.1f));
             hpbar.GetChild(2).GetComponent<Image>().fillAmount = Mathf.Clamp01( Mathf.Lerp( hpbar.GetChild(2).GetComponent<Image>().fillAmount, hp, 0.2f));
             yield return 0;
-        } while (Mathf.Abs(hpbar.GetChild(2).GetComponent<Image>().fillAmount - hp) > 0.01f);
+        } while (Mathf.Abs(hpbar.GetChild(3).GetComponent<Image>().fillAmount - hp) > 0.01f);
         do
         {
+            if (count++ > 50)
+            {
+                count = 0;
+                break;
+            }
             hpbar.GetChild(1).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(1).GetComponent<Image>().fillAmount, hp, 0.3f));
             yield return 0;
         } while (Mathf.Abs(hpbar.GetChild(1).GetComponent<Image>().fillAmount - hp) > 0.0001f);
@@ -114,23 +125,39 @@ public class EnemyHpbar : Singleton<EnemyHpbar>
 
     IEnumerator DeadLerpHpbar(Transform hpbar, float hp, float beforehp)
     {
+        int count = 0;
+        float _hp = hp;
+       
+
         hpbar.GetChild(3).GetComponent<Image>().fillAmount = beforehp;
         hpbar.GetChild(2).GetComponent<Image>().fillAmount = beforehp;
         hpbar.GetChild(1).GetComponent<Image>().fillAmount = beforehp;
         do
         {
-            hpbar.GetChild(3).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(3).GetComponent<Image>().fillAmount, hp, 0.1f));
-            hpbar.GetChild(2).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(2).GetComponent<Image>().fillAmount, hp, 0.2f));
+            if(count++ > 20)
+            {
+                count = 0;
+                break;
+            }
+            Debug.Log("hpber1");
+            hpbar.GetChild(3).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(3).GetComponent<Image>().fillAmount, _hp, 0.1f));
+            hpbar.GetChild(2).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(2).GetComponent<Image>().fillAmount, _hp, 0.2f));
             yield return 0;
-        } while (Mathf.Abs(hpbar.GetChild(2).GetComponent<Image>().fillAmount - hp) > 0.0001f);
+        } while (Mathf.Abs(hpbar.GetChild(3).GetComponent<Image>().fillAmount - _hp) > 0.01f);
         hpbar.GetChild(3).GetComponent<Image>().fillAmount = 0;
         hpbar.GetChild(2).GetComponent<Image>().fillAmount = 0;
 
         do
         {
-            hpbar.GetChild(1).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(1).GetComponent<Image>().fillAmount, hp, 0.1f));
+            if (count++ > 20)
+            {
+                count = 0;
+                break;
+            }
+            Debug.Log("hpber2");
+            hpbar.GetChild(1).GetComponent<Image>().fillAmount = Mathf.Clamp01(Mathf.Lerp(hpbar.GetChild(1).GetComponent<Image>().fillAmount, _hp, 0.1f));
             yield return 0;
-        } while (Mathf.Abs(hpbar.GetChild(1).GetComponent<Image>().fillAmount - hp) > 0.0001f);
+        } while (Mathf.Abs(hpbar.GetChild(1).GetComponent<Image>().fillAmount - _hp) > 0.01f);
       
         hpbar.GetChild(1).GetComponent<Image>().fillAmount = 0;
         hpbar.gameObject.SetActive(false);
