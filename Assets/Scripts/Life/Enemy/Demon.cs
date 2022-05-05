@@ -85,7 +85,8 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     public void OnDestroy()
     {
-        GameObject.Find("EndingChest").GetComponent<BoxCollider>().enabled = true;
+        FindObjectOfType<EndingChest>().GetComponent<BoxCollider>().enabled = true;
+        FindObjectOfType<Inventory>().AddMaterial("EndingKey");
     }
 
     private void InitBomb(int initCount)

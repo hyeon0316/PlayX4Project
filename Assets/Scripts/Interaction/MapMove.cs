@@ -37,22 +37,23 @@ public class MapMove : Interaction
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
                 _player.IsStop = true;
-            }
-            
-            if (_fade.IsFade)
-            {
-                FindObjectOfType<GameManager>().ActivateCollider(MapColliderName);
-                _player.transform.position = NextMap.transform.position;
-
-                _camera.CameraMovetype = 0;
-                _camera.BackgroudUpdate();
-                _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x ,0,0);
-
-                _camera.ChangeCameraType();
-                _fade.FadeOut();
-                _player.IsStop = false;
                 CanInteract = false;
             }
+        }
+        
+        if (_fade.IsFade)
+        {
+            FindObjectOfType<GameManager>().ActivateCollider(MapColliderName);
+            _player.transform.position = NextMap.transform.position;
+
+            _camera.CameraMovetype = 0;
+            _camera.BackgroudUpdate();
+            _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x ,0,0);
+
+            _camera.ChangeCameraType();
+            _fade.FadeOut();
+            _player.IsStop = false;
+            CanInteract = false;
         }
     }
 

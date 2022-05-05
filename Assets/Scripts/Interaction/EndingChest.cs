@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndingChest : Interaction
 {
@@ -10,7 +11,7 @@ public class EndingChest : Interaction
    {
       base.Awake();
       this.GetComponent<BoxCollider>().enabled = false;
-      _fade = FindObjectOfType<FadeImage>();
+      _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
    }
 
    private void Update()
@@ -22,19 +23,20 @@ public class EndingChest : Interaction
    {
       if (CanInteract)
       {
+         ActionBtn.transform.position = this.transform.position + new Vector3(0, 2f, 0);
          if (Input.GetKeyDown(KeyCode.Space))
          {
             FindObjectOfType<Inventory>().DeleteMaterial();
             _fade.FadeIn();
             this.GetComponent<Animator>().SetTrigger("Open");
             CanInteract = false;
+            Invoke("GoEnding", 2f);
          }
       }
+   }
 
-      if (_fade.IsFade)
-      {
-         //todo: 엔딩씬 이동
-      }
-      
+   private void GoEnding()
+   {
+      SceneManager.LoadScene("Ending");
    }
 }
