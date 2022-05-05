@@ -36,8 +36,15 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            float beforehp = other.GetComponent<Life>().HpRatio;
             Debug.Log("bullet 히트");
-            other.GetComponent<I_hp>().Gethit(Power, 1);
+            if (other.GetComponent<I_hp>().Gethit(Power, 1)) {
+                EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp, true);
+            }
+            else
+            {
+                EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp);
+            }
             this.GetComponent<Animator>().SetTrigger("impact");
         }
     }
