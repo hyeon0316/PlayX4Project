@@ -220,6 +220,7 @@ public class Demon : Life, I_hp, I_EnemyControl
                         _teleportTimer = 0;
                         if (_attackDelay <= 0)
                         {
+                            _areaSkillTimer = 0f;
                             _state = Enemystate.Attack;
                         }
                         else
@@ -256,7 +257,7 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
         }
         
-        if (_areaSkillTimer >= 1.5f)
+        if (_areaSkillTimer >= 2f)
         {
            // PlayerObj.GetComponent<Player>().KnockBack(this.transform.position);
             _state = Enemystate.Skill;
