@@ -112,11 +112,13 @@ public class PlayerAttack : MonoBehaviour
         {
             if (_canAttack)
             {
-                GameObject hitObj = other.gameObject;
-                if (!hitEnemyObj.Contains(hitObj))
-                {
-                    hitEnemyObj.Add(other.gameObject);
+                if(other.GetComponent<Life>().HpRatio > 0) { 
+                    GameObject hitObj = other.gameObject;
+                    if (!hitEnemyObj.Contains(hitObj))
+                    {
+                        hitEnemyObj.Add(other.gameObject);
 
+                    }
                 }
             }
         }
