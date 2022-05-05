@@ -171,7 +171,15 @@ public class DialogueManager : MonoBehaviour
     private void ReTalk()
     {
         //보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
-        if(!FindObjectOfType<GameManager>().EnemyPos[3].activeSelf)
+        if (SceneManager.GetActiveScene().name.Equals("Dungeon"))
+        {
+            if (!_gameManager.EnemyPos[3].activeSelf)
+            {
+                Npc.ActionBtn.SetActive(true);
+                Npc.CanInteract = true;
+            }
+        }
+        else
         {
             Npc.ActionBtn.SetActive(true);
             Npc.CanInteract = true;
