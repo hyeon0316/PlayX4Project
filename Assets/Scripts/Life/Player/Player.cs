@@ -325,7 +325,7 @@ public class Player : Life, I_hp
                 if (_isStair)
                 {
                     transform.position += Vector3.up * 0.05f;
-                    transform.position += Vector3.right * h * 0.03f;
+                    transform.position += Vector3.right * h * 0.05f;
                     _isStair = false;
                 }
                  
@@ -469,21 +469,55 @@ public class Player : Life, I_hp
         //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
 
 
-        Ray ray = new Ray(transform.position - new Vector3(_playerSprite.sprite.rect.width/ _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x 
-            * -Input.GetAxisRaw("Horizontal")
-            , (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0),
+        Ray ray = new Ray(transform.position + new Vector3(_playerSprite.sprite.rect.width/ _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x 
+            * Input.GetAxisRaw("Horizontal")
+            , -(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0),
             Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
         //Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
-        LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj","Stair");
+        LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj");
 
-        if (Physics.Raycast(ray, out hit, layerMask))
+        if(Physics.Raycast(ray,out hit, LayerMask.GetMask("Stair")))
+        {
+            //바닥과 플레이어 사이의 거리
+            float Distance = hit.distance;
+            //  Debug.Log(Distance);
+            //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
+            if (!_isFry && Distance > 0.1f && _rigid.velocity.y > 3f)
+            {
+                ChangeFry(true);
+                PlayerAnim.SetBool("IsJump", true);
+            }
+            //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
+            if (_isFry && _rigid.velocity.y < 9.8f)
+            {//낙하 애니메이션
+                PlayerAnim.SetBool("IsFall", true);
+            }
+            //플레이어가 땅에 도착할때
+            if (_isFry && Distance < 0.1f)
+            {
+                PlayerAnim.SetBool("IsFall", false);
+                PlayerAnim.SetBool("IsJump", false);
+
+                ChangeFry(false);
+                _isWall = false;
+                _wallslideObject = this.gameObject.GetInstanceID();
+                if (_isWallslide)
+                {
+
+                    _isWallslide = false;
+                    PlayerAnim.SetBool("WallSlide", false);
+                    Physics.gravity = Vector3.down * 25f;
+                }
+            }
+        
+        }else if (Physics.Raycast(ray, out hit, layerMask))
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
           //  Debug.Log(Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.1f & _rigid.velocity.y > 5f)
+            if (!_isFry && Distance > 0.1f)
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
