@@ -274,7 +274,6 @@ public class Player : Life, I_hp
         GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Dungeon");
-        
     }
     
     /// <summary>
