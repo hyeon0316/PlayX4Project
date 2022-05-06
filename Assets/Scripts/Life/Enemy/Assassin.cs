@@ -119,7 +119,8 @@ public class Assassin : Life, I_hp, I_EnemyControl
         {
             if (Cvalue > 0)
             {
-                _attackDelay += 0.12f;
+                //_attackDelay += 0.12f;
+                _enemystate = Enemystate.Find;
                 Animator.SetTrigger("Hit");
             }
             HP -= Cvalue * coefficient;
@@ -215,7 +216,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
                         : this.transform.position.x + 2f
                     , this.transform.position.y,
                     this.transform.position.z);
-                _EnemyNav.speed = 1.25f; 
+                _EnemyNav.speed = 1.8f; 
                 _EnemyNav.SetDestination(position);
             }
         }
