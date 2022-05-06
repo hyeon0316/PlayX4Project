@@ -31,30 +31,31 @@ public class MapMove : Interaction
         {
             ActionBtn.transform.position = this.transform.position+ new Vector3(0,1.2f,0);
             
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && ActionBtn.activeSelf)
             {
                 FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
                 _player.IsStop = true;
+                //CanInteract = false;
+            }
+            if (_fade.IsFade)
+            {
+                FindObjectOfType<GameManager>().ActivateCollider(MapColliderName);
+                _player.transform.position = NextMap.transform.position;
+
+                _camera.CameraMovetype = 0;
+                _camera.BackgroudUpdate();
+                _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x, 0, 0);
+
+                _camera.ChangeCameraType();
+                _fade.FadeOut();
+                _player.IsStop = false;
                 CanInteract = false;
             }
         }
         
-        if (_fade.IsFade)
-        {
-            FindObjectOfType<GameManager>().ActivateCollider(MapColliderName);
-            _player.transform.position = NextMap.transform.position;
-
-            _camera.CameraMovetype = 0;
-            _camera.BackgroudUpdate();
-            _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x ,0,0);
-
-            _camera.ChangeCameraType();
-            _fade.FadeOut();
-            _player.IsStop = false;
-            CanInteract = false;
-        }
+        
     }
 
 
