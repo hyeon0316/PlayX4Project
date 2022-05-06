@@ -47,6 +47,11 @@ public class Chest : Interaction
                     FindObjectOfType<Inventory>().AddMaterial("SecretKey");
                     FindObjectOfType<Door>().GetComponent<BoxCollider>().enabled = true;
                 }
+
+                GameObject.Find("Player").transform.position = GameObject.Find("RevivalPos").transform.position;
+               
+                //y - 1.8 , z - 4.5
+
             }
         }
     }

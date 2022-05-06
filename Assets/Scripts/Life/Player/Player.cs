@@ -174,11 +174,11 @@ public class Player : Life, I_hp
     {
         
         RaycastHit hit;
-        Debug.DrawRay(this.transform.position + Vector3.down * 0.7f, transform.TransformDirection(Vector3.left),
+        Debug.DrawRay(this.transform.position + Vector3.down * 0.7f, transform.TransformDirection(transform.GetChild(0).localScale.x > 0 ? Vector3.right : Vector3.left),
             Color.red);
 
         if (Physics.Raycast(this.transform.position + Vector3.down * 0.7f,
-              transform.TransformDirection(transform.GetChild(0).position.x > 0 ? Vector3.right : Vector3.left), out hit, 0.7f, LayerMask.GetMask("Stair")))
+              transform.TransformDirection(transform.GetChild(0).localScale.x > 0 ? Vector3.right : Vector3.left), out hit, 0.7f, LayerMask.GetMask("Stair")))
         {
             Debug.Log("계단 만남");
             _isStair = true;
