@@ -123,4 +123,20 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Contains("Enemy"))
+        {
+            if (_canAttack)
+            {
+                GameObject hitObj = other.gameObject;
+                if (hitEnemyObj.Contains(hitObj))
+                {
+                    hitEnemyObj.Remove(hitObj);
+                }
+            }
+        }
+    }
+
 }
