@@ -178,8 +178,9 @@ public class Player : Life, I_hp
             Color.red);
 
         if (Physics.Raycast(this.transform.position + Vector3.down * 0.7f,
-               transform.GetChild(0).position.x > 0 ? Vector3.right : Vector3.left, out hit, 0.5f, LayerMask.GetMask("Stair")))
+              transform.TransformDirection(transform.GetChild(0).position.x > 0 ? Vector3.right : Vector3.left), out hit, 0.7f, LayerMask.GetMask("Stair")))
         {
+            Debug.Log("계단 만남");
             _isStair = true;
         }
         else
@@ -332,9 +333,9 @@ public class Player : Life, I_hp
 
                 if (_isStair)
                 {
-                    transform.position += Vector3.up * 0.05f;
+                    transform.position += Vector3.up * 0.1f;
                     transform.position += Vector3.right * h * 0.05f;
-                    _isStair = false;
+                    //_isStair = false;
                 }
                  
                 _rigid.velocity += Vector3.right * h   * Speed;
@@ -688,7 +689,7 @@ public class Player : Life, I_hp
 
         if (Physics.Raycast(ray, out hit, 4f, LayerMask.GetMask("Wall")))
         {
-            distance = -hit.distance * 0.8f;
+            distance = hit.distance * 0.8f;
         }
 
         Vector3 startpos = this.transform.position;

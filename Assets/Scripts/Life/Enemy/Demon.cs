@@ -181,7 +181,8 @@ public class Demon : Life, I_hp, I_EnemyControl
 
         if (_bombCount >=3)
         {
-            _state = Enemystate.Skill;
+            _enemyNav.isStopped = true;
+            _state = Enemystate.Skill2;
             StartCoroutine(BombSkillCo());
             _bombCount = 0;
         }
@@ -206,7 +207,8 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private IEnumerator BombSkillCo()
     {
-       
+      
+        
         yield return new WaitForSeconds(1f);
         float time = 0;
         
@@ -236,6 +238,8 @@ public class Demon : Life, I_hp, I_EnemyControl
         }
         _bombCount = 0;
         _useBomb.Clear();
+        _enemyNav.isStopped = false;
+        _state = Enemystate.Find;
     }
     
 
@@ -334,18 +338,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         }
         else if (_state == Enemystate.Skill2)
         {
-            _launchSkillTimer += Time.deltaTime;
-            _enemyNav.isStopped = true;
-            Animator.SetBool("IsWalk", false);
-            Animator.SetTrigger("Fire1");
-            Animator.SetTrigger("Fire2");
-
-            if (_launchSkillTimer >= 5f)
-            {
-                Animator.ResetTrigger("Fire1");
-                _launchSkillTimer = 0;
-                _state = Enemystate.Find;
-            }
+            
             
         }else if(_state == Enemystate.Range)
         {
