@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class EnemyHpbar : Singleton<EnemyHpbar>
+public class EnemyHpbar : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

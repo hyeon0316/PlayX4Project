@@ -81,7 +81,7 @@ public class PlayerAttack : MonoBehaviour
                     if (hitBoss)
                     {
                         if (hitEnemyObj[i].GetComponent<Life>().LifeId >= 10)
-                            EnemyHpbar.Instance.SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp, true);
+                            Enemy SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp, true);
                     }
                     else
                     {
