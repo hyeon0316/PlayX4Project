@@ -31,6 +31,7 @@ public class Chest : Interaction
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                FindObjectOfType<SoundManager>().Play("Chest",SoundType.Effect);
                 CanInteract = false;
                 ActionBtn.SetActive(false);
                 this.GetComponent<BoxCollider>().enabled = false;

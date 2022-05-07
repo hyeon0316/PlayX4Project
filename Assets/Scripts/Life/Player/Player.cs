@@ -212,16 +212,16 @@ public class Player : Life, I_hp
         //데미지가 들어오니 무적 카운트와 hit 애니메이션 실행
         if (Cvalue > 0)
         {
+            if (HP > 0)
+            {
+                //플레이어가 무적상태라면 애니메이션과 채력계산을 무시하고 리턴한다.
+                if (CountTimeList[0] > 0)
+                    return CheckLiving();
 
-            //플레이어가 무적상태라면 애니메이션과 채력계산을 무시하고 리턴한다.
-            if (CountTimeList[0] > 0)
-                return CheckLiving();
-
-            CountTimeList[0] = 1f;
-            PlayerAnim.SetTrigger("Hit");
-            
+                CountTimeList[0] = 1f;
+                PlayerAnim.SetTrigger("Hit");
+            }
         }
-
 
         HP -= (Cvalue * coefficient);
         return CheckLiving();
@@ -257,9 +257,9 @@ public class Player : Life, I_hp
     /// <returns>hp 가 0 이하라면 ture 아니면 false 를 반환</returns>
     public bool CheckLiving()
     {
-
         if (HP <= 0)
         {
+            FindObjectOfType<SoundManager>().Play("PlayerDead",SoundType.Effect);
             PlayerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
             StartCoroutine(ReviveCo());
@@ -308,6 +308,7 @@ public class Player : Life, I_hp
 
                 if (_isWall)
                 {
+                   
                     if (_isWallslide) { 
                         //오른쪽
                         if (this.transform.GetChild(0).localScale.x > 0)
@@ -497,6 +498,7 @@ public class Player : Life, I_hp
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
+                PlayerAnim.SetBool("IsRun", false);
             }
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < 9.8f)
@@ -540,6 +542,7 @@ public class Player : Life, I_hp
             //플레이어가 땅에 도착할때
             if (_isFry && Distance < 0.1f)
             {
+               
                 PlayerAnim.SetBool("IsFall", false);
                 PlayerAnim.SetBool("IsJump", false);
 
@@ -583,7 +586,6 @@ public class Player : Life, I_hp
 
             if (Input.GetKeyDown(KeyCode.X))
             {
-                FindObjectOfType<SoundManager>().Play("XAttack",SoundType.Effect);
                 PlayerAnim.SetTrigger("Attack");
                 CountTimeList[1] = 0.34f;
                 Speed = _slowSpeed;
@@ -725,6 +727,7 @@ public class Player : Life, I_hp
             _playerEffectAnim.SetTrigger("Skill2");
             yield return new WaitForSecondsRealtime(0.31f);
         }
+        FindObjectOfType<SoundManager>().Play("BulletDrop", SoundType.Effect);
         yield return new WaitForSecondsRealtime(0.09f);
         Playerstate = PlayerstateEnum.Idle;//스킬이 끝나는 타이밍
     }
@@ -969,6 +972,7 @@ public class Player : Life, I_hp
                 if (!_isWallslide)
                 {
                     Debug.Log("2벽충돌");
+                    FindObjectOfType<SoundManager>().Play("PlayerWall",SoundType.Effect);
                     Physics.gravity = Vector3.down * 5f;
                     _rigid.velocity = Vector3.zero;
                     this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,
@@ -1012,11 +1016,11 @@ public class Player : Life, I_hp
      /// 플레이어의 방향을 바꿔주는 함수
      /// </summary>
      /// <param name="scaleX"></param>
-     public void ChangeDirection(float scaleX = 2.5f)
+     public void ChangeDirection(bool isChange = true)
      {
-         if(scaleX == 2.5f)
-             this.transform.GetChild(0).localScale = new Vector3(scaleX, 2.5f, 1);
-         else if(scaleX == -2.5f)
-             this.transform.GetChild(0).localScale = new Vector3(scaleX, 2.5f, 1);
+         if(isChange)
+             this.transform.GetChild(0).localScale = new Vector3(2.5f, 2.5f, 1);
+         else if(!isChange)
+             this.transform.GetChild(0).localScale = new Vector3(-2.5f, 2.5f, 1);
      }
 }

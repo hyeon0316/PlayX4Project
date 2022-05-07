@@ -132,7 +132,7 @@ public class DialogueManager : MonoBehaviour
         {
             Sentences.Dequeue();
             FindObjectOfType<CameraManager>().Target = GameObject.Find("CameraMovePos").gameObject;
-            _player.ChangeDirection(-2.5f);
+            _player.ChangeDirection(false);
         }
     }
 

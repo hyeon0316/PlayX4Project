@@ -46,10 +46,12 @@ public class NpcTalk : Interaction
         if (transform.position.x > GameObject.Find("Player").transform.position.x)
         {
             GetComponentInChildren<SpriteRenderer>().flipX = true;
+            FindObjectOfType<Player>().ChangeDirection();
         }
         else
         {
             GetComponentInChildren<SpriteRenderer>().flipX = false;
+            FindObjectOfType<Player>().ChangeDirection(false);
         }
     }
 }
