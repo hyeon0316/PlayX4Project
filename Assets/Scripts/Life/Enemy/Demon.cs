@@ -65,7 +65,7 @@ public class Demon : Life, I_hp, I_EnemyControl
         PollParent = GameObject.Find("BossEnemypollParent").transform;
         InitBomb(10);
         InitFireBall(20);
-        Initdata(101,300, 5, 2); //데이터 입력
+        Initdata(101,420, 5, 2); //데이터 입력
         _state = Enemystate.Idle;
     }
 

@@ -33,7 +33,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     private void Awake()
     {
         _canSpecialSummon = true;
-        Initdata(100,50, 5, 3);
+        Initdata(100,300, 5, 3);
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();
         _enemyNav = this.GetComponent<NavMeshAgent>();
