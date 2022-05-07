@@ -42,11 +42,11 @@ public class Bullet : MonoBehaviour
             {
                 if (other.GetComponent<I_hp>().Gethit(Power, 1))
                 {
-                    EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp, true);
+                    GameObject.Find("Canvas(Enemy)").GetComponent<EnemyHpbar>().SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp, true);
                 }
                 else
                 {
-                    EnemyHpbar.Instance.SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp);
+                    GameObject.Find("Canvas(Enemy)").GetComponent<EnemyHpbar>().SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp);
                 }
             }
             this.GetComponent<Animator>().SetTrigger("impact");

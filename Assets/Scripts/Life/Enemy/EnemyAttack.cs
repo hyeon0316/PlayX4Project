@@ -31,11 +31,11 @@ public class EnemyAttack : MonoBehaviour
         if (this.transform.parent.GetComponent<I_hp>().Gethit(Cvalue,1))
         {
             //회복이라서 true 를 탈꺼 같지는 않은데 만약 채력을 소모해서 사용하는 과정에서 자살이라도 한다면 사용
-            EnemyHpbar.Instance.SwitchHPbar(this.transform.parent.GetComponent<Life>().LifeId, this.transform.parent.GetComponent<Life>().HpRatio, Beforehp,true);
+            GameObject.Find("Canvas(Enemy)").GetComponent<EnemyHpbar>().SwitchHPbar(this.transform.parent.GetComponent<Life>().LifeId, this.transform.parent.GetComponent<Life>().HpRatio, Beforehp,true);
         }
         else
         {
-            EnemyHpbar.Instance.SwitchHPbar(this.transform.parent.GetComponent<Life>().LifeId, this.transform.parent.GetComponent<Life>().HpRatio, Beforehp);
+            GameObject.Find("Canvas(Enemy)").GetComponent<EnemyHpbar>().SwitchHPbar(this.transform.parent.GetComponent<Life>().LifeId, this.transform.parent.GetComponent<Life>().HpRatio, Beforehp);
         }
     }
     public void OnTriggerEnter(Collider other)
