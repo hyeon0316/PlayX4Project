@@ -21,27 +21,35 @@ public class NpcTalk : Interaction
 
     public override void StartInteract()
     {
-        if (CanInteract && Input.GetKeyDown(KeyCode.Space))
+        if (CanInteract)
         {
-            if (transform.position.x > GameObject.Find("Player").transform.position.x)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                GetComponentInChildren<SpriteRenderer>().flipX = true;
-            }
-            else
-            {
-                GetComponentInChildren<SpriteRenderer>().flipX = false;
-            }
-            
-            _dialogueManager.Npc = this.GetComponent<NpcTalk>();
-            _dialogueManager.TalkPanel.transform.position = this.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
+                LookPlayer();
+                FindObjectOfType<Player>().IsStop = true;
+                _dialogueManager.Npc = this.GetComponent<NpcTalk>();
+                _dialogueManager.TalkPanel.transform.position = this.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
 
-            FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
-            FindObjectOfType<CameraManager>().Target = this.gameObject;
-            ActionBtn.SetActive(false);
-            _dialogueManager.TalkStart();
-            _dialogueManager.OnDialogue(Sentences);
+                FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
+                FindObjectOfType<CameraManager>().Target = this.gameObject;
+                ActionBtn.SetActive(false);
+                _dialogueManager.TalkStart();
+                _dialogueManager.OnDialogue(Sentences);
 
-            CanInteract = false;
+                CanInteract = false;
+            }
+        }
+    }
+
+    private void LookPlayer()
+    {
+        if (transform.position.x > GameObject.Find("Player").transform.position.x)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
     }
 }

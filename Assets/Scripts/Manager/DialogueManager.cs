@@ -147,6 +147,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void CloseTalkPanel()
     {
+        _player.IsStop = false;
         FindObjectOfType<CameraManager>().Target = _player.gameObject;
         Invoke("ReTalk", 0.1f);
         TalkPanel.SetActive(false);
@@ -197,6 +198,8 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in line.ToCharArray())
         {
             _dialogueText.text += letter;
+            if(_textDelay == 0.1f)
+                FindObjectOfType<SoundManager>().Play("Talk",SoundType.Effect);
             yield return new WaitForSeconds(_textDelay);
         }
     }
@@ -205,7 +208,7 @@ public class DialogueManager : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
             _playerUI.SetActive(false);
-        _player.IsStop = true;
+       
         float time = 0f;
         while (time <= 1.0f)
         {
@@ -224,7 +227,7 @@ public class DialogueManager : MonoBehaviour
             LetterBoxMove(time);
             yield return null;
         }
-        _player.IsStop = false;
+        
         if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
             _playerUI.SetActive(true);
     }

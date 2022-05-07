@@ -50,6 +50,8 @@ public class CameraManager : MonoBehaviour
         _cameraSize.x = _cameraSize.y * transform.GetChild(0).GetComponent<Camera>().aspect;
 
         BackgroudUpdate();
+
+       
     }
 
 

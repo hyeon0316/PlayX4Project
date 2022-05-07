@@ -582,6 +582,7 @@ public class Player : Life, I_hp
 
             if (Input.GetKeyDown(KeyCode.X))
             {
+                FindObjectOfType<SoundManager>().Play("XAttack",SoundType.Effect);
                 PlayerAnim.SetTrigger("Attack");
                 CountTimeList[1] = 0.34f;
                 Speed = _slowSpeed;

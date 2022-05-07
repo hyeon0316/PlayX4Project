@@ -40,6 +40,7 @@ public class SceneMove : Interaction
             if(_fade.FadeCount >= 1f)
             {
                 SceneManager.LoadScene(_sceneName);
+                FindObjectOfType<SoundManager>().Play("DungeonBGM", SoundType.Bgm);
                 CanInteract = false;
             }
         }

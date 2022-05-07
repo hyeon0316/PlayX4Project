@@ -10,7 +10,7 @@ public enum ItemType
     Used, //소모품
     Material, //재료
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(Item))]
 public class ItemInspector : Editor
 {
@@ -30,7 +30,9 @@ public class ItemInspector : Editor
         serializedObject.Update();
 
         _item.Type = (ItemType) EditorGUILayout.EnumPopup("아이템 타입", _item.Type);
-        _item.ItemImage = (Sprite) EditorGUILayout.ObjectField("아이템 이미지", _item.ItemImage, typeof(Sprite),true);
+        //_item.ItemImage = (Sprite) EditorGUILayout.ObjectField("아이템 이미지", _item.ItemImage, typeof(Sprite),true);
+        SerializedProperty itemSprite = serializedObject.FindProperty("ItemImage");
+        EditorGUILayout.PropertyField(itemSprite);
         switch (_item.Type)
         {
             case ItemType.Material:
@@ -45,6 +47,8 @@ public class ItemInspector : Editor
         serializedObject.ApplyModifiedProperties();//변경 값 적용
     }
 }
+#endif
+
 
 [CreateAssetMenu(fileName = "New Item", menuName = "New Item/item")]
 public class Item : ScriptableObject

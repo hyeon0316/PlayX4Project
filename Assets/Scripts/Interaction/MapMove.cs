@@ -29,7 +29,7 @@ public class MapMove : Interaction
     {
         if (CanInteract)
         {
-            ActionBtn.transform.position = this.transform.position+ new Vector3(0,1.2f,0);
+            ActionBtn.transform.position = this.transform.position + new Vector3(0, 1.2f, 0);
             
             if (Input.GetKeyDown(KeyCode.Space) && ActionBtn.activeSelf)
             {
@@ -37,7 +37,6 @@ public class MapMove : Interaction
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
                 _player.IsStop = true;
-                //CanInteract = false;
             }
             if (_fade.IsFade)
             {

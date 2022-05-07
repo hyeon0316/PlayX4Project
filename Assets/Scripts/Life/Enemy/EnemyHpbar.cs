@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class EnemyHpbar : Singleton<EnemyHpbar>
 {
-    // Start is called before the first frame update
     void Start()
     {
         HpbarReset();

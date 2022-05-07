@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 public enum SoundType
 {
@@ -23,15 +21,39 @@ public enum SoundType
     MaxCount, 
 }
 
-public class SoundManager : Singleton<SoundManager>
+public class SoundManager : MonoBehaviour
 {
     private AudioSource[] _audioSources = new AudioSource[(int) SoundType.MaxCount];
     private Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
+
+    private static SoundManager _instance = null;
+
+    public static SoundManager Instance()
+    {
+        return _instance;
+    }
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else 
+        {
+            if (this != _instance)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
 
 
     private void Start()
     {
         Init();
+        Play("TownBGM", SoundType.Bgm);
     }
 
     public void Init()
@@ -41,7 +63,7 @@ public class SoundManager : Singleton<SoundManager>
         if (root == null)
         {
             root = new GameObject {name = "@Sound"};
-            Object.DontDestroyOnLoad(root); //게임 내내 유지
+            DontDestroyOnLoad(root); //게임 내내 유지
 
             string[] soundNames = System.Enum.GetNames(typeof(SoundType)); // "Bgm", "Effect"
 
@@ -75,7 +97,9 @@ public class SoundManager : Singleton<SoundManager>
 
         if (type == SoundType.Bgm) // BGM 배경음악 재생
         {
+            Debug.Log(_audioSources);
             AudioSource audioSource = _audioSources[(int) SoundType.Bgm];
+            Debug.Log(_audioSources.Length);
             if (audioSource.isPlaying) //BGM은 중첩되면 안되기에 재생중인게 있다면 정지
                 audioSource.Stop();
 
@@ -111,10 +135,13 @@ public class SoundManager : Singleton<SoundManager>
         else if (type == SoundType.Effect)
         {
             if (!_audioClips.ContainsKey(path)) 
-            //if (!_audioClips.TryGetValue(path, out audioClip))
             {
                 audioClip = Resources.Load<AudioClip>(path);
                 _audioClips.Add(path, audioClip);
+            }
+            else if (_audioClips.ContainsKey(path))//해당 사운드가 이미 존재 할 경우
+            {
+                audioClip = Resources.Load<AudioClip>(path);
             }
         }
 

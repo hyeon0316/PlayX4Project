@@ -1,9 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 public class DropItem : MonoBehaviour
 {
