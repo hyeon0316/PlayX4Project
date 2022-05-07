@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
     private GameManager _gameManager;
 
     private GameObject _playerUI;
-        
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -147,6 +147,9 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void CloseTalkPanel()
     {
+        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
+            _playerUI.SetActive(true);
+        
         _player.IsStop = false;
         FindObjectOfType<CameraManager>().Target = _player.gameObject;
         Invoke("ReTalk", 0.1f);
@@ -174,7 +177,7 @@ public class DialogueManager : MonoBehaviour
         //보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
         if (SceneManager.GetActiveScene().name.Equals("Dungeon"))
         {
-            if (!_gameManager.EnemyPos[3].activeSelf)
+            if (!_gameManager.EnemyPos[3].transform.parent.gameObject.activeSelf)
             {
                 Npc.ActionBtn.SetActive(true);
                 Npc.CanInteract = true;
@@ -206,9 +209,6 @@ public class DialogueManager : MonoBehaviour
     
     private IEnumerator LetterBoxOnCo()
     {
-        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
-            _playerUI.SetActive(false);
-       
         float time = 0f;
         while (time <= 1.0f)
         {
@@ -227,9 +227,6 @@ public class DialogueManager : MonoBehaviour
             LetterBoxMove(time);
             yield return null;
         }
-        
-        if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
-            _playerUI.SetActive(true);
     }
     
 
