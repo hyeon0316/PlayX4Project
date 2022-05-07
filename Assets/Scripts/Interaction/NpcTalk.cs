@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class NpcTalk : Interaction
 {
     public string[] Sentences;
@@ -26,10 +26,13 @@ public class NpcTalk : Interaction
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 LookPlayer();
-                FindObjectOfType<Player>().IsStop = true;
+                if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
+                    GameObject.Find("PlayerUICanvas").SetActive(false);
+
                 _dialogueManager.Npc = this.GetComponent<NpcTalk>();
                 _dialogueManager.TalkPanel.transform.position = this.transform.position + new Vector3(0.8f, 1.2f, 0.5f);
 
+                FindObjectOfType<Player>().IsStop = true;
                 FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                 FindObjectOfType<CameraManager>().Target = this.gameObject;
                 ActionBtn.SetActive(false);

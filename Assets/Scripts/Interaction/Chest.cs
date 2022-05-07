@@ -49,8 +49,12 @@ public class Chest : Interaction
                     FindObjectOfType<Door>().GetComponent<BoxCollider>().enabled = true;
                 }
 
-                GameObject.Find("Player").transform.position = GameObject.Find("RevivalPos").transform.position;
-               
+                if (FindObjectOfType<GameManager>().EnemyPos[1].transform.parent.gameObject.activeSelf)
+                {
+                    FindObjectOfType<Player>().transform.position = GameObject.Find("RevivalPos").transform.position;
+                    FindObjectOfType<CameraManager>().transform.position = FindObjectOfType<Player>().transform.position + Vector3.up;
+                }
+
                 //y - 1.8 , z - 4.5
 
             }

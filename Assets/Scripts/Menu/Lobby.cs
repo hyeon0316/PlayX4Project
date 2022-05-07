@@ -26,11 +26,9 @@ public class Lobby : MonoBehaviour
 
     public void StartGame()
     {
-        //todo: 검은이미지 배경에 텍스트 출력 이후 씬 이동
+        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
         EventWindow.SetActive(true);
         OnDialogue(IntroSentences);
-        
-        //FindObjectOfType<SoundManager>().Play("MenuBGM",SoundType.Bgm);
     }
     
     public void OnDialogue(string[] lines)
@@ -103,10 +101,12 @@ public class Lobby : MonoBehaviour
 
     public void ShowManual()
     {
+        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
         ManualWindow.SetActive(true);
     }
     public void ExitGame()
     {
+        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
@@ -116,6 +116,7 @@ public class Lobby : MonoBehaviour
     
     public void NextPageBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
         if (ManualPages.transform.GetChild(0).gameObject.activeSelf)
         {
             ManualPages.transform.GetChild(0).gameObject.SetActive(false);
@@ -129,6 +130,7 @@ public class Lobby : MonoBehaviour
     }
     public void BackBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
         ManualWindow.SetActive(false);
     }
 }
