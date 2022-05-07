@@ -825,7 +825,8 @@ public class Player : Life, I_hp
         yield return new WaitForSeconds(0.02f);
         if (gameObjects.Length >= 1)
         {
-            
+            ChangeFry(true);
+            PlayerAnim.SetBool("IsJump", true);
             for (int timeline = 0; timeline < 10; timeline++)
             {
 
@@ -846,6 +847,12 @@ public class Player : Life, I_hp
         yield return new WaitForSeconds(1f);
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         Debug.Log("wait");
+        if (gameObjects.Length >= 1)
+        {
+            _rigid.useGravity = true;
+
+
+        }
 
         for (int timeline = 0; timeline < 10; timeline++)
         {
@@ -855,12 +862,7 @@ public class Player : Life, I_hp
                 if (gameObjects[i].name.Contains("Demon")) continue;
                 gameObjects[i].transform.position += Vector3.down * 0.1f;
             }
-            if (gameObjects.Length >= 1)
-            {
-                _rigid.useGravity = true;
-                this.transform.position += Vector3.down * 0.1f;
-               
-            }
+           
             
         }
 
@@ -872,6 +874,7 @@ public class Player : Life, I_hp
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstop");
 
         }
+        PlayerAnim.SetBool("IsFail", true);
         Playerstate = PlayerstateEnum.Idle;
         
         yield return null;
