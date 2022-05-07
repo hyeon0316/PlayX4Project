@@ -791,7 +791,7 @@ public class Player : Life, I_hp
     IEnumerator SkillThreeCor(List<GameObject> hitObj)
     {
         GameObject[] gameObjects = new GameObject[hitObj.Count];
-
+        _rigid.velocity = Vector3.zero;
 
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         for(int i = 0; i < gameObjects.Length; i++)
@@ -802,7 +802,7 @@ public class Player : Life, I_hp
        
         for (int i = 0; i < gameObjects.Length; i++)
         {
-            if (gameObjects[i].name.Contains("Demon")) continue;
+            if (gameObjects[i].name.Contains("Demon"))continue;
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;   
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
