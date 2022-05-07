@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Lobby : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class Lobby : MonoBehaviour
         //todo: 검은이미지 배경에 텍스트 출력 이후 씬 이동
         EventWindow.SetActive(true);
         OnDialogue(IntroSentences);
+        
+        //FindObjectOfType<SoundManager>().Play("MenuBGM",SoundType.Bgm);
     }
     
     public void OnDialogue(string[] lines)
@@ -40,6 +43,10 @@ public class Lobby : MonoBehaviour
         NextSentence();
     }
 
+    private void DelayLoad()
+    {
+        SceneManager.LoadScene("Town");
+    }
     private void NextSentence()
     {
         if (Sentences.Count != 0 && !Sentences.Peek().Equals("Next") && !Sentences.Peek().Equals("Start"))
@@ -55,7 +62,7 @@ public class Lobby : MonoBehaviour
         }
         else if (Sentences.Peek().Equals("Start"))
         {
-            SceneManager.LoadScene("Town");
+            Invoke("DelayLoad", 2f);
         }
     }
     private void PrintSentences()
@@ -70,6 +77,25 @@ public class Lobby : MonoBehaviour
         foreach (char letter in line.ToCharArray())
         {
             _eventText.text += letter;
+            int rand = Random.Range(0, 5);
+            switch (rand)
+            {
+                case 0:
+                    FindObjectOfType<SoundManager>().Play("IntroTyping1",SoundType.Effect);
+                    break;
+                case 1:
+                    FindObjectOfType<SoundManager>().Play("IntroTyping2",SoundType.Effect);
+                    break;
+                case 2:
+                    FindObjectOfType<SoundManager>().Play("IntroTyping3",SoundType.Effect);
+                    break;
+                case 3:
+                    FindObjectOfType<SoundManager>().Play("IntroTyping4",SoundType.Effect);
+                    break;
+                case 4:
+                    FindObjectOfType<SoundManager>().Play("IntroTyping5",SoundType.Effect);
+                    break;
+            }
             yield return new WaitForSeconds(_textDelay);
         }
         NextSentence();
