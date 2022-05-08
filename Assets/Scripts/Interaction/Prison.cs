@@ -27,6 +27,7 @@ public  class Prison : Interaction
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                FindObjectOfType<SoundManager>().Play("Object/PrisonOpen",SoundType.Effect);
                 _fade.FadeIn();
                 FindObjectOfType<Player>().IsStop = true;
                 FindObjectOfType<Inventory>().DeleteMaterial();

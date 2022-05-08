@@ -20,6 +20,7 @@ public class BringerTrap : MonoBehaviour
    {
       _timer = 0;
       transform.position = GameObject.Find("Player").transform.position + new Vector3(0,0.7f,0);
+      FindObjectOfType<SoundManager>().Play("Enemy/Bringer/BringerTrap",SoundType.Effect);
    }
    
    private void Update()

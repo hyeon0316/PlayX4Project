@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8180084655686650005}
   - component: {fileID: 8180084655686650007}
   - component: {fileID: 394007404350379499}
+  - component: {fileID: 8931673637780769399}
   m_Layer: 12
   m_Name: Demon
   m_TagString: Untagged
@@ -160,6 +161,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaea11f78d17e9248b760a029facde04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8931673637780769399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180084655686650011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e904b835dd7344d9fe402a5195c050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8180084656213807409
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,6 +257,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Attackcrossroad: 1.5
   HitMaterial: {fileID: 2100000, guid: 55c04ce684cb542debc357409498bc4e, type: 2}
+  PollParent: {fileID: 0}
   FireCollect: {fileID: 2327346611091067011, guid: 3fe690dfd604b734ca26c914afc522a4,
     type: 3}
   BombEffect: {fileID: 180928408295645589, guid: 44e9f2751afedff448dfb32ad0947faf,

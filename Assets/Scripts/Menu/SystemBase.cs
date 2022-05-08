@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 
 public class SystemBase : MonoBehaviour
@@ -12,14 +13,29 @@ public class SystemBase : MonoBehaviour
     public GameObject ManualWindow;
     public GameObject ManualPages;
     private bool _isActivate;
+    public Slider BgmSlider;
+    public Slider EffectSlider;
+    private bool _canAdjust;
 
-    // Update is called once per frame
+    public float BgmVolume = 1;
+    public float EffectVolume = 1;
+
+
+    private void Start()
+    {
+        BgmSlider.maxValue = BgmVolume;
+        EffectSlider.maxValue = EffectVolume;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !ManualWindow.activeSelf)
         {
             _isActivate = !_isActivate;
             OpenSystem(_isActivate);
+            CloseSoundBtn();
+            BgmSlider.gameObject.SetActive(false);
+            EffectSlider.gameObject.SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && ManualWindow.activeSelf)
         {
@@ -55,8 +71,18 @@ public class SystemBase : MonoBehaviour
 
     public void SoundBtn()
     {
-        //todo: 사운드 조절 버튼
+        _canAdjust = !_canAdjust;
+        BgmSlider.gameObject.SetActive(_canAdjust);
+        EffectSlider.gameObject.SetActive(_canAdjust);
     }
+
+    private void CloseSoundBtn()
+    {
+        _canAdjust = false;
+        BgmSlider.gameObject.SetActive(_canAdjust);
+        EffectSlider.gameObject.SetActive(_canAdjust);
+    }
+    
 
     public void NextPageBtn()
     {

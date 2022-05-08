@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3633135599772090078}
   - component: {fileID: 3633135599772090079}
   - component: {fileID: 3633135599772090072}
+  - component: {fileID: 4936329044230520903}
   m_Layer: 12
   m_Name: Bringer-of-Death
   m_TagString: Untagged
@@ -126,6 +127,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaea11f78d17e9248b760a029facde04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4936329044230520903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633135599772090074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05f2d273b42d8a641a20df4accf38f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3633135600918620621
