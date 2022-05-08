@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum SoundType
 {
@@ -51,8 +52,11 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        _audioSources[0].volume = FindObjectOfType<SystemBase>().BgmSlider.value;
-        _audioSources[1].volume = FindObjectOfType<SystemBase>().EffectSlider.value;
+        if (!SceneManager.GetActiveScene().name.Equals("Menu"))
+        {
+            _audioSources[0].volume = FindObjectOfType<SystemBase>().BgmSlider.value;
+            _audioSources[1].volume = FindObjectOfType<SystemBase>().EffectSlider.value;
+        }
     }
 
     private void Start()
