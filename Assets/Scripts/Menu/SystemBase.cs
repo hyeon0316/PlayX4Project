@@ -74,22 +74,26 @@ public class SystemBase : MonoBehaviour
 
     public void ResumeBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         _isActivate = false;
         OpenSystem(_isActivate);
     }
 
     public void ControlsBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         OpenControls(true);
     }
 
     public void QuitBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         SceneManager.LoadScene("Menu");
     }
 
     public void SoundBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         _canAdjust = !_canAdjust;
         BgmSlider.gameObject.SetActive(_canAdjust);
         EffectSlider.gameObject.SetActive(_canAdjust);
@@ -105,6 +109,7 @@ public class SystemBase : MonoBehaviour
 
     public void NextPageBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         if (ManualPages.transform.GetChild(0).gameObject.activeSelf)
         {
             ManualPages.transform.GetChild(0).gameObject.SetActive(false);
@@ -118,6 +123,7 @@ public class SystemBase : MonoBehaviour
     }
     public void BackBtn()
     {
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         OpenControls(false);
     }
     
