@@ -29,6 +29,7 @@ public class UsedSlot : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && ItemCount != 0 && !_isCoolDown)
             {
+                FindObjectOfType<SoundManager>().Play("Potion",SoundType.Effect);
                 FillImage.gameObject.SetActive(true);
                 _isCoolDown = true;
                 _time = Item.ItemCoolDown;

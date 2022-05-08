@@ -23,7 +23,7 @@ public class Door : Interaction
             ActionBtn.transform.position = this.GetComponent<BoxCollider>().transform.position + new Vector3(-0.7f, 1f, -0.5f);
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                FindObjectOfType<SoundManager>().Play("Door",SoundType.Effect);
+                FindObjectOfType<SoundManager>().Play("Object/Door",SoundType.Effect);
                 this.GetComponent<Animator>().SetTrigger("OpenDoor");
                 this.GetComponent<BoxCollider>().enabled = false;
             }

@@ -259,7 +259,7 @@ public class Player : Life, I_hp
     {
         if (HP <= 0)
         {
-            FindObjectOfType<SoundManager>().Play("PlayerDead",SoundType.Effect);
+            FindObjectOfType<SoundManager>().Play("Player/PlayerDead",SoundType.Effect);
             PlayerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
             StartCoroutine(ReviveCo());
@@ -727,7 +727,7 @@ public class Player : Life, I_hp
             _playerEffectAnim.SetTrigger("Skill2");
             yield return new WaitForSecondsRealtime(0.31f);
         }
-        FindObjectOfType<SoundManager>().Play("BulletDrop", SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("Player/BulletDrop", SoundType.Effect);
         yield return new WaitForSecondsRealtime(0.09f);
         Playerstate = PlayerstateEnum.Idle;//스킬이 끝나는 타이밍
     }
@@ -975,7 +975,7 @@ public class Player : Life, I_hp
                 if (!_isWallslide)
                 {
                     Debug.Log("2벽충돌");
-                    FindObjectOfType<SoundManager>().Play("PlayerWall",SoundType.Effect);
+                    FindObjectOfType<SoundManager>().Play("Player/PlayerWall",SoundType.Effect);
                     Physics.gravity = Vector3.down * 5f;
                     _rigid.velocity = Vector3.zero;
                     this.transform.GetChild(0).localScale = new Vector3(this.transform.GetChild(0).localScale.x * -1,

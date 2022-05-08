@@ -26,7 +26,7 @@ public class Lobby : MonoBehaviour
 
     public void StartGame()
     {
-        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         EventWindow.SetActive(true);
         OnDialogue(IntroSentences);
     }
@@ -79,19 +79,19 @@ public class Lobby : MonoBehaviour
             switch (rand)
             {
                 case 0:
-                    FindObjectOfType<SoundManager>().Play("IntroTyping1",SoundType.Effect);
+                    FindObjectOfType<SoundManager>().Play("Object/IntroTyping1",SoundType.Effect);
                     break;
                 case 1:
-                    FindObjectOfType<SoundManager>().Play("IntroTyping2",SoundType.Effect);
+                    FindObjectOfType<SoundManager>().Play("Object/IntroTyping2",SoundType.Effect);
                     break;
                 case 2:
-                    FindObjectOfType<SoundManager>().Play("IntroTyping3",SoundType.Effect);
+                    FindObjectOfType<SoundManager>().Play("Object/IntroTyping3",SoundType.Effect);
                     break;
                 case 3:
-                    FindObjectOfType<SoundManager>().Play("IntroTyping4",SoundType.Effect);
+                    FindObjectOfType<SoundManager>().Play("Object/IntroTyping4",SoundType.Effect);
                     break;
                 case 4:
-                    FindObjectOfType<SoundManager>().Play("IntroTyping5",SoundType.Effect);
+                    FindObjectOfType<SoundManager>().Play("Object/IntroTyping5",SoundType.Effect);
                     break;
             }
             yield return new WaitForSeconds(_textDelay);
@@ -101,12 +101,12 @@ public class Lobby : MonoBehaviour
 
     public void ShowManual()
     {
-        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         ManualWindow.SetActive(true);
     }
     public void ExitGame()
     {
-        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
@@ -116,7 +116,7 @@ public class Lobby : MonoBehaviour
     
     public void NextPageBtn()
     {
-        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         if (ManualPages.transform.GetChild(0).gameObject.activeSelf)
         {
             ManualPages.transform.GetChild(0).gameObject.SetActive(false);
@@ -130,7 +130,7 @@ public class Lobby : MonoBehaviour
     }
     public void BackBtn()
     {
-        FindObjectOfType<SoundManager>().Play("Button",SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         ManualWindow.SetActive(false);
     }
 }

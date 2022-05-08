@@ -202,7 +202,7 @@ public class DialogueManager : MonoBehaviour
         {
             _dialogueText.text += letter;
             if(_textDelay == 0.1f)
-                FindObjectOfType<SoundManager>().Play("Talk",SoundType.Effect);
+                FindObjectOfType<SoundManager>().Play("Object/Talk",SoundType.Effect);
             yield return new WaitForSeconds(_textDelay);
         }
     }
