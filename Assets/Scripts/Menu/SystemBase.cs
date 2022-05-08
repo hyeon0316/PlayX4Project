@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 
 public class SystemBase : MonoBehaviour
@@ -19,7 +21,25 @@ public class SystemBase : MonoBehaviour
 
     public float BgmVolume = 1;
     public float EffectVolume = 1;
+    
+    private static SystemBase _instance = null;
 
+    private void Awake()
+    {
+        if (_instance == null && !SceneManager.GetActiveScene().name.Equals("Menu"))
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else 
+        {
+            if (this != _instance)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+    
     private void Start()
     {
         BgmSlider.value = BgmVolume;

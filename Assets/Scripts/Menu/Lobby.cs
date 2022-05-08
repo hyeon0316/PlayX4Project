@@ -27,6 +27,7 @@ public class Lobby : MonoBehaviour
     public void StartGame()
     {
         FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
+        FindObjectOfType<SoundManager>().Play("TownBGM", SoundType.Bgm);
         EventWindow.SetActive(true);
         OnDialogue(IntroSentences);
     }

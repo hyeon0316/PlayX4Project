@@ -37,6 +37,7 @@ public class EndingChest : Interaction
 
    private void GoEnding()
    {
+      FindObjectOfType<SoundManager>().Play("EndingBGM",SoundType.Bgm);
       SceneManager.LoadScene("Ending");
    }
 }
