@@ -48,7 +48,12 @@ public class SoundManager : MonoBehaviour
             }
         }
     }
-    
+
+    private void Update()
+    {
+        _audioSources[0].volume = FindObjectOfType<SystemBase>().BgmSlider.value;
+        _audioSources[1].volume = FindObjectOfType<SystemBase>().EffectSlider.value;
+    }
 
     private void Start()
     {

@@ -23,8 +23,8 @@ public class SystemBase : MonoBehaviour
 
     private void Start()
     {
-        BgmSlider.maxValue = BgmVolume;
-        EffectSlider.maxValue = EffectVolume;
+        BgmSlider.value = BgmVolume;
+        EffectSlider.value = EffectVolume;
     }
 
     void Update()
