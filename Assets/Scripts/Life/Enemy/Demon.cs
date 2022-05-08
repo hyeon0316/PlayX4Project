@@ -165,8 +165,6 @@ public class Demon : Life, I_hp, I_EnemyControl
                     {
                         var obj = _poolingBomb.Dequeue();
                         _useBomb.Add(obj);
-                        //obj.transform.position = this.transform.position;
-                        //todo: 폭탄 드롭을 원형을 그리면서 드롭하게 하기
                         obj.gameObject.SetActive(true);
                         StartCoroutine(DropPosCo(obj));
                     }
@@ -207,8 +205,6 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     private IEnumerator BombSkillCo()
     {
-      
-        
         yield return new WaitForSeconds(1f);
         float time = 0;
         
@@ -355,6 +351,16 @@ public class Demon : Life, I_hp, I_EnemyControl
         {
             if (Cvalue > 0)
             {
+                int rand = Random.Range(0, 2);
+                switch (rand)
+                {
+                    case 0:
+                        FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonHit1",SoundType.Effect);
+                        break;
+                    case 1:
+                        FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonHit2",SoundType.Effect);
+                        break;
+                }
                 StartCoroutine(HitCo());
                 DropBomb();
             }

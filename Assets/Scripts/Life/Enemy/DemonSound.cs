@@ -7,29 +7,28 @@ public class DemonSound : MonoBehaviour
     public enum SoundName
     {
         DemonAttack,
-        DemonHit,
+        DemonArea,
         DemonDead,
+        DemonFireBall,
+        DemonBomb,
     }
 
     public void SelectSound(SoundName name)
     {
         switch (name)
         {
+            case SoundName.DemonBomb:
+                FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonBomb",SoundType.Effect);
+                break;
+            case SoundName.DemonFireBall:
+                FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonFireBall",SoundType.Effect);
+                break;
            case SoundName.DemonAttack:
                FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonAttack",SoundType.Effect);
                break;
-            case SoundName.DemonHit:
-                int rand = Random.Range(0, 2);
-                switch (rand)
-                {
-                    case 0:
-                        FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonHit1",SoundType.Effect);
-                        break;
-                    case 1:
-                        FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonHit2",SoundType.Effect);
-                        break;
-                }
-                break;
+           case SoundName.DemonArea:
+               FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonArea",SoundType.Effect);
+               break;
             case SoundName.DemonDead:
                 FindObjectOfType<SoundManager>().Play("Enemy/Demon/DemonDead",SoundType.Effect);
                 break;

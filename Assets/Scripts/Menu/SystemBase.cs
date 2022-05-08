@@ -20,7 +20,6 @@ public class SystemBase : MonoBehaviour
     public float BgmVolume = 1;
     public float EffectVolume = 1;
 
-
     private void Start()
     {
         BgmSlider.value = BgmVolume;

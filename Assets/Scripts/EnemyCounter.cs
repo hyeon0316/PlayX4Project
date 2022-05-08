@@ -32,6 +32,7 @@ public class EnemyCounter : MonoBehaviour
             else if (this.transform.name.Equals("EnemyPos_Boss"))
             {
                 //todo:보스 컷씬
+                FindObjectOfType<SoundManager>().Play("BossBGM",SoundType.Bgm);
                 _gameManager.PlayCutScene(2);
                 IsPlayerStop = true;
             }
