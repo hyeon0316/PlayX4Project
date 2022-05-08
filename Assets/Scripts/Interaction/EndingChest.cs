@@ -30,14 +30,14 @@ public class EndingChest : Interaction
             _fade.FadeIn();
             this.GetComponent<Animator>().SetTrigger("Open");
             CanInteract = false;
-            Invoke("GoEnding", 2f);
+            FindObjectOfType<SoundManager>().Play("EndingBGM",SoundType.Bgm);
+            Invoke("GoEnding", 1f);
          }
       }
    }
 
    private void GoEnding()
    {
-      FindObjectOfType<SoundManager>().Play("EndingBGM",SoundType.Bgm);
       SceneManager.LoadScene("Ending");
    }
 }
