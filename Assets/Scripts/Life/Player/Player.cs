@@ -33,7 +33,7 @@ public class Player : Life, I_hp
 
     /// <summary>
     /// 무언가를 카운트 해야할때 사용할 배열 변수
-    /// 0: 무적 ,1: 공격 딜레이 2:대쉬배기 쿨타임 3: 총 쿨타임 4:3번째 스킬 쿨타임
+    /// 0: 무적 ,1: 공격 딜레이 2:대쉬배기 쿨타임 3: 총 쿨타임 4:3번째 스킬 쿨타임 5: 구르기 쿨타임
     /// </summary>
     public float[] CountTimeList;
     /// <summary>
@@ -107,7 +107,7 @@ public class Player : Life, I_hp
         _oriSpeed = Speed;
         _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;
-        CountTimeList = new float[5];
+        CountTimeList = new float[6];
         BulletParent = GameObject.Find("Bulletpool").transform;
         BulletPool = new GameObject[12];
         for (int i = 0; i < 12; i++)
@@ -674,10 +674,11 @@ public class Player : Life, I_hp
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-           
+           if(CountTimeList[5] < 0) {
+                CountTimeList[5] = 1.5f;
                 AllstopSkillCor();
                 Roll();
-            
+            }
         }
 
 
@@ -919,7 +920,7 @@ public class Player : Life, I_hp
         Playerstate = PlayerstateEnum.Skill;
         _isRoll = true;
         CountTimeList[0] = 3f;
-        for (int i = 0; i < 13; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             this.transform.Translate(dic * Distance * Time.deltaTime);
 
