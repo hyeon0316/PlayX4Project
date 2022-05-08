@@ -57,8 +57,7 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        if (!SceneManager.GetActiveScene().name.Equals("Menu") && !SceneManager.GetActiveScene().name.Equals("Ending") &&
-            !SceneManager.GetActiveScene().name.Contains("Test"))
+        if (!SceneManager.GetActiveScene().name.Equals("Menu") && !SceneManager.GetActiveScene().name.Contains("Test"))
         {
             _audioSources[0].volume = FindObjectOfType<SystemBase>().BgmSlider.value;
             _audioSources[1].volume = FindObjectOfType<SystemBase>().EffectSlider.value;

@@ -190,12 +190,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraMovetype: 1
-  Player: {fileID: 0}
+  Target: {fileID: 0}
   BackgroundImg: {fileID: 0}
-  CameraMoveSpeed: 0.99
+  CameraMoveSpeed: 3
   FloorCollider: {fileID: 0}
-  MaxCameratoPlayerX: 0.65
-  MinCameratoPlayerX: 0.35
+  MaxCameratoPlayerX: 0
+  MinCameratoPlayerX: 1
   MaxCameratoPlayerY: 0.8
   MinCameratoPlayerY: 0.3
 --- !u!114 &3959288532345245728

@@ -9,12 +9,14 @@ public class Chest : Interaction
 
     private GameObject _dropItem;
     private Transform _dropPos;
-
+    private FadeImage _fade;
+    
     protected override void Awake()
     {
         base.Awake();
         _dropItem = Resources.Load<GameObject>("Prefabs/DropItem");
         _dropPos = this.transform.GetChild(0).GetComponent<Transform>();
+        _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
     }
 
     private void Update()
@@ -32,7 +34,6 @@ public class Chest : Interaction
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 FindObjectOfType<SoundManager>().Play("Object/Chest",SoundType.Effect);
-                CanInteract = false;
                 ActionBtn.SetActive(false);
                 this.GetComponent<BoxCollider>().enabled = false;
                 this.GetComponent<Animator>().SetTrigger("Open");
@@ -47,20 +48,20 @@ public class Chest : Interaction
                 {
                     FindObjectOfType<Inventory>().AddMaterial("SecretKey");
                     FindObjectOfType<Door>().CanOpen = true;
+                    
+                    _fade.FadeIn();
+                    Invoke("DelayFadeOut", 2f);
+
                 }
-
-                if (FindObjectOfType<GameManager>().EnemyPos[1].transform.parent.gameObject.activeSelf)
-                {
-                    FindObjectOfType<Player>().transform.position = GameObject.Find("RevivalPos").transform.position;
-                    FindObjectOfType<CameraManager>().transform.position = FindObjectOfType<Player>().transform.position + Vector3.up;
-                }
-
-                //y - 1.8 , z - 4.5
-
+                CanInteract = false;
             }
         }
     }
 
-   
-    
+    private void DelayFadeOut()
+    {
+        FindObjectOfType<Player>().transform.position = GameObject.Find("RevivalPos").transform.position;
+        FindObjectOfType<CameraManager>().transform.position = FindObjectOfType<Player>().transform.position + Vector3.up;
+        _fade.FadeOut();
+    }
 }

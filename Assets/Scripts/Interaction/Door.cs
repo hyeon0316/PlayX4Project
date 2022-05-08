@@ -26,9 +26,11 @@ public class Door : Interaction
                     FindObjectOfType<Inventory>().DeleteMaterial();
                     this.GetComponent<Animator>().SetTrigger("OpenDoor");
                     this.GetComponent<BoxCollider>().enabled = false;
+                    ActionBtn.SetActive(false);
+                    CanInteract = false;
                 }
             }
-            else
+            else if(!CanOpen)
             {
                 //todo:열 수 없다는 대사만 띄우기
                 if (Input.GetKeyDown(KeyCode.Space))

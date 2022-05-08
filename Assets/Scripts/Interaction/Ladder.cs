@@ -33,7 +33,6 @@ public class Ladder : Interaction
             if (_isLadder)
             {
                 Debug.Log("사다리에서 탈출");
-                FindObjectOfType<SoundManager>().Play("PlayerLanding",SoundType.Effect);
                 ActionBtn.gameObject.SetActive(false);
                 Player.ChangeLadder(this.gameObject, false);
                 _isLadder = false;
