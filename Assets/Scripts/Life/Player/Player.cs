@@ -103,6 +103,7 @@ public class Player : Life, I_hp
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
         Initdata(0,100, 10, 5);
+        Initdata(0,100, 10, 5);
         _oriSpeed = Speed;
         _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;
@@ -223,6 +224,10 @@ public class Player : Life, I_hp
                 
                 HP -= (Cvalue * coefficient);
                 return CheckLiving();
+            }
+            else
+            {
+                return true;
             }
         }
         return false;
@@ -660,7 +665,7 @@ public class Player : Life, I_hp
         {
             if (CountTimeList[4] <= 0)
             {
-                CountTimeList[0] += 1.5f;
+                CountTimeList[0] += 1.8f;
                 CountTimeList[4] = 12f;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill3");
@@ -772,6 +777,7 @@ public class Player : Life, I_hp
 
         //이 함수를 호출하는 타이밍이 공격을 시작하고 나서이다. 그전에 공격할지 말지를 정해야 할것
         Playerstate = PlayerstateEnum.ncSkill;
+        _rigid.velocity = Vector3.zero;
        // PlayerAnim.SetTrigger("Skill3");
        
         if(hitObj.Count == 0)
