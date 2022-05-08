@@ -220,11 +220,12 @@ public class Player : Life, I_hp
 
                 CountTimeList[0] = 1f;
                 PlayerAnim.SetTrigger("Hit");
+                
+                HP -= (Cvalue * coefficient);
+                return CheckLiving();
             }
         }
-
-        HP -= (Cvalue * coefficient);
-        return CheckLiving();
+        return false;
     }
 
     //todo :  KnockBack함수를 Life 클래스를 수정하여 제작할지 테스트후 적용
