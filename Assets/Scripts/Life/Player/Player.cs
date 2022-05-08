@@ -638,7 +638,7 @@ public class Player : Life, I_hp
             if (CountTimeList[2] <= 0)
             {
                 CountTimeList[0] += 1.5f;
-                CountTimeList[2] = 3f;
+                CountTimeList[2] = 10f;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill1");
                 Debug.Log("!!");
@@ -649,7 +649,7 @@ public class Player : Life, I_hp
         {
             if (CountTimeList[3] <= 0)
             {
-                CountTimeList[3] = 2f;
+                CountTimeList[3] = 4f;
                 AllstopSkillCor();
                 enumerators[1] = SkillTwoCor();
                 StartCoroutine(enumerators[1]);
@@ -661,7 +661,7 @@ public class Player : Life, I_hp
             if (CountTimeList[4] <= 0)
             {
                 CountTimeList[0] += 1.5f;
-                CountTimeList[4] = 1f;
+                CountTimeList[4] = 12f;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill3");
              
