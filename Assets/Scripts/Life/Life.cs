@@ -34,7 +34,16 @@ public class Life :MonoBehaviour
     public float HP
     {
         get { return _hp; }
-        set { _hp = value; }
+        set { 
+            if(value > _maxhp)
+            {
+                _hp = _maxhp;
+            }
+            else {
+                _hp = value;
+            }
+            
+        }
 
     }
 
