@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SecondFloorCutSceneCo()
     {
+        GameObject.Find("PlayerUICanvas").SetActive(false);
         yield return new WaitForSeconds(0.5f);
         EnemyCounter.IsPlayerStop = false;
         FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator BossCutSceneCo()
     {
+        GameObject.Find("PlayerUICanvas").SetActive(false);
         Necromancer.IsCutScene = true;
         yield return new WaitForSeconds(0.5f);
         EnemyCounter.IsPlayerStop = false;

@@ -36,4 +36,4 @@ Material:
     - _InnerColor: {r: 0, g: 1, b: 0.006896496, a: 1}
     - _RimColor: {r: 0.2827586, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColor: {r: 0.3207547, g: 0.22952104, b: 0.010590963, a: 1}

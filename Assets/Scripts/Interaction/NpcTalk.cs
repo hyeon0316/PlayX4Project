@@ -26,8 +26,15 @@ public class NpcTalk : Interaction
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 LookPlayer();
-                if(SceneManager.GetActiveScene().name.Equals("Dungeon"))
+                if (SceneManager.GetActiveScene().name.Equals("Dungeon"))
+                {
                     GameObject.Find("PlayerUICanvas").SetActive(false);
+                }
+                else if (SceneManager.GetActiveScene().name.Equals("Town"))
+                {
+                    if(this.transform.Find("QuestionMark").gameObject.activeSelf)
+                        this.transform.Find("QuestionMark").gameObject.SetActive(false);
+                }
 
                 _dialogueManager.Npc = this.GetComponent<NpcTalk>();
                 _dialogueManager.TalkPanel.transform.position = this.transform.position + new Vector3(0.8f, 1.2f, 0.5f);

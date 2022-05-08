@@ -46,7 +46,7 @@ public class Chest : Interaction
                 if(FindObjectOfType<GameManager>().Walf[3].activeSelf)
                 {
                     FindObjectOfType<Inventory>().AddMaterial("SecretKey");
-                    FindObjectOfType<Door>().GetComponent<BoxCollider>().enabled = true;
+                    FindObjectOfType<Door>().CanOpen = true;
                 }
 
                 if (FindObjectOfType<GameManager>().EnemyPos[1].transform.parent.gameObject.activeSelf)
