@@ -697,7 +697,9 @@ public class Player : Life, I_hp
         Ray ray = new Ray(this.transform.position, dic);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 4f, LayerMask.GetMask("Wall")))
+        LayerMask layerMask =LayerMask.GetMask("Wall", "InteractionObj");
+        
+        if (Physics.Raycast(ray, out hit, 4f, layerMask))
         {
             distance = hit.distance * 0.8f;
         }

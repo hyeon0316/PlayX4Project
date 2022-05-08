@@ -120,8 +120,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
             if (Cvalue > 0)
             {
                 _attackDelay += 0.12f;
-                if(_enemystate != Enemystate.Stop)
-                _enemystate = Enemystate.Find;
+               
                 Animator.SetTrigger("Hit");
             }
             HP -= Cvalue * coefficient;
