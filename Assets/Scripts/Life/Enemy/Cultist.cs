@@ -52,7 +52,8 @@ public class Cultist : Life, I_hp, I_EnemyControl
                 FindPlayer();
                 Fieldofview();
                 EnemyMove();
-                LookPlayer();
+                if(Enemystate != Enemystate.Attack)
+                    LookPlayer();
             }
         }
     }
@@ -115,14 +116,17 @@ public class Cultist : Life, I_hp, I_EnemyControl
 
     public bool Gethit(float Cvalue, float coefficient)
     {
-        if (Cvalue > 0)
+        if (HP > 0)
         {
-            _attackDelay += 0.5f;
-            Animator.SetTrigger("Hit");
+            if (Cvalue > 0)
+            {
+                _attackDelay += 0.5f;
+                Animator.SetTrigger("Hit");
+            }
+            HP -= Cvalue * coefficient;
+            return CheckLiving();
         }
-        HP -= Cvalue * coefficient;
-        
-        return CheckLiving();
+        return false;
     }
 
     public bool CheckLiving()
@@ -230,7 +234,7 @@ public class Cultist : Life, I_hp, I_EnemyControl
         {
             this.transform.GetChild(0).localScale = new Vector3(-thisScale.x, thisScale.y, thisScale.z);
         }
-        else if (_EnemyNav.pathEndPosition.x < this.transform.position.x)
+        else
         {
             this.transform.GetChild(0).localScale = new Vector3(thisScale.x, thisScale.y, thisScale.z);
         }

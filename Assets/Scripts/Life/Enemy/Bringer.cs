@@ -75,7 +75,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
       _EnemyNav.isStopped = true;
       Animator.SetBool("IsWalk", false);
       Animator.SetTrigger("Skill");
-      Invoke("StartTracking", 1f);
+      Invoke("StartTracking", 2f);
       _canSkill = false;
   }
 

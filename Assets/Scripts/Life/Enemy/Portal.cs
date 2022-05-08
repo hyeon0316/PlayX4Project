@@ -10,6 +10,7 @@ public class Portal : MonoBehaviour
 
     private void OnEnable()
     {
+        FindObjectOfType<SoundManager>().Play("Enemy/Necromancer/NecromancerPortal",SoundType.Effect);
         this.transform.position = GameObject.Find("Demon_Page1").transform.position +
                                   new Vector3(Random.Range(-2f, 2f), -0.5f, Random.Range(-2f, 2f));
     }

@@ -9918,7 +9918,7 @@ MonoBehaviour:
   - {fileID: 6355902842278276449, guid: 1427a734d1fd5334ab5f1f142e56d396, type: 3}
   - {fileID: 3633135600918620621, guid: a2c22f034583b234c8a49d587f1a20a9, type: 3}
   - {fileID: 8844315805519010293, guid: 762af868af4b3354b8416622c7581de3, type: 3}
-  - {fileID: 0}
+  - {fileID: 8180084656213807409, guid: 4ba33d61d472ff24783bfdef490faf2d, type: 3}
   SpawnPoint: {fileID: 1490646304}
 --- !u!1001 &1021452241
 PrefabInstance:
