@@ -609,42 +609,42 @@ AnimationClip:
     functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.21666667
     functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.38333333
     functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.53333336
     functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.6333333
     functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.75
     functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
+    floatParameter: 7
     intParameter: 0
     messageOptions: 0
   - time: 0.85
