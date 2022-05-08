@@ -579,7 +579,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetTrigger("AgainAttack");
                 CountTimeList[1] = 0.98f;
                 
-                StartCoroutine(Zattackmove());
+               // StartCoroutine(Zattackmove());
 
                   _isAgainAttack = true;
             }
