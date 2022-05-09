@@ -119,7 +119,10 @@ public class Player : Life, I_hp
 
     private void Start()
     {
-        GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.SetActive(true);
+        if (SceneManager.GetActiveScene().name.Equals("Town"))
+        {
+            GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -127,8 +130,15 @@ public class Player : Life, I_hp
         if (SceneManager.GetActiveScene().name.Equals("Town"))
         {
             if (GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.activeSelf)
+            {
                 GameObject.Find("UICanvas").transform.Find("Arrows").transform.position =
                     this.transform.position + Vector3.up;
+            }
+            else if (GameObject.Find("UICanvas").transform.Find("EscBtn").gameObject.activeSelf)
+            {
+                GameObject.Find("UICanvas").transform.Find("EscBtn").transform.position =
+                    this.transform.position + new Vector3(0, 0.7f, 0);
+            }
         }
 
         countTime();
@@ -1020,6 +1030,15 @@ public class Player : Life, I_hp
                     _wallslideObject = _wallslidehit.transform.gameObject.GetInstanceID();
                 }
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Tutorial"))
+        {
+            GameObject.Find("UICanvas").transform.Find("EscBtn").gameObject.SetActive(true);
+            other.GetComponent<BoxCollider>().enabled = false;
         }
     }
 

@@ -50,6 +50,11 @@ public class SystemBase : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !ManualWindow.activeSelf)
         {
+            if (SceneManager.GetActiveScene().name.Equals("Town"))
+            {
+                GameObject.Find("UICanvas").transform.Find("EscBtn").gameObject.SetActive(false);    
+            }
+            
             _isActivate = !_isActivate;
             OpenSystem(_isActivate);
             CloseSoundBtn();

@@ -36,6 +36,7 @@ public class NpcTalk : Interaction
                     {
                         this.transform.Find("QuestionMark").gameObject.SetActive(false);
                         GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.SetActive(false);
+                        GameObject.Find("Tutorial").GetComponent<BoxCollider>().enabled = true;
                     }
                 }
 
