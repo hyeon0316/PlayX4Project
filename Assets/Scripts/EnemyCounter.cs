@@ -15,8 +15,11 @@ public class EnemyCounter : MonoBehaviour
 
     public static bool IsPlayerStop;
 
+    private bool _isEvent;
+
     private void Awake()
     {
+        _isEvent = true;
         _gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -24,10 +27,11 @@ public class EnemyCounter : MonoBehaviour
     {
         if (this.transform.childCount != 0)
         {
-            if (this.transform.name.Equals("EnemyPos_Second"))
+            if (this.transform.name.Equals("EnemyPos_Second") && _isEvent)
             {
                 _gameManager.PlayCutScene(1);
                 IsPlayerStop = true;
+                _isEvent = false;
             }
             else if (this.transform.name.Equals("EnemyPos_Boss"))
             {

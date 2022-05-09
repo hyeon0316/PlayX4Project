@@ -103,7 +103,6 @@ public class Player : Life, I_hp
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
         Initdata(0,100, 10, 5);
-        Initdata(0,100, 10, 5);
         _oriSpeed = Speed;
         _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;
@@ -276,11 +275,16 @@ public class Player : Life, I_hp
     }
     private IEnumerator ReviveCo()
     {
-        //todo: 나중에는 죽었던 시점의 전 방으로 부활
         GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
+        FindObjectOfType<CameraManager>().CameraMovetype = 0;
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Dungeon");
-        
+        GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
+        this.transform.position = GameObject.Find("GameResetPos").transform.position;
+        FindObjectOfType<GameManager>().ActivateCollider("Collider_Dungeon1");
+        FindObjectOfType<CameraManager>().BackgroudUpdate();
+        FindObjectOfType<CameraManager>().ChangeCameraType();
+        Initdata(0, 100, 10, 5);
+        Playerstate = PlayerstateEnum.Idle;
     }
     
     /// <summary>
