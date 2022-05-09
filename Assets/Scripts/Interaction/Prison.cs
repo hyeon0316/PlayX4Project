@@ -6,6 +6,7 @@ using UnityEngine;
 public  class Prison : Interaction
 {
     private FadeImage _fade;
+    private bool _isPrison;
     protected override void Awake()
     {
         _fade = FindObjectOfType<FadeImage>();
@@ -33,9 +34,10 @@ public  class Prison : Interaction
                 FindObjectOfType<Inventory>().DeleteMaterial();
                 ActionBtn.SetActive(false);
                 CanInteract = false;
+                _isPrison = true;
             }
         }
-        if (_fade.IsFade)
+        if (_fade.IsFade && _isPrison)
         {
             FindObjectOfType<NpcTalk>().transform.position = GameObject.Find("EscapePos").transform.position;
                 

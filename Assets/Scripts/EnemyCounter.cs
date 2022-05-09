@@ -9,7 +9,7 @@ public class EnemyCounter : MonoBehaviour
     public int EnemyPosIndex;
     public int WalfIndex;
 
-    private bool _isFreeze;
+    private bool _isLock;
 
     private GameManager _gameManager;
 
@@ -32,28 +32,31 @@ public class EnemyCounter : MonoBehaviour
                 _gameManager.PlayCutScene(1);
                 IsPlayerStop = true;
                 _isEvent = false;
+                _isLock = true;
             }
             else if (this.transform.name.Equals("EnemyPos_Boss"))
             {
-                //todo:보스 컷씬
                 FindObjectOfType<SoundManager>().Play("BossBGM",SoundType.Bgm);
                 _gameManager.PlayCutScene(2);
                 IsPlayerStop = true;
             }
-            _isFreeze = true;
         }
     }
 
     private void Update()
     {
-        if (this.transform.childCount == 0 && _isFreeze)
+        if (_gameManager.EnemyPos[1].activeSelf && _isLock)
         {
-            if (this.transform.name.Equals("EnemyPos_Second"))
+            if (_gameManager.EnemyPos[1].transform.childCount == 0)
             {
                 FindObjectOfType<Inventory>().AddMaterial("PrisonKey");
             }
-            _gameManager.ActivateWalf(EnemyPosIndex,WalfIndex);
-            _isFreeze = false;
+            _isLock = false;
+        }
+
+        if (this.transform.childCount == 0)
+        {
+            _gameManager.ActivateWalf(EnemyPosIndex, WalfIndex);
         }
 
         if (IsPlayerStop)

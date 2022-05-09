@@ -22,7 +22,6 @@ public class MapMove : Interaction
     
     private void Update()
     {
-        
         StartInteract();
     }
     public override void StartInteract()
