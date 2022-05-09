@@ -115,15 +115,22 @@ public class Player : Life, I_hp
             BulletPool[i].SetActive(false);
         }
         _wallslideObject = this.gameObject.GetInstanceID();
-
-
-
-
     }
 
+    private void Start()
+    {
+        GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.SetActive(true);
+    }
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name.Equals("Town"))
+        {
+            if (GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.activeSelf)
+                GameObject.Find("UICanvas").transform.Find("Arrows").transform.position =
+                    this.transform.position + Vector3.up;
+        }
+
         countTime();
         CheckFry();
         if (!_isLadder && !_isWallslide && !SceneManager.GetActiveScene().name.Equals("Town"))

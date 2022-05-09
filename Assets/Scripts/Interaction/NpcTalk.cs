@@ -32,8 +32,11 @@ public class NpcTalk : Interaction
                 }
                 else if (SceneManager.GetActiveScene().name.Equals("Town"))
                 {
-                    if(this.transform.Find("QuestionMark").gameObject.activeSelf)
+                    if (this.transform.Find("QuestionMark").gameObject.activeSelf)
+                    {
                         this.transform.Find("QuestionMark").gameObject.SetActive(false);
+                        GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.SetActive(false);
+                    }
                 }
 
                 _dialogueManager.Npc = this.GetComponent<NpcTalk>();
