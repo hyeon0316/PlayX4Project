@@ -23,8 +23,7 @@ public class EndingChest : Interaction
    {
       if (CanInteract)
       {
-         if (GameObject.Find("PortalParent").transform.Find("Portal").GetComponent<Portal>().SummonEnemysTr.transform
-                .childCount == 0)
+         if (GameObject.Find("PortalParent").GetComponentInChildren<Portal>().SummonEnemysTr.transform.childCount == 0)
          {
             ActionBtn.transform.position = this.transform.position + new Vector3(0, 2f, 0);
             if (Input.GetKeyDown(KeyCode.Space))
