@@ -218,7 +218,7 @@ public class Player : Life, I_hp
                 if (CountTimeList[0] > 0)
                     return CheckLiving();
 
-                CountTimeList[0] = 1f;
+                CountTimeList[0] = 0.42f;
                 PlayerAnim.SetTrigger("Hit");
                 
                 HP -= (Cvalue * coefficient);
