@@ -277,6 +277,7 @@ public class Player : Life, I_hp
     {
         GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
         FindObjectOfType<CameraManager>().CameraMovetype = 0;
+        FindObjectOfType<EnemyHpbar>().HpbarReset();
         yield return new WaitForSeconds(2f);
         GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
         this.transform.position = GameObject.Find("GameResetPos").transform.position;
@@ -285,6 +286,10 @@ public class Player : Life, I_hp
         FindObjectOfType<CameraManager>().ChangeCameraType();
         Initdata(0, 100, 10, 5);
         Playerstate = PlayerstateEnum.Idle;
+        
+       
+
+       
     }
     
     /// <summary>

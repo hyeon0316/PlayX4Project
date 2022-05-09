@@ -9,7 +9,7 @@ public class EnemyHpbar : MonoBehaviour
         HpbarReset();
     }
 
-    private void HpbarReset()
+    public void HpbarReset()
     {
         for(int i = 0; i < this.transform.childCount; i++)
         {
