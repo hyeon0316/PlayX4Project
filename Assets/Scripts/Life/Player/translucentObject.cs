@@ -200,6 +200,8 @@ public class translucentObject : MonoBehaviour
                 if (HitObject[i].transform.childCount > 0) {
                     for(int m = 0; m < HitObject[i].transform.childCount; m++)
                     {
+                        if (HitObject[i].transform.GetChild(m).GetComponent<MeshRenderer>() == null) continue;
+
                         Debug.LogFormat("{0}", HitObject[i].collider.name);
                         int instanceid = HitObject[i].transform.GetChild(m).gameObject.GetInstanceID();
                         AddDic_SaveOcjectInfo(HitObject[i].transform.GetChild(m).gameObject);
@@ -241,7 +243,6 @@ public class translucentObject : MonoBehaviour
                     }
 
                 } else//자기 자신만 투명하게 할려면 자기 자신에 자식이 없어야 한다. 
-                
                 {
                 //맞은 오브젝트의 id 값을 가져와서 저장 및 수정
                 Debug.LogFormat("{0}", HitObject[i].collider.name);
