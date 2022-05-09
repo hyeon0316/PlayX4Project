@@ -175,11 +175,13 @@ public class Bringer : Life, I_hp, I_EnemyControl
       Skill.SetActive(false);
     }
   }
+
   public IEnumerator DeadAniPlayer()
   {
     Enemystate = Enemystate.Dead;
-        _EnemyNav.enabled = true;
-        _EnemyNav.isStopped = true;
+    Living = false;
+    _EnemyNav.enabled = true;
+    _EnemyNav.isStopped = true;
     _EnemyNav.path.ClearCorners();
     while (true)
     {
@@ -191,8 +193,9 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
       yield return new WaitForEndOfFrame();
     }
-        Destroy(this.transform.gameObject, Time.deltaTime);
-    }
+
+    Destroy(this.transform.gameObject, Time.deltaTime);
+  }
 
   public void EnemyAttack(float coefficient)
   {

@@ -186,6 +186,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     }
     public IEnumerator DeadAniPlayer()
     {
+        Living = false;
         _enemyNav.enabled = true;
         _enemyNav.isStopped = true;
         FindObjectOfType<DialogueManager>().OnDialogue(_eventSentences);

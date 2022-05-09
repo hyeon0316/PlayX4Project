@@ -139,6 +139,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
 
     public IEnumerator DeadAniPlayer()
     {
+        Living = false;
         Enemystate = Enemystate.Dead;
         _EnemyNav.enabled = true;
         _EnemyNav.isStopped = true;

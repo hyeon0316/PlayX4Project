@@ -144,6 +144,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
     public IEnumerator DeadAniPlayer()
     {
         Enemystate = Enemystate.Dead;
+        Living = false;
         _EnemyNav.enabled = true;
         _EnemyNav.isStopped = true;
         while (true)

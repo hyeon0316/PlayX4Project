@@ -391,6 +391,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     public IEnumerator DeadAniPlayer()
     {
+        Living = false;
         PollParent.gameObject.SetActive(false);
         _enemyNav.enabled = true;
         _enemyNav.isStopped = true;

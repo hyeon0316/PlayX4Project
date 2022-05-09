@@ -67,6 +67,7 @@ public class Life :MonoBehaviour
     public bool Living
     {
         get { return _living; }
+        set { _living = value; }
     }
 
     /// <summary>
