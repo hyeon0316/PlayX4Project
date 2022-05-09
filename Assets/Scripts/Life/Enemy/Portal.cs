@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class Portal : MonoBehaviour
 {
     public GameObject[] EnemyPrefabs;
-
+    public Transform SummonEnemysTr;
     private void OnEnable()
     {
         FindObjectOfType<SoundManager>().Play("Enemy/Necromancer/NecromancerPortal",SoundType.Effect);
@@ -25,12 +25,15 @@ public class Portal : MonoBehaviour
     {
         if (Necromancer.IsSkill)
         {
-            Instantiate(EnemyPrefabs[4], this.transform.position, this.transform.rotation);
+            GameObject go = Instantiate(EnemyPrefabs[4], this.transform.position, this.transform.rotation);
             Necromancer.IsSkill = false;
+            go.transform.parent = SummonEnemysTr;
         }
         else
         {
-            Instantiate(EnemyPrefabs[Random.Range(0, 4)], this.transform.position, this.transform.rotation);
+            GameObject go = Instantiate(EnemyPrefabs[Random.Range(0, 4)], this.transform.position,
+                this.transform.rotation);
+            go.transform.parent = SummonEnemysTr;
         }
     }
 
