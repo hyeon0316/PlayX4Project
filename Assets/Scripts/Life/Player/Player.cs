@@ -279,6 +279,7 @@ public class Player : Life, I_hp
         FindObjectOfType<CameraManager>().CameraMovetype = 0;
         FindObjectOfType<EnemyHpbar>().HpbarReset();
         yield return new WaitForSeconds(2f);
+        PlayerAnim.SetBool("Dead", false);
         GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
         this.transform.position = GameObject.Find("GameResetPos").transform.position;
         FindObjectOfType<GameManager>().ActivateCollider("Collider_Dungeon1");
@@ -286,9 +287,16 @@ public class Player : Life, I_hp
         FindObjectOfType<CameraManager>().ChangeCameraType();
         Initdata(0, 100, 10, 5);
         Playerstate = PlayerstateEnum.Idle;
-        
-       
 
+        GameManager Enemy = GameObject.Find("GameManager").GetComponent<GameManager>();
+        for(int i = 0; i < Enemy.EnemyPos.Length; i++)
+        {
+            for(int j = 0; j < Enemy.EnemyPos[i].transform.childCount; j++)
+            {
+                if(Enemy.EnemyPos[i].transform.GetChild(j).GetComponent<Life>().HP > 0)
+                Enemy.EnemyPos[i].transform.GetChild(j).GetComponent<I_hp>().Gethit(-999, 1);
+            }
+        }
        
     }
     
