@@ -15,11 +15,13 @@ public class EnemyCounter : MonoBehaviour
 
     public static bool IsPlayerStop;
 
-    private bool _isEvent;
+    private bool _isSecondFloorEvent;
+    private bool _isBossRoomEvent;
 
     private void Awake()
     {
-        _isEvent = true;
+        _isSecondFloorEvent = true;
+        _isBossRoomEvent = true;
         _gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -27,18 +29,19 @@ public class EnemyCounter : MonoBehaviour
     {
         if (this.transform.childCount != 0)
         {
-            if (this.transform.name.Equals("EnemyPos_Second") && _isEvent)
+            if (this.transform.name.Equals("EnemyPos_Second") && _isSecondFloorEvent)
             {
                 _gameManager.PlayCutScene(1);
                 IsPlayerStop = true;
-                _isEvent = false;
+                _isSecondFloorEvent = false;
                 _isLock = true;
             }
-            else if (this.transform.name.Equals("EnemyPos_Boss"))
+            else if (this.transform.name.Equals("EnemyPos_Boss") && _isBossRoomEvent)
             {
                 FindObjectOfType<SoundManager>().Play("BossBGM",SoundType.Bgm);
                 _gameManager.PlayCutScene(2);
                 IsPlayerStop = true;
+                _isBossRoomEvent = false;
             }
         }
     }
