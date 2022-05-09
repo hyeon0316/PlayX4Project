@@ -21,10 +21,11 @@ public class EndingChest : Interaction
 
    public override void StartInteract()
    {
-      if (CanInteract)
+      if (GameObject.Find("SummonEnemysTr").transform.childCount == 0)
       {
-         if (GameObject.Find("PortalParent").GetComponentInChildren<Portal>().SummonEnemysTr.transform.childCount == 0)
+         if (CanInteract)
          {
+
             ActionBtn.transform.position = this.transform.position + new Vector3(0, 2f, 0);
             if (Input.GetKeyDown(KeyCode.Space))
             {
