@@ -86,6 +86,7 @@ public class Demon : Life, I_hp, I_EnemyControl
 
     public void OnDestroy()
     {
+        //todo: 적 모두 처치
         FindObjectOfType<EndingChest>().GetComponent<BoxCollider>().enabled = true;
         FindObjectOfType<Inventory>().AddMaterial("EndingKey");
     }

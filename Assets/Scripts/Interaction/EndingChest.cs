@@ -23,15 +23,19 @@ public class EndingChest : Interaction
    {
       if (CanInteract)
       {
-         ActionBtn.transform.position = this.transform.position + new Vector3(0, 2f, 0);
-         if (Input.GetKeyDown(KeyCode.Space))
+         if (!FindObjectOfType<Assassin>().Living && !FindObjectOfType<BigCultist>().Living &&
+             !FindObjectOfType<Cultist>().Living && !FindObjectOfType<Twisted>().Living && !FindObjectOfType<Bringer>().Living)
          {
-            FindObjectOfType<Inventory>().DeleteMaterial();
-            _fade.FadeIn();
-            this.GetComponent<Animator>().SetTrigger("Open");
-            CanInteract = false;
-            FindObjectOfType<SoundManager>().Play("EndingBGM",SoundType.Bgm);
-            Invoke("GoEnding", 1f);
+            ActionBtn.transform.position = this.transform.position + new Vector3(0, 2f, 0);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+               FindObjectOfType<Inventory>().DeleteMaterial();
+               _fade.FadeIn();
+               this.GetComponent<Animator>().SetTrigger("Open");
+               CanInteract = false;
+               FindObjectOfType<SoundManager>().Play("EndingBGM", SoundType.Bgm);
+               Invoke("GoEnding", 1f);
+            }
          }
       }
    }
