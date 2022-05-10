@@ -201,7 +201,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
             {
                 GameObject boss2 = Resources.Load<GameObject>("Prefabs/Enemy/Demon_Page2");
                 GameObject go = Instantiate(boss2, this.transform.position, this.transform.rotation);
-                go.transform.parent = GameObject.Find("EnemyPos_Boss").transform;
+                go.transform.parent = GameObject.Find("SummonEnemysTr").transform;
                 break;
             }
             yield return new WaitForEndOfFrame();
