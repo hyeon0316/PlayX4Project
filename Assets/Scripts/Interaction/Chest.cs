@@ -48,7 +48,7 @@ public class Chest : Interaction
                 {
                     FindObjectOfType<Inventory>().AddMaterial("SecretKey");
                     FindObjectOfType<Door>().CanOpen = true;
-                    
+                    FindObjectOfType<Player>().IsStop = true;
                     _fade.FadeIn();
                     Invoke("DelayFadeOut", 2f);
 
@@ -63,5 +63,6 @@ public class Chest : Interaction
         FindObjectOfType<Player>().transform.position = GameObject.Find("RevivalPos").transform.position;
         FindObjectOfType<CameraManager>().transform.position = FindObjectOfType<Player>().transform.position + Vector3.up;
         _fade.FadeOut();
+        FindObjectOfType<Player>().IsStop = false;
     }
 }
