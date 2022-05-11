@@ -14,6 +14,7 @@ public class SystemBase : MonoBehaviour
     public GameObject SystemWindow;
     public GameObject ManualWindow;
     public GameObject ManualPages;
+    public GameObject BackButton;
     private bool _isActivate;
     public Slider BgmSlider;
     public Slider EffectSlider;
@@ -117,11 +118,13 @@ public class SystemBase : MonoBehaviour
         FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         if (ManualPages.transform.GetChild(0).gameObject.activeSelf)
         {
+            BackButton.SetActive(true);
             ManualPages.transform.GetChild(0).gameObject.SetActive(false);
             ManualPages.transform.GetChild(1).gameObject.SetActive(true);
         }
         else
         {
+            BackButton.SetActive(false);
             ManualPages.transform.GetChild(0).gameObject.SetActive(true);
             ManualPages.transform.GetChild(1).gameObject.SetActive(false);
         }
