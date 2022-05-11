@@ -2130,7 +2130,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0f32717987d4c92458f72a1214750399, type: 3}
-    m_FontSize: 56
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -2141,9 +2141,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD2B9\uC815 \uBCBD\uC744 \uD5A5\uD574 \uC810\uD504\uD558\uC5EC \n\uC0AC\uC6A9
-    \uAC00\uB2A5.\r\n\uB9DE\uC740\uD3B8\uC758 \uBCBD\uC744 \uD1B5\uD574\r\n\uC704\uB85C
-    \uC624\uB97C \uC218 \uC788\uC74C."
+  m_Text: "\uBCBD\uC744 \uD5A5\uD574 \uC810\uD504\uB97C \uD558\uBA74\n\uBCBD\uC5D0 
+    \uBD99\uC744 \uC218 \uC788\uACE0\n\uADF8 \uC0C1\uD0DC\uB85C \uC810\uD504 \uC2DC
+    \n<color=red>\uBC18\uB300 \uBC29\uD5A5</color>\uC73C\uB85C \uC810\uD504\uAC00
+    \uAC00\uB2A5\uD558\uB2E4."
 --- !u!222 &2223046969111359843
 CanvasRenderer:
   m_ObjectHideFlags: 0

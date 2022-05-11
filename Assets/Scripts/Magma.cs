@@ -38,12 +38,13 @@ public class Magma : MonoBehaviour
     private IEnumerator RevivalCo()
     {
         _fade.FadeIn();
+        FindObjectOfType<Player>().IsStop = true;
         yield return new WaitForSeconds(2f);
         _player.transform.position = GameObject.Find("RevivalPos").transform.position;
         FindObjectOfType<CameraManager>().transform.position = _player.transform.position + Vector3.up;
-        _player.HP -= _player._Maxhp / 3;
         FindObjectOfType<Player>().GetComponent<Rigidbody>().useGravity = false;
         _player.GetComponent<Rigidbody>().useGravity = true;
+        FindObjectOfType<Player>().IsStop = false;
         _fade.FadeOut();
     }
 }

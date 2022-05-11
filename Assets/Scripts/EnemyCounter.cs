@@ -53,8 +53,8 @@ public class EnemyCounter : MonoBehaviour
             if (_gameManager.EnemyPos[1].transform.childCount == 0)
             {
                 FindObjectOfType<Inventory>().AddMaterial("PrisonKey");
+                _isLock = false;
             }
-            _isLock = false;
         }
 
         if (this.transform.childCount == 0)

@@ -44,7 +44,7 @@ public class Chest : Interaction
                     Instantiate(_dropItem, _dropPos.position, _dropPos.rotation);
                 }
 
-                if(FindObjectOfType<GameManager>().Walf[3].activeSelf)
+                if(GameObject.Find("Colliders").transform.Find("Collider_SecondFloor").gameObject.activeSelf)
                 {
                     FindObjectOfType<Inventory>().AddMaterial("SecretKey");
                     FindObjectOfType<Door>().CanOpen = true;
