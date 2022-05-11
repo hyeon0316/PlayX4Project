@@ -6945,6 +6945,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1170560946}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1171962263 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8788397664054473613, guid: d2b4f9d732cf63046b5d970325e6e20f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8788397664700544099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1206602065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12554,7 +12560,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8788397663299600495, guid: d2b4f9d732cf63046b5d970325e6e20f,
+        type: 3}
+      propertyPath: BackButton
+      value: 
+      objectReference: {fileID: 1171962263}
     - target: {fileID: 8788397663311123314, guid: d2b4f9d732cf63046b5d970325e6e20f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788397663874824913, guid: d2b4f9d732cf63046b5d970325e6e20f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788397664054473613, guid: d2b4f9d732cf63046b5d970325e6e20f,
         type: 3}
       propertyPath: m_IsActive
       value: 0
