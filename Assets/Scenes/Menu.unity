@@ -642,6 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d013df4639c2e4c8c3a82b25ba6890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BackButton: {fileID: 2223046968808471600}
   ManualWindow: {fileID: 2223046970212670671}
   ManualPages: {fileID: 2223046968998537222}
   EventWindow: {fileID: 1219736846}
@@ -1957,7 +1958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2223046968808471601
 RectTransform:
   m_ObjectHideFlags: 0

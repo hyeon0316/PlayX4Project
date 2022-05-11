@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 public class Lobby : MonoBehaviour
 {
     public Queue<string> Sentences = new Queue<string>();
-    
+
+    public GameObject BackButton;
     public GameObject ManualWindow;
     public GameObject ManualPages;
     public GameObject EventWindow;
@@ -124,11 +125,13 @@ public class Lobby : MonoBehaviour
         FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         if (ManualPages.transform.GetChild(0).gameObject.activeSelf)
         {
+            BackButton.SetActive(true);
             ManualPages.transform.GetChild(0).gameObject.SetActive(false);
             ManualPages.transform.GetChild(1).gameObject.SetActive(true);
         }
         else
         {
+            BackButton.SetActive(false);
             ManualPages.transform.GetChild(0).gameObject.SetActive(true);
             ManualPages.transform.GetChild(1).gameObject.SetActive(false);
         }
