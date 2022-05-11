@@ -615,6 +615,7 @@ public class Player : Life, I_hp
             if (!_isFry) { 
             if (Input.GetKeyDown(KeyCode.Z))
             {
+               
                 PlayerAnim.SetTrigger("AgainAttack");
                 CountTimeList[1] = 0.98f;
                 
@@ -697,10 +698,12 @@ public class Player : Life, I_hp
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            if (CountTimeList[4] <= 0)
+            if (CountTimeList[4] <= 0 && !_isFry)
             {
                 CountTimeList[0] += 1.8f;
                 CountTimeList[4] = 12f;
+                Playerstate = PlayerstateEnum.ncSkill;
+                _rigid.velocity = Vector3.zero;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill3");
              
