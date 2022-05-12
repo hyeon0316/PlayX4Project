@@ -350,8 +350,8 @@ public class Player : Life, I_hp
                 
                 _rigid.velocity = this._rigid.velocity.y * Vector3.up;
 
-                if (_isWall)
-                {
+               // if (_isWall)
+               // {
                    if(wallisX > 0)//오른쪽에 벽이 있음
                     {
                         h = Mathf.Clamp(h, -1, 0);
@@ -402,7 +402,7 @@ public class Player : Life, I_hp
                             h = Mathf.Clamp(h, 0, 1);
                         }
                     }*/
-                }
+               // }
 
                 if (_isStair)
                 {
@@ -423,6 +423,7 @@ public class Player : Life, I_hp
         {
             //플레이어가 idel 로 변경
             PlayerAnim.SetBool("IsRun", false);
+
             
             if(!_isFry)
             _rigid.velocity =  new Vector3(_rigid.velocity.x * 0.75f, _rigid.velocity.y * 1f, _rigid.velocity.z * 0.75f);
@@ -509,6 +510,7 @@ public class Player : Life, I_hp
             {
                 if (!_isFry)
                 {
+                    _isFry = true;
                     //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
                     gameObject.GetComponent<Rigidbody>().velocity =
                         new Vector3(_rigid.velocity.x, 1 * 10f, _rigid.velocity.z);
@@ -565,7 +567,7 @@ public class Player : Life, I_hp
             float Distance = hit.distance;
             //  Debug.Log(Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.1f && _rigid.velocity.y > 3f)
+            if (!_isFry && Distance > 0.08f && _rigid.velocity.y > 3f)
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
@@ -577,7 +579,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if (_isFry && Distance < 0.1f)
+            if (_isFry && Distance < 0.08f)
             {
                 PlayerAnim.SetBool("IsFall", false);
                 PlayerAnim.SetBool("IsJump", false);
@@ -600,20 +602,21 @@ public class Player : Life, I_hp
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-          //  Debug.Log(Distance);
+            //  Debug.Log(Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.1f)
+            if (!_isFry && Distance > 0.08f)
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
+                PlayerAnim.SetBool("IsRun", false);
             }
-            //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
-            if (_isFry && _rigid.velocity.y < 9.8f)
+                //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
+                if (_isFry && _rigid.velocity.y < 9.8f)
             {//낙하 애니메이션
                 PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if (_isFry && Distance < 0.1f)
+            if (_isFry && Distance < 0.08f)
             {
                
                 PlayerAnim.SetBool("IsFall", false);
@@ -1085,8 +1088,7 @@ public class Player : Life, I_hp
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             _isWall = false;
-            wallisX = 0;
-            wallisZ = 0;
+            
             if (_isWallslide)
             {
             
@@ -1097,36 +1099,48 @@ public class Player : Life, I_hp
                 _wallslideObject = this.gameObject.GetInstanceID();
             }
         }
+
+        if (_isFry) { 
+        wallisX = 0;
+        wallisZ = 0;
+        }
     }
 
      private void OnCollisionEnter(Collision collision)
       {
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
+       // if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
             _isWall = true;
-          
 
-            wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
-            wallisZ = collision.contacts[0].point.z - this.transform.position.z;
-            if (_isFry) 
-                WallSlide();
+        if (_isFry)
+        {
+            if(Mathf.Abs(wallisX) < Math.Abs(collision.contacts[0].point.x - this.transform.position.x))
+              wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
+            if (Mathf.Abs(wallisZ) < Math.Abs(collision.contacts[0].point.z - this.transform.position.z))
+                wallisZ = collision.contacts[0].point.z - this.transform.position.z;
         }
+        if (_isFry) 
+                WallSlide();
+      //  }
 
 
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
+       // if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
             _isWall = true;
 
-
-            wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
-            wallisZ = collision.contacts[0].point.z - this.transform.position.z;
+        if (_isFry)
+        {
+            if (Mathf.Abs(wallisX) < Math.Abs(collision.contacts[0].point.x - this.transform.position.x))
+                wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
+            if (Mathf.Abs(wallisZ) < Math.Abs(collision.contacts[0].point.z - this.transform.position.z))
+                wallisZ = collision.contacts[0].point.z - this.transform.position.z;
+        }
             if (_isFry)
                 WallSlide();
-        }
+       // }
     }
 
     /// <summary>
