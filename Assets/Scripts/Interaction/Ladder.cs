@@ -26,6 +26,7 @@ public class Ladder : Interaction
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Player.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 Player.ChangeLadder(this.gameObject, true);
                 Invoke("LadderOn", 0.1f);
             }

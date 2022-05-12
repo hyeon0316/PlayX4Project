@@ -37,7 +37,7 @@ public class TutorialTrigger : MonoBehaviour
          else if (this.gameObject.name.Equals("CombatOn"))
          {
             _tutorial.PlayerUICanvas.SetActive(true);
-            Instantiate(_tutorial.PracticeEnemy, this.transform.position, this.transform.rotation);
+            Instantiate(_tutorial.PracticeEnemy, this.transform.position+new Vector3(0,1,0), this.transform.rotation);
             FindObjectOfType<Player>().HP -= 20f;
             FindObjectOfType<Inventory>().AddUsed(_tutorial.DropItem, 1);
          }
