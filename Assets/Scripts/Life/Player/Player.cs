@@ -559,9 +559,9 @@ public class Player : Life, I_hp
             Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
         //Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
-        LayerMask layerMask = LayerMask.GetMask("Floor", "Wall", "InterationObj");
+        LayerMask layerMask = 1 << LayerMask.GetMask("Floor") |LayerMask.GetMask("Wall") | LayerMask.GetMask("InterationObj");
 
-        if(Physics.Raycast(ray,out hit, LayerMask.GetMask("Stair")))
+        if(Physics.Raycast(ray,out hit,10f, LayerMask.NameToLayer("Stair")))
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
@@ -598,7 +598,7 @@ public class Player : Life, I_hp
                 }
             }
         
-        }else if (Physics.Raycast(ray, out hit, layerMask))
+        }else if (Physics.Raycast(ray, out hit,10f, layerMask))
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;

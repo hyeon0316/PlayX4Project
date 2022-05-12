@@ -202,6 +202,15 @@ public class translucentObject : MonoBehaviour
                     {
                         if (HitObject[i].transform.GetChild(m).GetComponent<MeshRenderer>() == null) continue;
 
+                        bool checkMaterial = false;
+                        for(int k = 0; k < origin_Material.Length; k++)
+                        {
+                            if (HitObject[i].transform.GetChild(m).GetComponent<MeshRenderer>().material == origin_Material[k])
+                                checkMaterial = true;
+                        }
+
+                        if (!checkMaterial) continue;
+
                         Debug.LogFormat("{0}", HitObject[i].collider.name);
                         int instanceid = HitObject[i].transform.GetChild(m).gameObject.GetInstanceID();
                         AddDic_SaveOcjectInfo(HitObject[i].transform.GetChild(m).gameObject);
@@ -246,7 +255,16 @@ public class translucentObject : MonoBehaviour
                 {
                 //맞은 오브젝트의 id 값을 가져와서 저장 및 수정
                 Debug.LogFormat("{0}", HitObject[i].collider.name);
-                int instanceid = HitObject[i].transform.gameObject.GetInstanceID();
+                    bool checkMaterial = false;
+                    for (int k = 0; k < origin_Material.Length; k++)
+                    {
+                        if (HitObject[i].transform.gameObject.GetComponent<MeshRenderer>().material == origin_Material[k])
+                            checkMaterial = true;
+                    }
+
+                    if (!checkMaterial) continue;
+
+                    int instanceid = HitObject[i].transform.gameObject.GetInstanceID();
                 AddDic_SaveOcjectInfo(HitObject[i].transform.gameObject);
 
                 if (!raycastHits.Contains(HitObject[i].transform.gameObject))
