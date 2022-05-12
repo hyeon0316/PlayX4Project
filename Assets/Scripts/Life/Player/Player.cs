@@ -75,6 +75,9 @@ public class Player : Life, I_hp
 
 
     private bool _isWall = false;
+
+    private float wallisX = 0;
+    private float wallisZ = 0;
     /// <summary>
     /// 벽타고 있는중인지 확인
     /// </summary>
@@ -281,6 +284,7 @@ public class Player : Life, I_hp
     {
         if (HP <= 0)
         {
+            GameObject.Find("Colliders").transform.Find("Collider_Dungeon2").transform.Find("UnderCollider").gameObject.SetActive(true);
             FindObjectOfType<SoundManager>().Play("Player/PlayerDead",SoundType.Effect);
             PlayerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
@@ -348,8 +352,35 @@ public class Player : Life, I_hp
 
                 if (_isWall)
                 {
-                   
-                    if (_isWallslide) { 
+                   if(wallisX > 0)//오른쪽에 벽이 있음
+                    {
+                        h = Mathf.Clamp(h, -1, 0);
+                    }else if(wallisX < 0)
+                    {
+                        h = Mathf.Clamp(h, 0, 1);
+                    }
+                   if(wallisZ > 0)//양수이면 위쪽
+                    {
+                        v = Mathf.Clamp(v, -1, 0);
+                    }else if(wallisZ < 0)
+                    {
+                        v = Mathf.Clamp(v, 0, 1);
+                    }
+
+                    if (_isWallslide)
+                    {
+                        h = 0;
+                        v = 0;
+
+                        if (Input.GetKeyDown(KeyCode.DownArrow))
+                        {
+                           
+                            PlayerAnim.SetBool("WallSlide", false);
+                            Physics.gravity = Vector3.down * 25f;
+                        }
+                    }
+
+                    /*if (_isWallslide) { 
                         //오른쪽
                         if (this.transform.GetChild(0).localScale.x > 0)
                         {
@@ -370,7 +401,7 @@ public class Player : Life, I_hp
                         {
                             h = Mathf.Clamp(h, 0, 1);
                         }
-                    }
+                    }*/
                 }
 
                 if (_isStair)
@@ -553,6 +584,8 @@ public class Player : Life, I_hp
 
                 ChangeFry(false);
                 _isWall = false;
+                wallisX = 0;
+                wallisZ = 0;
                 _wallslideObject = this.gameObject.GetInstanceID();
                 if (_isWallslide)
                 {
@@ -588,6 +621,8 @@ public class Player : Life, I_hp
 
                 ChangeFry(false);
                 _isWall = false;
+                wallisX = 0;
+                wallisZ = 0;
                 _wallslideObject = this.gameObject.GetInstanceID();
                 if (_isWallslide)
                 {
@@ -1016,7 +1051,7 @@ public class Player : Life, I_hp
         
         if (Physics.Raycast(ray, out _wallslidehit, Distance, LayerMask.GetMask("Wall")))
         {
-            _isWall = true;
+            //_isWall = true;
             Debug.Log("1벽충돌");
             if(_wallslidehit.transform.gameObject.GetInstanceID() != _wallslideObject) { 
                 if (!_isWallslide)
@@ -1050,6 +1085,8 @@ public class Player : Life, I_hp
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             _isWall = false;
+            wallisX = 0;
+            wallisZ = 0;
             if (_isWallslide)
             {
             
@@ -1065,17 +1102,38 @@ public class Player : Life, I_hp
      private void OnCollisionEnter(Collision collision)
       {
 
-        if (_isFry) 
-            WallSlide();
-        
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
+            _isWall = true;
+          
 
-      }
-     
-     /// <summary>
-     /// 플레이어의 방향을 바꿔주는 함수
-     /// </summary>
-     /// <param name="scaleX"></param>
-     public void ChangeDirection(bool isChange = true)
+            wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
+            wallisZ = collision.contacts[0].point.z - this.transform.position.z;
+            if (_isFry) 
+                WallSlide();
+        }
+
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            _isWall = true;
+
+
+            wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
+            wallisZ = collision.contacts[0].point.z - this.transform.position.z;
+            if (_isFry)
+                WallSlide();
+        }
+    }
+
+    /// <summary>
+    /// 플레이어의 방향을 바꿔주는 함수
+    /// </summary>
+    /// <param name="scaleX"></param>
+    public void ChangeDirection(bool isChange = true)
      {
          if(isChange)
              this.transform.GetChild(0).localScale = new Vector3(2.5f, 2.5f, 1);
