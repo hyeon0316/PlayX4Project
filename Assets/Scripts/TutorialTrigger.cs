@@ -52,6 +52,7 @@ public class TutorialTrigger : MonoBehaviour
 
    private void DelayLoadScene()
    {
+      FindObjectOfType<SoundManager>().Play("TownBGM", SoundType.Bgm);
       SceneManager.LoadScene("Town");
    }
    
