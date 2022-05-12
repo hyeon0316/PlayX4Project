@@ -95,7 +95,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (!Sentences.Peek().Equals("Delete") && !Sentences.Peek().Equals("Stop") && !Sentences.Peek().Equals("Camera"))
         {
-            if (Sentences.Peek().Contains("보다 싶이"))
+            if (Sentences.Peek().Contains("보다시피"))
             {
                 FindObjectOfType<CameraManager>().Target = Npc.gameObject;
                 StartCoroutine(DelayChangeDirCo());

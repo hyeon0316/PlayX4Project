@@ -86,10 +86,10 @@ public class Necromancer : Life, I_hp, I_EnemyControl
                 Animator.SetBool("IsWalk", false);
                 break;
             case 2:
-            case 3:
                 Debug.Log("일반 소환");
                 StartCoroutine(NomalSummon());
                 break;
+            case 3:
             case 4:
                 if (HP <= _Maxhp / 2)
                 {

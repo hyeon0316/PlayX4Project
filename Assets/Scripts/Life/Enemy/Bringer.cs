@@ -72,7 +72,6 @@ public class Bringer : Life, I_hp, I_EnemyControl
   private void ActiveSkill()
   {
       _attackDelay += 2;
-      _EnemyNav.isStopped = true;
       Animator.SetBool("IsWalk", false);
       Animator.SetTrigger("Skill");
       Invoke("StartTracking", 2f);
@@ -117,7 +116,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
       {
         if (_attackDelay <= 0)
         {
-          _attackDelay = 3f;
+          _attackDelay = 1f;
           Enemystate = Enemystate.Attack;
           Animator.SetBool("IsWalk",false);
           Animator.SetTrigger("Attack");
