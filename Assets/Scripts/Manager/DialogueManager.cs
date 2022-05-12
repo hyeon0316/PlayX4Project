@@ -49,23 +49,26 @@ public class DialogueManager : MonoBehaviour
 
     private void TalkCheck()
     {
-        if (TalkPanel.activeSelf)
+        if (!SceneManager.GetActiveScene().name.Equals("Tutorial"))
         {
-            //텍스트가 전부 채워졌을때
-            if (_dialogueText.text.Equals(_currentSentence))
+            if (TalkPanel.activeSelf)
             {
-                _isTyping = false;
-                _textDelay = 0.1f;
-            }
+                //텍스트가 전부 채워졌을때
+                if (_dialogueText.text.Equals(_currentSentence))
+                {
+                    _isTyping = false;
+                    _textDelay = 0.1f;
+                }
 
-            //대화 진행
-            if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
-            {
-                NextSentence();
-            }
-            else if (_isTyping && Input.GetKeyDown(KeyCode.Space))
-            {
-                _textDelay = 0.0001f;
+                //대화 진행
+                if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
+                {
+                    NextSentence();
+                }
+                else if (_isTyping && Input.GetKeyDown(KeyCode.Space))
+                {
+                    _textDelay = 0.0001f;
+                }
             }
         }
     }

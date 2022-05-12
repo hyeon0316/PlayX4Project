@@ -120,30 +120,8 @@ public class Player : Life, I_hp
         _wallslideObject = this.gameObject.GetInstanceID();
     }
 
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().name.Equals("Town"))
-        {
-            GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.SetActive(true);
-        }
-    }
-
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name.Equals("Town"))
-        {
-            if (GameObject.Find("UICanvas").transform.Find("Arrows").gameObject.activeSelf)
-            {
-                GameObject.Find("UICanvas").transform.Find("Arrows").transform.position =
-                    this.transform.position + Vector3.up;
-            }
-            else if (GameObject.Find("UICanvas").transform.Find("EscBtn").gameObject.activeSelf)
-            {
-                GameObject.Find("UICanvas").transform.Find("EscBtn").transform.position =
-                    this.transform.position + new Vector3(0, 0.7f, 0);
-            }
-        }
-
         countTime();
         CheckFry();
         if (!_isLadder && !_isWallslide && !SceneManager.GetActiveScene().name.Equals("Town"))

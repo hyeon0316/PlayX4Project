@@ -18,6 +18,10 @@ public class Tutorial : MonoBehaviour
 {
     private Player _player;
     public GameObject[] Keys;
+    public GameObject ManualWindow;
+    public GameObject PracticeEnemy;
+    public GameObject PlayerUICanvas;
+    public Item DropItem;
     
     private void Awake()
     {
@@ -32,38 +36,62 @@ public class Tutorial : MonoBehaviour
     private void Update()
     {
         TargetPlayer();
+        SwitchOffKey();
+    }
 
-        if (Keys[(int) KeyIcons.Arrow].activeSelf)
+    private void SwitchOffKey()
+    {
+        if (Keys[(int) KeyIcons.AttackZ].activeSelf)
         {
-            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                Keys[(int) KeyIcons.Arrow].SetActive(false);
+                Keys[(int) KeyIcons.AttackZ].SetActive(false);
             }
         }
         else if (Keys[(int) KeyIcons.AttackX].activeSelf)
         {
-            
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Keys[(int) KeyIcons.AttackX].SetActive(false);
+            }
         }
-        else if (Keys[(int) KeyIcons.AttackX].activeSelf)
+        else if (Keys[(int) KeyIcons.Jump].activeSelf)
         {
-            
+            if (Input.GetKey(KeyCode.C))
+            {
+                Keys[(int) KeyIcons.Jump].SetActive(false);
+            }
         }
-        else if (Keys[(int) KeyIcons.AttackX].activeSelf)
+        else if (Keys[(int) KeyIcons.Shift].activeSelf)
         {
-            
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Keys[(int) KeyIcons.Shift].SetActive(false);
+            }
         }
-        else if (Keys[(int) KeyIcons.AttackX].activeSelf)
+        else if (Keys[(int) KeyIcons.SkillA].activeSelf)
         {
-            
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Keys[(int) KeyIcons.SkillA].SetActive(false);
+            }
         }
-        else if (Keys[(int) KeyIcons.AttackX].activeSelf)
+        else if (Keys[(int) KeyIcons.SkillS].activeSelf)
         {
-            
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Keys[(int) KeyIcons.SkillS].SetActive(false);
+            }
         }
-        
+        else if (Keys[(int) KeyIcons.SkillD].activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                Keys[(int) KeyIcons.SkillD].SetActive(false);
+            }
+        }
     }
 
-    
     /// <summary>
     /// 플레이어 머리 위에 나타내기 위함
     /// </summary>
@@ -78,6 +106,10 @@ public class Tutorial : MonoBehaviour
             }
         }
     }
-    
+
+    public void CloseButton()
+    {
+        ManualWindow.SetActive(false);
+    }
 
 }

@@ -66,11 +66,13 @@ public class Scarecrow : Life,I_hp,I_EnemyControl
         Initdata(99999, 10000, 0, 0);
         Enemystate = Enemystate.Idle;
         animator = this.GetComponentInChildren<Animator>();
+        GameObject.Find("UICanvas").transform.Find("TalkPanel").gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        GameObject.Find("UICanvas").transform.Find("TalkPanel").transform.position =
+            this.transform.position + new Vector3(0.7f, 1.2f, 0);
     }
 }

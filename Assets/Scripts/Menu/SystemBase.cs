@@ -12,9 +12,6 @@ using UnityEngine.SceneManagement;
 public class SystemBase : MonoBehaviour
 {
     public GameObject SystemWindow;
-    public GameObject ManualWindow;
-    public GameObject ManualPages;
-    public GameObject BackButton;
     private bool _isActivate;
     public Slider BgmSlider;
     public Slider EffectSlider;
@@ -49,33 +46,39 @@ public class SystemBase : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !ManualWindow.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (SceneManager.GetActiveScene().name.Equals("Town"))
+            if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
             {
-                GameObject.Find("UICanvas").transform.Find("EscBtn").gameObject.SetActive(false);    
+                if (FindObjectOfType<Tutorial>().ManualWindow.activeSelf)
+                {
+                    FindObjectOfType<Tutorial>().ManualWindow.SetActive(false);
+                    return;
+                }
             }
-            
             _isActivate = !_isActivate;
             OpenSystem(_isActivate);
-            CloseSoundBtn();
             BgmSlider.gameObject.SetActive(false);
             EffectSlider.gameObject.SetActive(false);
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && ManualWindow.activeSelf)
+        FreezeGame();
+    }
+
+    private void FreezeGame()
+    {
+        if (_isActivate)
         {
-            OpenControls(false);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
     }
     
     private void OpenSystem(bool activate)
     {
         SystemWindow.SetActive(activate);
-    }
-
-    private void OpenControls(bool activate)
-    {
-        ManualWindow.SetActive(activate);
     }
 
     public void ResumeBtn()
@@ -85,16 +88,20 @@ public class SystemBase : MonoBehaviour
         OpenSystem(_isActivate);
     }
 
-    public void ControlsBtn()
-    {
-        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
-        OpenControls(true);
-    }
-
-    public void QuitBtn()
+    public void LobbyBtn()
     {
         FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         SceneManager.LoadScene("Menu");
+    }
+
+    public void ExitBtn()
+    {
+        FindObjectOfType<SoundManager>().Play("Object/Button", SoundType.Effect);
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+            Application.Quit();
+    #endif
     }
 
     public void SoundBtn()
@@ -111,29 +118,4 @@ public class SystemBase : MonoBehaviour
         BgmSlider.gameObject.SetActive(_canAdjust);
         EffectSlider.gameObject.SetActive(_canAdjust);
     }
-    
-
-    public void NextPageBtn()
-    {
-        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
-        if (ManualPages.transform.GetChild(0).gameObject.activeSelf)
-        {
-            BackButton.SetActive(true);
-            ManualPages.transform.GetChild(0).gameObject.SetActive(false);
-            ManualPages.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        else
-        {
-            BackButton.SetActive(false);
-            ManualPages.transform.GetChild(0).gameObject.SetActive(true);
-            ManualPages.transform.GetChild(1).gameObject.SetActive(false);
-        }
-    }
-    public void BackBtn()
-    {
-        FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
-        OpenControls(false);
-    }
-    
-
 }
