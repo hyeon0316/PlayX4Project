@@ -510,7 +510,8 @@ public class Player : Life, I_hp
             {
                 if (!_isFry)
                 {
-                    _isFry = true;
+                    ChangeFry(true);
+                  //  _isFry = true;
                     PlayerAnim.SetBool("IsJump", true);
                     //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
                     gameObject.GetComponent<Rigidbody>().velocity =
