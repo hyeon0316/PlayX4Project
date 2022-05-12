@@ -385,7 +385,7 @@ public class Player : Life, I_hp
                 if (_isStair)
                 {
                     transform.position += Vector3.up * 0.1f;
-                    transform.position += Vector3.right * h * 0.05f;
+                    transform.position += Vector3.right * h * 0.1f;
                     //_isStair = false;
                 }
                  
@@ -533,33 +533,37 @@ public class Player : Life, I_hp
         //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
 
 
-        Ray ray = new Ray(transform.position + new Vector3(_playerSprite.sprite.rect.width/ _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x 
+        Ray ray = new Ray(transform.position + new Vector3(_playerSprite.sprite.rect.width * 0.48f/ _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x 
             * Input.GetAxisRaw("Horizontal")
             , -(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0),
             Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
         //Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
-        LayerMask layerMask = 1 << LayerMask.GetMask("Floor") |LayerMask.GetMask("Wall") | LayerMask.GetMask("InterationObj");
+        LayerMask layerMask = 1 << LayerMask.GetMask("Floor", "Wall", "InterationObj") ;
+        int a = 1 << LayerMask.GetMask("Floor") | LayerMask.GetMask("Wall") | LayerMask.GetMask("InterationObj");
 
-        if(Physics.Raycast(ray,out hit,10f, LayerMask.NameToLayer("Stair")))
+
+
+       if (Physics.Raycast(ray,out hit,2f, LayerMask.GetMask("Stair")))
         {
+
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-            //  Debug.Log(Distance);
+             Debug.Log("stair" + Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.08f && _rigid.velocity.y > 3f)
+           /* if (!_isFry && Distance > 0.25f && _rigid.velocity.y > 10f)
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
                 PlayerAnim.SetBool("IsRun", false);
-            }
+            }*/
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < 9.8f)
             {//낙하 애니메이션
                 PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if (_isFry && Distance < 0.08f)
+            if (_isFry && Distance < 0.25f)
             {
                 PlayerAnim.SetBool("IsFall", false);
                 PlayerAnim.SetBool("IsJump", false);
@@ -578,25 +582,26 @@ public class Player : Life, I_hp
                 }
             }
         
-        }else if (Physics.Raycast(ray, out hit,10f, layerMask))
+        }else 
+        if (Physics.Raycast(ray, out hit,50f))
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-            //  Debug.Log(Distance);
+              Debug.Log("aaaa" + Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-            if (!_isFry && Distance > 0.08f)
+          /*  if (!_isFry && Distance > 0.08f)
             {
                 ChangeFry(true);
                 PlayerAnim.SetBool("IsJump", true);
                 PlayerAnim.SetBool("IsRun", false);
-            }
+            }*/
                 //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
                 if (_isFry && _rigid.velocity.y < 9.8f)
             {//낙하 애니메이션
                 PlayerAnim.SetBool("IsFall", true);
             }
             //플레이어가 땅에 도착할때
-            if (_isFry && Distance < 0.08f)
+            if (_isFry && Distance < 0.08f && _rigid.velocity.y < 9.8f)
             {
                
                 PlayerAnim.SetBool("IsFall", false);
@@ -616,6 +621,7 @@ public class Player : Life, I_hp
                 }
             }
         }
+        
     }
 
     public void PlayerAttack()
@@ -1091,9 +1097,10 @@ public class Player : Life, I_hp
 
        // if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
             _isWall = true;
-
+        if(collision.transform.gameObject.layer != LayerMask.GetMask("Stair"))
         if (_isFry)
         {
+            
             if(Mathf.Abs(wallisX) < Math.Abs(collision.contacts[0].point.x - this.transform.position.x))
               wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
             if (Mathf.Abs(wallisZ) < Math.Abs(collision.contacts[0].point.z - this.transform.position.z))
@@ -1110,7 +1117,7 @@ public class Player : Life, I_hp
     {
        // if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
             _isWall = true;
-
+        if (collision.transform.gameObject.layer != LayerMask.GetMask("Stair"))
         if (_isFry)
         {
             if (Mathf.Abs(wallisX) < Math.Abs(collision.contacts[0].point.x - this.transform.position.x))

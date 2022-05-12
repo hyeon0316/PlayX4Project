@@ -205,7 +205,9 @@ public class translucentObject : MonoBehaviour
                         bool checkMaterial = false;
                         for(int k = 0; k < origin_Material.Length; k++)
                         {
-                            if (HitObject[i].transform.GetChild(m).GetComponent<MeshRenderer>().material == origin_Material[k])
+                            if (HitObject[i].transform.GetChild(m).GetComponent<MeshRenderer>().material.mainTexture == origin_Material[k].mainTexture)
+                                checkMaterial = true;
+                            if(HitObject[i].transform.GetChild(m).GetComponent<MeshRenderer>().material.mainTexture == translucent_Material[k].mainTexture)
                                 checkMaterial = true;
                         }
 
@@ -254,11 +256,13 @@ public class translucentObject : MonoBehaviour
                 } else//자기 자신만 투명하게 할려면 자기 자신에 자식이 없어야 한다. 
                 {
                 //맞은 오브젝트의 id 값을 가져와서 저장 및 수정
-                Debug.LogFormat("{0}", HitObject[i].collider.name);
+              //  Debug.LogFormat("{0}", HitObject[i].collider.name);
                     bool checkMaterial = false;
                     for (int k = 0; k < origin_Material.Length; k++)
                     {
-                        if (HitObject[i].transform.gameObject.GetComponent<MeshRenderer>().material == origin_Material[k])
+                        if (HitObject[i].transform.gameObject.GetComponent<MeshRenderer>().material.mainTexture == origin_Material[k].mainTexture)
+                            checkMaterial = true;
+                        if (HitObject[i].transform.gameObject.GetComponent<MeshRenderer>().material.mainTexture == translucent_Material[k].mainTexture)
                             checkMaterial = true;
                     }
 
@@ -291,7 +295,7 @@ public class translucentObject : MonoBehaviour
 
 
                 MaterialPropertyBlock material = new MaterialPropertyBlock();
-                Debug.LogFormat("color {0}", material.GetFloat("_Mode"));
+                //Debug.LogFormat("color {0}", material.GetFloat("_Mode"));
                 material.SetTexture("Albedo", Dic_SaveObjectInfo[instanceid].OrinMaterial.mainTexture);
                 Dic_SaveColor[instanceid] = Change_Color(Dic_SaveColor[instanceid], true);
                 material.SetColor("_Color", Dic_SaveColor[instanceid]);
