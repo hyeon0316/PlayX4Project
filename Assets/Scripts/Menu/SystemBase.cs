@@ -91,6 +91,8 @@ public class SystemBase : MonoBehaviour
     public void LobbyBtn()
     {
         FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
+        _isActivate = false;
+        SystemWindow.SetActive(_isActivate);
         SceneManager.LoadScene("Menu");
     }
 
