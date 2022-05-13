@@ -30,9 +30,10 @@ public class SceneMove : Interaction
                 ActionBtn.transform.position = this.transform.position + new Vector3(-0.2f, 1f, 0);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !FindObjectOfType<Player>().IsStop)
             {
                 FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
+                FindObjectOfType<Player>().IsStop = true;
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
             }

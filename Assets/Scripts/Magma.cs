@@ -32,6 +32,7 @@ public class Magma : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             StartCoroutine(RevivalCo());
+            this.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -45,6 +46,7 @@ public class Magma : MonoBehaviour
         FindObjectOfType<Player>().GetComponent<Rigidbody>().useGravity = false;
         _player.GetComponent<Rigidbody>().useGravity = true;
         FindObjectOfType<Player>().IsStop = false;
+        this.GetComponent<BoxCollider>().enabled = true;
         _fade.FadeOut();
     }
 }

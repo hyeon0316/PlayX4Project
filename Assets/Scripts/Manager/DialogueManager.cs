@@ -184,7 +184,7 @@ public class DialogueManager : MonoBehaviour
         //보스방에서 함수 실행시 오류나므로 조건문 걸어줘야함
         if (SceneManager.GetActiveScene().name.Equals("Dungeon"))
         {
-            if (!_gameManager.EnemyPos[3].transform.gameObject.activeSelf && !_gameManager.EnemyPos[1].transform.gameObject.activeSelf)
+            if (!_gameManager.EnemyPos[3].transform.parent.gameObject.activeSelf && !_gameManager.EnemyPos[1].transform.parent.gameObject.activeSelf)
             {
                 Npc.ActionBtn.SetActive(true);
                 Npc.CanInteract = true;
