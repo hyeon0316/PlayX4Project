@@ -55,6 +55,8 @@ public class Player : Life, I_hp
     /// </summary>
     public Transform PlayerUIObj;
 
+
+    
     /// <summary>
     /// 플레이어가 날고 있는지 확인
     /// </summary>
@@ -99,6 +101,8 @@ public class Player : Life, I_hp
 
     public void Awake()
     {
+
+       
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
         PlayerAnim = transform.GetChild(0).GetComponent<Animator>();
         _playerEffectAnim = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
@@ -384,8 +388,8 @@ public class Player : Life, I_hp
 
                 if (_isStair)
                 {
-                    transform.position += Vector3.up * 0.1f;
-                    transform.position += Vector3.right * h * 0.1f;
+                    transform.position += Vector3.up * 1.5f * Time.deltaTime;
+                    transform.position += Vector3.right * h * 1.5f * Time.deltaTime;
                     //_isStair = false;
                 }
                  

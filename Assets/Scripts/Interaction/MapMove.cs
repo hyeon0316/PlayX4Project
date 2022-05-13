@@ -30,7 +30,7 @@ public class MapMove : Interaction
         {
             ActionBtn.transform.position = this.transform.position + new Vector3(0, 1.2f, 0);
             
-            if (Input.GetKeyDown(KeyCode.Space) && ActionBtn.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Space) && ActionBtn.activeSelf && !_player.IsStop)
             {
                 FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                 ActionBtn.SetActive(false);

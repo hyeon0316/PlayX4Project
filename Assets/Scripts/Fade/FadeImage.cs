@@ -18,12 +18,14 @@ public class FadeImage : MonoBehaviour, IFade
 
     public void FadeIn()
     {
+        StopAllCoroutines();
         gameObject.SetActive(true);
         StartCoroutine(FadeInCo());
     }
 
     public void FadeOut()
     {
+        StopAllCoroutines();
         gameObject.SetActive(true);
         StartCoroutine(FadeOutCo());
     }
