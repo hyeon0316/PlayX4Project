@@ -244,10 +244,12 @@ public class Player : Life, I_hp
         //무적이 아닐때만 넉백을 입는다.
         if (CountTimeList[0] < 0) {
         StartCoroutine(StopTime(1f));
-        Vector3 nomal = (this.transform.position - EnemyPos).normalized;
-        Vector3 vector3 = new Vector3(nomal.x, 0.8f, nomal.z);
-        _rigid.velocity = Vector3.zero;
-        _rigid.velocity = vector3 * 7f;
+            if(Playerstate != PlayerstateEnum.ncSkill) { 
+                Vector3 nomal = (this.transform.position - EnemyPos).normalized;
+                Vector3 vector3 = new Vector3(nomal.x, 0.8f, nomal.z);
+                _rigid.velocity = Vector3.zero;
+                _rigid.velocity = vector3 * 7f;
+            }
         }
     }
 
@@ -914,9 +916,9 @@ public class Player : Life, I_hp
 
             }
         }
-       
-        
-        
+
+        _rigid.velocity = Vector3.zero;
+
         //yield return new WaitForSeconds(0.05f);
 
         yield return new WaitForSeconds(1f);
