@@ -155,7 +155,11 @@ public class DialogueManager : MonoBehaviour
         
         _player.IsStop = false;
         FindObjectOfType<CameraManager>().Target = _player.gameObject;
-        Invoke("ReTalk", 0.1f);
+        if (Vector3.Distance(_player.transform.position, Npc.transform.position) <= 1.2f)
+        {
+            Invoke("ReTalk", 0.01f);
+        }
+
         TalkPanel.SetActive(false);
         StartCoroutine(LetterBoxOffCo());
     }
