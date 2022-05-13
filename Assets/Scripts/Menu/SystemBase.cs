@@ -94,6 +94,7 @@ public class SystemBase : MonoBehaviour
         _isActivate = false;
         SystemWindow.SetActive(_isActivate);
         SceneManager.LoadScene("Menu");
+        Destroy(this.gameObject);
     }
 
     public void ExitBtn()
