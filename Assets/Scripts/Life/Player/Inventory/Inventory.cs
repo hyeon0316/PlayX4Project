@@ -8,6 +8,18 @@ public class Inventory : MonoBehaviour
 
     private UsedSlot _usedSlot;
     private MaterialSlot _materialSlot;
+
+    public MaterialSlot MaterialSlot
+    {
+        get
+        {
+            return _materialSlot;
+        }
+        set
+        {
+            _materialSlot = value;
+        }
+    }
     
     private void Awake()
     {

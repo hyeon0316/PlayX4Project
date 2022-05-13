@@ -155,11 +155,7 @@ public class DialogueManager : MonoBehaviour
         
         _player.IsStop = false;
         FindObjectOfType<CameraManager>().Target = _player.gameObject;
-        if (Vector3.Distance(_player.transform.position, Npc.transform.position) <= 1.2f)
-        {
-            Invoke("ReTalk", 0.01f);
-        }
-
+        Invoke("ReTalk", 0.01f);
         TalkPanel.SetActive(false);
         StartCoroutine(LetterBoxOffCo());
     }
@@ -192,8 +188,11 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Npc.ActionBtn.SetActive(true);
-            Npc.CanInteract = true;
+            if (Vector3.Distance(_player.transform.position, Npc.transform.position) <= 1.2f)
+            {
+                Npc.ActionBtn.SetActive(true);
+                Npc.CanInteract = true;
+            }
         }
     }
 

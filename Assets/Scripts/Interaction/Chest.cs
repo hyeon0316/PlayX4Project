@@ -46,6 +46,7 @@ public class Chest : Interaction
 
                 if(GameObject.Find("Colliders").transform.Find("Collider_SecondFloor").gameObject.activeSelf)
                 {
+                    FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                     FindObjectOfType<Inventory>().AddMaterial("SecretKey");
                     FindObjectOfType<Door>().CanOpen = true;
                     FindObjectOfType<Player>().IsStop = true;

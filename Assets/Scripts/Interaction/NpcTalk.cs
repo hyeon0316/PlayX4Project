@@ -25,6 +25,7 @@ public class NpcTalk : Interaction
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                FindObjectOfType<Player>().GetComponent<Rigidbody>().velocity = Vector3.zero;
                 LookPlayer();
                 if (SceneManager.GetActiveScene().name.Equals("Dungeon"))
                 {

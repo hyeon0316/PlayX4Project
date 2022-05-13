@@ -30,12 +30,13 @@ public class MapMove : Interaction
         {
             ActionBtn.transform.position = this.transform.position + new Vector3(0, 1.2f, 0);
             
-            if (Input.GetKeyDown(KeyCode.Space) && ActionBtn.activeSelf && !_player.IsStop)
+            if (Input.GetKeyDown(KeyCode.Space) &&  !_player.IsStop)
             {
                 FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
                 ActionBtn.SetActive(false);
                 _fade.FadeIn();
                 _player.IsStop = true;
+                _player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
             if (_fade.IsFade)
             {

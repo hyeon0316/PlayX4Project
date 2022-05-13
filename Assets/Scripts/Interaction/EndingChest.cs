@@ -10,7 +10,7 @@ public class EndingChest : Interaction
    protected override void Awake()
    {
       base.Awake();
-      this.GetComponent<BoxCollider>().enabled = false;
+      FindObjectOfType<EndingChest>().GetComponent<BoxCollider>().enabled = false;
       _fade = GameObject.Find("Canvas").transform.Find("FadeImage").GetComponent<FadeImage>();
    }
 
@@ -21,10 +21,12 @@ public class EndingChest : Interaction
 
    public override void StartInteract()
    {
-      if (GameObject.Find("SummonEnemysTr").transform.childCount == 0)
+
+      if (GameObject.Find("SummonEnemysTr").transform.childCount == 0 &&
+          FindObjectOfType<GameManager>().EnemyPos[3].transform.childCount == 0)
       {
          FindObjectOfType<EndingChest>().GetComponent<BoxCollider>().enabled = true;
-         
+
          if (CanInteract)
          {
             ActionBtn.transform.position = this.transform.position + new Vector3(0, 2f, 0);
