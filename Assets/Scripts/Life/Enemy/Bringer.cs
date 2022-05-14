@@ -142,7 +142,8 @@ public class Bringer : Life, I_hp, I_EnemyControl
   {
     if (Cvalue > 0)
     {
-      _attackDelay += 0.5f;
+            if (_attackDelay < 0.06f)
+                _attackDelay += 0.06f;
       Animator.SetTrigger("Hit");
     }
 
