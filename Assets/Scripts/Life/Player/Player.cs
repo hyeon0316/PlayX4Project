@@ -66,10 +66,8 @@ public class Player : Life, I_hp
     /// 계단 확인
     /// </summary>
     private bool _isStair= false;
-    /// <summary>
-    /// 플레이어가 2번째 공격을 할 수 있는지 확인하는 변수
-    /// </summary>
-    private bool _isAgainAttack = false;
+
+    private bool _isWalljump = false;
     /// <summary>
     /// 플레이어가 대화하고 있는지 확인하느변수
     /// </summary>
@@ -315,7 +313,7 @@ public class Player : Life, I_hp
         float h = Input.GetAxisRaw("Horizontal");//x축 으로 이동할때 사용할 변수, 받을 입력값 : a,d
         float v = Input.GetAxisRaw("Vertical");//z 축으로 이동할때 사용할 변수, 받을 입력값 : w,s
                                                //플레이어가 가는 방향으로 보도록 sprite 돌려주기
-        if (Input.GetButton("Horizontal") && !_isWallslide && Playerstate != PlayerstateEnum.Attack)
+        if (Input.GetButton("Horizontal") && !_isWallslide && Playerstate != PlayerstateEnum.Attack && !_isWalljump)
         {
             this.transform.GetChild(0).localScale = new Vector3(Input.GetAxisRaw("Horizontal") == -1 ? -2.5f : 2.5f, 2.5f, 1);
         }
@@ -327,7 +325,7 @@ public class Player : Life, I_hp
             //달리는 상태로 변환
             PlayerAnim.SetBool("IsRun", true);
             //플레이어가 공격중이 아닐때만 이동할 수 있도록 설정
-            if (Playerstate != PlayerstateEnum.Attack)
+            if (Playerstate != PlayerstateEnum.Attack && !_isWalljump)
             {
 
              //   Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
@@ -511,8 +509,8 @@ public class Player : Life, I_hp
                     {
                                 gameObject.GetComponent<Rigidbody>().velocity =
                             new Vector3(this.transform.GetChild(0).localScale.x < 0 ? -7f : 7f, 8f, _rigid.velocity.z);
-                            //점프 애니메이션
-                        
+                        //점프 애니메이션
+                            _isWalljump = true;
                             _isWallslide = false;
                             PlayerAnim.SetBool("IsJump", true);
                             PlayerAnim.SetBool("WallSlide", false);
@@ -575,13 +573,14 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsJump", false);
 
                 ChangeFry(false);
+                _isWalljump = false;
                 _isWall = false;
                 wallisX = 0;
                 wallisZ = 0;
                 _wallslideObject = this.gameObject.GetInstanceID();
                 if (_isWallslide)
                 {
-
+                    
                     _isWallslide = false;
                     PlayerAnim.SetBool("WallSlide", false);
                     Physics.gravity = Vector3.down * 25f;
@@ -614,6 +613,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetBool("IsJump", false);
 
                 ChangeFry(false);
+                _isWalljump = false;
                 _isWall = false;
                 wallisX = 0;
                 wallisZ = 0;
@@ -651,7 +651,7 @@ public class Player : Life, I_hp
                 
                // StartCoroutine(Zattackmove());
 
-                  _isAgainAttack = true;
+                 
             }
             }
 
@@ -661,7 +661,7 @@ public class Player : Life, I_hp
                 CountTimeList[1] = 0.34f;
                 Speed = _slowSpeed;
                // Playerstate = PlayerstateEnum.Attack;
-                _isAgainAttack = true;
+              
             }
            
         }
@@ -709,13 +709,12 @@ public class Player : Life, I_hp
             {
                 CountTimeList[0] += 1.5f;
                 CountTimeList[2] = 10f;
+                Playerstate = PlayerstateEnum.ncSkill;
                 AllstopSkillCor();
                 PlayerAnim.SetTrigger("Skill1");
                 Debug.Log("!!");
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
+        }else if (Input.GetKeyDown(KeyCode.A))
         {
             if (CountTimeList[3] <= 0)
             {
@@ -725,8 +724,7 @@ public class Player : Life, I_hp
                 StartCoroutine(enumerators[1]);
                 Playerstate = PlayerstateEnum.Skill;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.D))
+        }else if (Input.GetKeyDown(KeyCode.D))
         {
             if (CountTimeList[4] <= 0 && !_isFry)
             {
@@ -738,8 +736,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetTrigger("Skill3");
              
             }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        }else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
            if(CountTimeList[5] < 0) {
                 CountTimeList[5] = 1.5f;
@@ -765,7 +762,7 @@ public class Player : Life, I_hp
         Ray ray = new Ray(this.transform.position, dic);
         RaycastHit hit;
 
-        LayerMask layerMask =LayerMask.GetMask("Wall", "InteractionObj");
+        LayerMask layerMask =LayerMask.GetMask("Wall", "InteractionObj","Stair");
         
         if (Physics.Raycast(ray, out hit, 4f, layerMask))
         {
@@ -775,14 +772,14 @@ public class Player : Life, I_hp
         Vector3 startpos = this.transform.position;
         Vector3 endpos = startpos + (Vector3.right * distance);
         
-        Playerstate = PlayerstateEnum.ncSkill;
+       // Playerstate = PlayerstateEnum.ncSkill;
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.1f);
         
       
         _rigid.velocity = Vector3.zero;
         for (int i = 1; i <= 16; i++)
         {
-            Playerstate = PlayerstateEnum.ncSkill;
+           // Playerstate = PlayerstateEnum.ncSkill;
             this.transform.position = Vector3.Slerp(startpos, endpos, i / 16);
             yield return new WaitForEndOfFrame();
         }
@@ -846,7 +843,7 @@ public class Player : Life, I_hp
     {
 
         //이 함수를 호출하는 타이밍이 공격을 시작하고 나서이다. 그전에 공격할지 말지를 정해야 할것
-        Playerstate = PlayerstateEnum.ncSkill;
+       // Playerstate = PlayerstateEnum.ncSkill;
         _rigid.velocity = Vector3.zero;
        // PlayerAnim.SetTrigger("Skill3");
        
@@ -1059,6 +1056,7 @@ public class Player : Life, I_hp
                     this.transform.GetChild(0).localScale.y,
                     this.transform.GetChild(0).localScale.z);
                     PlayerAnim.SetBool("WallSlide", true);
+                    _isWalljump = false;
                     _isWallslide = true;
                     _wallslideObject = _wallslidehit.transform.gameObject.GetInstanceID();
                 }
@@ -1085,6 +1083,7 @@ public class Player : Life, I_hp
             {
             
                 Debug.Log("벽떨어짐");
+                _isWalljump = false;
                 _isWallslide = false;
                 PlayerAnim.SetBool("WallSlide", false);
                 Physics.gravity = Vector3.down * 25;
