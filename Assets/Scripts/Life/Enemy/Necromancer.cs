@@ -29,9 +29,12 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     public static bool IsSkill;
     public static bool IsCutScene;
 
+    public float summonTime;
+
     private string[] _eventSentences;
     private void Awake()
     {
+        summonTime = 10f;
         _canSpecialSummon = true;
         Initdata(100,300, 5, 3);
         PlayerObj = GameObject.Find("Player");
@@ -49,11 +52,22 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     private void Update()
     {
         LookPlayer();
-
+        Summon();
         if (_canSpecialSummon && HP <= _Maxhp / 2)
         {
             StartCoroutine(SpecialSummon());
             _canSpecialSummon = false;
+        }
+    }
+
+
+    public void Summon()
+    {
+        summonTime -= Time.deltaTime;
+        if(summonTime < 0)
+        {
+            summonTime = 7f;
+            StartCoroutine(NomalSummon());
         }
     }
 
@@ -68,7 +82,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         }
         else
         {
-            _selectPattern = Random.Range(-1, 5);
+            _selectPattern = Random.Range(-1, 4);
         }
 
         switch (_selectPattern)
@@ -86,16 +100,13 @@ public class Necromancer : Life, I_hp, I_EnemyControl
                 Animator.SetBool("IsWalk", false);
                 break;
             case 2:
-                Debug.Log("일반 소환");
-                StartCoroutine(NomalSummon());
-                break;
-            case 3:
-            case 4:
                 if (HP <= _Maxhp / 2)
                 {
                     Debug.Log("회복");
                     StartCoroutine(Heal());
                 }
+                break;
+            default:
                 break;
         }
         Invoke("EnemyMove", 2.5f);
@@ -146,7 +157,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
         Portal.transform.GetChild(0).gameObject.SetActive(true);
         Debug.Log("특수소환!");
-        Invoke("EnemyMove", 3f);
+        //Invoke("EnemyMove", 3f);
     }
 
     private IEnumerator Heal()
