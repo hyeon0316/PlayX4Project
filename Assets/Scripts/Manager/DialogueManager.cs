@@ -58,12 +58,14 @@ public class DialogueManager : MonoBehaviour
                 {
                     _isTyping = false;
                     _textDelay = 0.1f;
+                    TalkPanel.transform.Find("Next").gameObject.SetActive(true);
                 }
 
                 //대화 진행
                 if (!_isTyping && Input.GetKeyDown(KeyCode.Space))
                 {
                     NextSentence();
+                    TalkPanel.transform.Find("Next").gameObject.SetActive(false);
                 }
                 else if (_isTyping && Input.GetKeyDown(KeyCode.Space))
                 {
