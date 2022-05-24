@@ -99,8 +99,6 @@ public class Player : Life, I_hp
 
     public void Awake()
     {
-
-       
         //필요한 컴포넌트, 데이터들을 초기화 해준다.
         PlayerAnim = transform.GetChild(0).GetComponent<Animator>();
         _playerEffectAnim = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
@@ -139,19 +137,14 @@ public class Player : Life, I_hp
                 Skill();
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        UpDownStair();
-        UpdateUI();
+        
         if (!_isLadder)
         {
             if (!SceneManager.GetActiveScene().name.Equals("Town") && !IsStop && (Playerstate != PlayerstateEnum.Dead
                     && Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
             {
                 PlayerJump();
-               // WallSlide();
+                // WallSlide();
             }
 
             if (!IsStop && (Playerstate != PlayerstateEnum.Dead&& Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
@@ -165,6 +158,13 @@ public class Player : Life, I_hp
             PlayerAnim.speed = 0;
             LadderMove();
         }
+        
+    }
+
+    private void FixedUpdate()
+    {
+        UpDownStair();
+        UpdateUI();
     }
     
     /// <summary>
@@ -485,10 +485,8 @@ public class Player : Life, I_hp
         //대화중이 아닐때만 점프
         if (Playerstate != PlayerstateEnum.Attack)
         {
-
             //플레이어가 공중에 있는지 확인하여 공중에 떠있지 않을때만 점프를 할 수 있도록 설정
-
-            if (Input.GetKey(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 if (!_isFry)
                 {
