@@ -1463,7 +1463,7 @@ PrefabInstance:
     - target: {fileID: 307459355053265544, guid: 029ac4ddda38ff34eb2229ada1f07828,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.87
+      value: -1.54
       objectReference: {fileID: 0}
     - target: {fileID: 307459355053265544, guid: 029ac4ddda38ff34eb2229ada1f07828,
         type: 3}
@@ -1535,6 +1535,16 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8773585
       objectReference: {fileID: 0}
+    - target: {fileID: 7150615281681587575, guid: 029ac4ddda38ff34eb2229ada1f07828,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150615281681587575, guid: 029ac4ddda38ff34eb2229ada1f07828,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 745f87b1add3d5c45acbabd58f611d9c, type: 2}
     - target: {fileID: 7781940357852372949, guid: 029ac4ddda38ff34eb2229ada1f07828,
         type: 3}
       propertyPath: m_Constraints
@@ -1780,7 +1790,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1830,13 +1840,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724268310}
-  m_LocalRotation: {x: 0.333821, y: -0.16614825, z: 0.7489201, w: 0.54779285}
-  m_LocalPosition: {x: 1.45, y: 4.36, z: -4.96}
+  m_LocalRotation: {x: -0.05132511, y: -0.401125, z: 0.81834173, w: 0.40838858}
+  m_LocalPosition: {x: 2.88, y: 4.36, z: -4.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 142.078, y: -156.228, z: -64.095}
+  m_LocalEulerAnglesHint: {x: 142.078, y: -211.45401, z: -64.095}
 --- !u!1001 &730309692
 PrefabInstance:
   m_ObjectHideFlags: 0
