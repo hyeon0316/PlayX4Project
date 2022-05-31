@@ -122,7 +122,6 @@ public class Player : Life, I_hp
 
     private void Update()
     {
-        Debug.Log(IsStop);
         countTime();
         CheckFry();
         if (!_isLadder && !_isWallslide && !SceneManager.GetActiveScene().name.Equals("Town"))
@@ -591,7 +590,7 @@ public class Player : Life, I_hp
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-              //Debug.Log("aaaa" + Distance);
+            Debug.Log("aaaa" + Distance);
             //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
           /*  if (!_isFry && Distance > 0.08f)
             {
