@@ -8,12 +8,6 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(NavItem,FindObjectOfType<Player>().transform.position,FindObjectOfType<Player>().transform.rotation);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Instantiate(NavItem, FindObjectOfType<Player>().transform.position, Quaternion.identity);
     }
 }

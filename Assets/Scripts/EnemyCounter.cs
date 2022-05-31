@@ -48,9 +48,9 @@ public class EnemyCounter : MonoBehaviour
 
     private void Update()
     {
-        if (_gameManager.EnemyPos[1].activeSelf && _isLock)
+        if (_isLock)
         {
-            if (_gameManager.EnemyPos[1].transform.childCount == 0)
+            if (_gameManager.EnemyPos[2].transform.childCount == 0)
             {
                 FindObjectOfType<Inventory>().AddMaterial("PrisonKey");
                 _isLock = false;

@@ -48,8 +48,10 @@ public class MapMove : Interaction
                 _camera.transform.position += new Vector3(_camera.BackgroundImg.transform.position.x, 0, 0);
 
                 _camera.ChangeCameraType();
-                _fade.FadeOut();
-                _player.IsStop = false;
+                 _fade.FadeOut();
+                 
+                 _player.IsStop = false;
+                 
                 CanInteract = false;
             }
         }

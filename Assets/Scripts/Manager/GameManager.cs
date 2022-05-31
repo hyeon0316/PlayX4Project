@@ -47,8 +47,11 @@ public class GameManager : MonoBehaviour
         if (EnemyPos[enemyPosIndex].transform.childCount == 0)
         {
             Walf[walfIndex].SetActive(true);
-            if(enemyPosIndex == 0)
+            if (enemyPosIndex == 0)
+            {
                 Walf[++walfIndex].SetActive(true);
+                Walf[++walfIndex].SetActive(true);
+            }
         }
     }
 
@@ -67,7 +70,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator SecondFloorCutSceneCo()
     {
         GameObject.Find("PlayerUICanvas").SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         EnemyCounter.IsPlayerStop = false;
         FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);
         _dialogueManager.TalkStart();
