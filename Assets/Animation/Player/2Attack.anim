@@ -704,18 +704,25 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.5833333
+    functionName: SelectSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 7
+    messageOptions: 0
+  - time: 0.5833333
     functionName: AnimEventstartAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
-    functionName: SelectSound
+  - time: 0.6666667
+    functionName: AnimEventKnockback
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 7
+    floatParameter: 5
+    intParameter: 1
     messageOptions: 0
   - time: 0.6666667
     functionName: AnimEventendAttack

@@ -772,8 +772,8 @@ public class Player : Life, I_hp
         
        // Playerstate = PlayerstateEnum.ncSkill;
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.1f);
-        
-      
+
+        _rigid.useGravity = false;
         _rigid.velocity = Vector3.zero;
         for (int i = 1; i <= 16; i++)
         {
@@ -784,9 +784,10 @@ public class Player : Life, I_hp
         _playerEffectAnim.SetTrigger("Skill1");
 
 
-       /* yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
+        yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
             - PlayerAnim.GetCurrentAnimatorStateInfo(0).length * (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime+0.03f));
-       
+        _rigid.useGravity = true;
+        /*
         Playerstate = PlayerstateEnum.Idle;*/
     }
 
