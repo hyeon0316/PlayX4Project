@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator BossCutSceneCo()
     {
         GameObject.Find("PlayerUICanvas").SetActive(false);
-        Necromancer.IsCutScene = true;
+        FindObjectOfType<Necromancer>().IsCutScene = true;
         yield return new WaitForSeconds(0.5f);
         EnemyCounter.IsPlayerStop = false;
         FindObjectOfType<Player>().PlayerAnim.SetBool("IsRun", false);

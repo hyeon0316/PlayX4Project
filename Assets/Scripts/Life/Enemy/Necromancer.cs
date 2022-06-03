@@ -27,7 +27,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     public GameObject Portal;
 
     public static bool IsSkill;
-    public static bool IsCutScene;
+    public bool IsCutScene;
 
     public float summonTime;
 
@@ -63,11 +63,14 @@ public class Necromancer : Life, I_hp, I_EnemyControl
 
     public void Summon()
     {
-        summonTime -= Time.deltaTime;
-        if(summonTime < 0)
+        if (!IsCutScene)
         {
-            summonTime = 7f;
-            StartCoroutine(NomalSummon());
+            summonTime -= Time.deltaTime;
+            if (summonTime < 0)
+            {
+                summonTime = 7f;
+                StartCoroutine(NomalSummon());
+            }
         }
     }
 
