@@ -981,6 +981,7 @@ public class Player : Life, I_hp
         float Distance = 9f;
         Playerstate = PlayerstateEnum.Skill;
         _isRoll = true;
+        this.gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
         CountTimeList[0] = 3f;
         for (int i = 0; i < 10; ++i)
         {
@@ -990,6 +991,7 @@ public class Player : Life, I_hp
         }
         Playerstate = PlayerstateEnum.Idle;
         _isRoll = false;
+        this.gameObject.layer = LayerMask.NameToLayer("Player");
         CountTimeList[0] = 0.01f;
     }
 

@@ -26,6 +26,13 @@ public class PlayerAttack : MonoBehaviour
         HitEnemy(coefficient);
     }
 
+    public void AnimEventKnockback(AnimationEvent animationEvent)//애니메이션 이벤트가 한개만 들어간다.
+    {
+        
+        _canAttack = false;
+        knockbackEnemy(animationEvent.intParameter,animationEvent.floatParameter);
+    }
+
     public void SkillOneAni()
     {
         Player.GetComponent<Player>().SkillOne();
@@ -70,11 +77,6 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < hitEnemyObj.Count; i++)
             {
                 if (hitEnemyObj[i] == null) continue;
-                
-                
-
-                
-
                 float beforehp = hitEnemyObj[i].GetComponent<Life>().HpRatio;
                 if (hitEnemyObj[i].GetComponent<I_hp>().Gethit(Player.GetComponent<Life>().Power, coefficient))
                 {
@@ -87,6 +89,7 @@ public class PlayerAttack : MonoBehaviour
                     {
                         GameObject.Find("Canvas(Enemy)").GetComponent<EnemyHpbar>().SwitchHPbar(hitEnemyObj[i].GetComponent<Life>().LifeId, hitEnemyObj[i].GetComponent<Life>().HpRatio, beforehp, true);
                     }
+                    
                 }
                 else
                 {
@@ -104,7 +107,31 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void knockbackEnemy(int id,float Power)
+    {
+        if(hitEnemyObj.Count > 0) { 
+            for(int i = 0; i < hitEnemyObj.Count; ++i)
+            {
+                if (hitEnemyObj[i].GetComponent<Life>().LifeId >= 10) continue;
 
+                
+
+                Debug.Log("넉백");
+                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().Navstop(1f));
+                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop(0.3f));
+                if(id == 0) { 
+                    hitEnemyObj[i].GetComponent<Life>().KnockBackRight(Player.transform.position, Power);
+                }
+                else if(id == 1)
+                {
+                    hitEnemyObj[i].GetComponent<Life>().KnockBackUp(Player.transform.position, Power);
+                }else if(id == 2)
+                {
+                    hitEnemyObj[i].GetComponent<Life>().KnockBackRightUp(Player.transform.position, Power);
+                }
+            }
+        }
+    }
 
     public void OnTriggerStay(Collider other)
     {
