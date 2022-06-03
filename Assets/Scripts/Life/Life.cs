@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 /*
 1.public으로 선언 된 변수는 앞글자 대문자로 시작
 2. private는 변수 앞에 "_"붙이고  소문자로 시작
@@ -86,7 +87,54 @@ public class Life :MonoBehaviour
         _living = true;
     }
 
-   
+    public void KnockBackRight(Vector3 EnemyPos, float Power)
+    {
+        Debug.Log("knockright");
+        Rigidbody rigid = this.GetComponent<Rigidbody>();
+        Vector3 nomal = (this.transform.position - EnemyPos).normalized;
+        Vector3 vector3 = new Vector3(nomal.x, 0.2f, nomal.z);
+        rigid.velocity = Vector3.zero;
+        rigid.velocity = vector3 * Power;
+    }
+
+    public void KnockBackUp(Vector3 EnemyPos, float Power)
+    {
+        Debug.Log("knockup");
+        Rigidbody rigid = this.GetComponent<Rigidbody>();
+        Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
+        Vector3 vector3 = new Vector3(nomal.x * 0.2f, 1.5f, nomal.z * 0.2f);
+        Debug.Log(vector3);
+        rigid.velocity = Vector3.zero;
+        rigid.velocity = vector3 * Power;
+    }
+
+    public void KnockBackRightUp(Vector3 EnemyPos,float Power)
+    {
+        Debug.Log("knockrightup");
+        Rigidbody rigid = this.GetComponent<Rigidbody>();
+        Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
+        Vector3 vector3 = new Vector3(nomal.x * 0.5f, 0.8f, nomal.z * 0.5f);
+        rigid.velocity = Vector3.zero;
+        rigid.velocity = vector3 * Power;
+    }
+
+    public IEnumerator Navstop(float time)
+    {
+        GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
+        GetComponent<NavMeshAgent>().enabled = false;
+        yield return new WaitForSeconds(time);
+        GetComponent<NavMeshAgent>().enabled = true;
+        GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
+    }
+
+    public IEnumerator AnimStop(float time)
+    {
+        GetComponentInChildren<Animator>().speed = 0;
+        Debug.LogFormat("{0},애니멈춤", time);
+        yield return new WaitForSeconds(time);
+      //GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GetComponentInChildren<Animator>().speed = 1;
+    }
 
 }
 

@@ -864,7 +864,7 @@ public class Player : Life, I_hp
     {
         GameObject[] gameObjects = new GameObject[hitObj.Count];
         _rigid.velocity = Vector3.zero;
-
+        this.gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         for(int i = 0; i < gameObjects.Length; i++)
         {
@@ -876,22 +876,30 @@ public class Player : Life, I_hp
         {
             if (gameObjects[i].name.Contains("Demon"))continue;
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
+            gameObjects[i].GetComponent<Rigidbody>().useGravity = false;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;   
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
         }
-        
+
+
+        Vector3 Playerpos = new Vector3(this.transform.position.x + (this.transform.GetChild(0).localScale.x > 0 ? 1f : -1f)
+            ,this.transform.position.y + 1.3f, this.transform.position.z);
+
+
+        Vector3[] EnemyPos = new Vector3[gameObjects.Length];
+        for (int i = 0; i < gameObjects.Length; i++)
+        {
+            EnemyPos[i] = gameObjects[i].transform.position;
+        }
 
         for (int timeline = 0; timeline < 10; timeline++)
         {
-            
             for (int i = 0; i < gameObjects.Length; i++)
             {
                 if (gameObjects[i].name.Contains("Demon")) continue;
-                gameObjects[i].transform.position += Vector3.up * 0.1f;
+                gameObjects[i].transform.position = Vector3.Lerp(EnemyPos[i],Playerpos,timeline/10f);
             }
-            
             yield return new WaitForEndOfFrame();
-
         }
 
         yield return new WaitForSeconds(0.02f);
@@ -919,24 +927,21 @@ public class Player : Life, I_hp
         yield return new WaitForSeconds(1f);
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         Debug.Log("wait");
+       
+        for (int i = 0; i < gameObjects.Length; i++)
+        {
+            if (gameObjects[i].name.Contains("Demon")) continue;
+        gameObjects[i].GetComponent<Rigidbody>().useGravity = true;
+        }
+
+        yield return new WaitForSeconds(0.33f);
+        
         if (gameObjects.Length >= 1)
         {
             _rigid.useGravity = true;
-
-
         }
 
-        for (int timeline = 0; timeline < 10; timeline++)
-        {
-            yield return new WaitForEndOfFrame();
-            for (int i = 0; i < gameObjects.Length; i++)
-            {
-                if (gameObjects[i].name.Contains("Demon")) continue;
-                gameObjects[i].transform.position += Vector3.down * 0.1f;
-            }
-           
-            
-        }
+       
 
         for (int i = 0; i < gameObjects.Length; i++)
         {
@@ -948,7 +953,7 @@ public class Player : Life, I_hp
         }
         PlayerAnim.SetBool("IsFail", true);
         Playerstate = PlayerstateEnum.Idle;
-        
+        this.gameObject.layer = LayerMask.NameToLayer("Player");
         yield return null;
         
     }
