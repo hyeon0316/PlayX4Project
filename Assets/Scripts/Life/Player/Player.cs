@@ -775,6 +775,7 @@ public class Player : Life, I_hp
 
         _rigid.useGravity = false;
         _rigid.velocity = Vector3.zero;
+        this.gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
         for (int i = 1; i <= 16; i++)
         {
            // Playerstate = PlayerstateEnum.ncSkill;
@@ -787,6 +788,7 @@ public class Player : Life, I_hp
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
             - PlayerAnim.GetCurrentAnimatorStateInfo(0).length * (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime+0.03f));
         _rigid.useGravity = true;
+        this.gameObject.layer = LayerMask.NameToLayer("Player");
         /*
         Playerstate = PlayerstateEnum.Idle;*/
     }
@@ -878,13 +880,14 @@ public class Player : Life, I_hp
             if (gameObjects[i].name.Contains("Demon"))continue;
             gameObjects[i].GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
             gameObjects[i].GetComponent<Rigidbody>().useGravity = false;
+            gameObjects[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
             gameObjects[i].GetComponent<NavMeshAgent>().enabled = false;   
             gameObjects[i].GetComponentInChildren<Animator>().SetTrigger("Hitstart");
         }
 
 
         Vector3 Playerpos = new Vector3(this.transform.position.x + (this.transform.GetChild(0).localScale.x > 0 ? 1f : -1f)
-            ,this.transform.position.y + 1.3f, this.transform.position.z);
+            ,this.transform.position.y + 1.25f, this.transform.position.z);
 
 
         Vector3[] EnemyPos = new Vector3[gameObjects.Length];

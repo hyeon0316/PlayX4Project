@@ -74,5 +74,7 @@ public class Scarecrow : Life,I_hp,I_EnemyControl
     {
         GameObject.Find("UICanvas").transform.Find("TalkPanel").transform.position =
             this.transform.position + new Vector3(0.7f, 1.2f, 0);
+        if(GetComponent<UnityEngine.AI.NavMeshAgent>().enabled)
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }

@@ -226,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Skill: {fileID: 0}
   Animator: {fileID: 0}
-  Attackcrossroad: 1.5
+  Attackcrossroad: 1.7
 --- !u!54 &1105688125231637624
 Rigidbody:
   m_ObjectHideFlags: 0

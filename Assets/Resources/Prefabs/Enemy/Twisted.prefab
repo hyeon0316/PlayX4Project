@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  Attackcrossroad: 1.25
+  Attackcrossroad: 1.5
 --- !u!54 &3752303044635202722
 Rigidbody:
   m_ObjectHideFlags: 0

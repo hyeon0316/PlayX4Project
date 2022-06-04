@@ -55,6 +55,8 @@ public class Cultist : Life, I_hp, I_EnemyControl
                 if(Enemystate != Enemystate.Attack)
                     LookPlayer();
             }
+            if (_EnemyNav.enabled)
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }
 

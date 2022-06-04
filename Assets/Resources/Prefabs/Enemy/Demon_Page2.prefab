@@ -309,7 +309,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8180084656213807409}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1.2, z: 1}
@@ -322,7 +322,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8180084656213807409}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 0.9, z: 1}
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  Attackcrossroad: 1.5
+  Attackcrossroad: 2
   HitMaterial: {fileID: 2100000, guid: 55c04ce684cb542debc357409498bc4e, type: 2}
   PollParent: {fileID: 0}
   FireCollect: {fileID: 2327346611091067011, guid: 3fe690dfd604b734ca26c914afc522a4,

@@ -57,6 +57,9 @@ public class Assassin : Life, I_hp, I_EnemyControl
                 EnemyMove();
                 LookPlayer();
             }
+
+            if(_EnemyNav.enabled)
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }
 

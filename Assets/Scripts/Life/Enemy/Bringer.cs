@@ -63,6 +63,8 @@ public class Bringer : Life, I_hp, I_EnemyControl
                 }
 
             }
+            if (_EnemyNav.enabled)
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
   }
 

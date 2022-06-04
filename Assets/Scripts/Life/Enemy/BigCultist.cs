@@ -50,6 +50,8 @@ public class BigCultist : Life, I_hp, I_EnemyControl
                 Fieldofview();
                 EnemyMove();
             }
+            if (_EnemyNav.enabled)
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
        
     }
