@@ -9326,7 +9326,6 @@ GameObject:
   - component: {fileID: 198468451835195826}
   - component: {fileID: 199568408559293402}
   - component: {fileID: 114834573120130956}
-  - component: {fileID: 1198220035}
   - component: {fileID: 4376782665514866253}
   m_Layer: 0
   m_Name: NavItem
@@ -9343,7 +9342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418895334298486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.17}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4467098888584036}
@@ -14086,28 +14085,6 @@ MonoBehaviour:
   x: 0
   y: 1
   z: 0
---- !u!195 &1198220035
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418895334298486}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.4
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.5
-  m_BaseOffset: 0.44
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &4376782665514866253
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -127,6 +127,11 @@ public class DialogueManager : MonoBehaviour
             {
                 _gameManager.Walf[0].SetActive(true);
             }
+            else if (Npc.transform.Find("Man"))
+            {
+                //todo: 네비게이션 점프맵쪽으로 안내
+                FindObjectOfType<NavSpawner>().SpawnNav(GameObject.Find("JumpMapChest").transform.position);
+            }
         }
         else if (Sentences.Peek().Equals("Stop"))
         {

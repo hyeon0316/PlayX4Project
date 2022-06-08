@@ -52,7 +52,6 @@ public class Chest : Interaction
                     FindObjectOfType<Player>().IsStop = true;
                     _fade.FadeIn();
                     Invoke("DelayFadeOut", 2f);
-
                 }
                 CanInteract = false;
             }
@@ -65,5 +64,7 @@ public class Chest : Interaction
         FindObjectOfType<CameraManager>().transform.position = FindObjectOfType<Player>().transform.position + Vector3.up;
         _fade.FadeOut();
         FindObjectOfType<Player>().IsStop = false;
+        
+        FindObjectOfType<NavSpawner>().SpawnNav(FindObjectOfType<GameManager>().Walf[4].transform.position);
     }
 }
