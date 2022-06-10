@@ -32,6 +32,10 @@ public class CoolDown : MonoBehaviour
     private Text _coolTimeTextD;
     private bool _isCoolDownD;
     private float _timeD;
+    public float TimeD
+    {
+        set { _timeD = value; }
+    }
     private float _maxTimeD;
     
     private void Awake()

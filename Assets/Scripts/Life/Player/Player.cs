@@ -852,7 +852,10 @@ public class Player : Life, I_hp
         {
             PlayerAnim.SetTrigger("NotFlyattack");
             Playerstate = PlayerstateEnum.Idle;
-        }else if (hitObj.Count == 1 && hitObj[0].gameObject.name.Contains("Demon")) {
+            CountTimeList[4] = 3f;//쿨타임 감소
+            FindObjectOfType<CoolDown>().TimeD = CountTimeList[4];
+        }
+        else if (hitObj.Count == 1 && hitObj[0].gameObject.name.Contains("Demon")) {
             _playerEffectAnim.SetTrigger("Skill3");
         }else if(hitObj.Count > 0) { 
         CountTimeList[0] += 1f;

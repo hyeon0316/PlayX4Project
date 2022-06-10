@@ -133,6 +133,15 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void EnemyAnistop(float time)
+    {
+        for(int i = 0; i < hitEnemyObj.Count; i++)
+        {
+            StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop(time));
+            StartCoroutine(hitEnemyObj[i].GetComponent<Life>().GravityStop(time));
+        }
+    }
+
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag.Contains("Enemy"))

@@ -40,6 +40,9 @@ public class Bullet : MonoBehaviour
             Debug.Log("bullet 히트");
             if (other.GetComponent<Life>().HpRatio > 0)
             {
+                StartCoroutine(other.GetComponent<Life>().Navstop(0.3f));
+                StartCoroutine(other.GetComponent<Life>().GravityStop(0.3f));
+                other.GetComponent<Life>().KnockBackRight(this.transform.position, 2);
                 if (other.GetComponent<I_hp>().Gethit(Power, 1))
                 {
                     GameObject.Find("Canvas(Enemy)").GetComponent<EnemyHpbar>().SwitchHPbar(other.GetComponent<Life>().LifeId, other.GetComponent<Life>().HpRatio, beforehp, true);

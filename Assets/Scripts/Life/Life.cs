@@ -92,7 +92,7 @@ public class Life :MonoBehaviour
         Debug.Log("knockright");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
         Vector3 nomal = (this.transform.position - EnemyPos).normalized;
-        Vector3 vector3 = new Vector3(nomal.x, 0.2f, nomal.z);
+        Vector3 vector3 = new Vector3(nomal.x, 0.4f, 0);
         rigid.velocity = Vector3.zero;
         rigid.velocity = vector3 * Power;
     }
@@ -102,7 +102,7 @@ public class Life :MonoBehaviour
         Debug.Log("knockup");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
         Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
-        Vector3 vector3 = new Vector3(nomal.x * 0.2f, 1.5f, nomal.z * 0.2f);
+        Vector3 vector3 = new Vector3(nomal.x * 0.2f, 1.5f, 0);
         Debug.Log(vector3);
         rigid.velocity = Vector3.zero;
         rigid.velocity = vector3 * Power;
@@ -113,7 +113,7 @@ public class Life :MonoBehaviour
         Debug.Log("knockrightup");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
         Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
-        Vector3 vector3 = new Vector3(nomal.x * 0.5f, 0.8f, nomal.z * 0.5f);
+        Vector3 vector3 = new Vector3(nomal.x * 0.5f, 0.8f, 0);
         rigid.velocity = Vector3.zero;
         rigid.velocity = vector3 * Power;
     }
@@ -129,11 +129,20 @@ public class Life :MonoBehaviour
 
     public IEnumerator AnimStop(float time)
     {
+        yield return new WaitForSeconds(0.05f);
         GetComponentInChildren<Animator>().speed = 0;
         Debug.LogFormat("{0},애니멈춤", time);
         yield return new WaitForSeconds(time);
       //GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponentInChildren<Animator>().speed = 1;
+    }
+
+    public IEnumerator GravityStop(float time)
+    {
+        yield return new WaitForEndOfFrame();
+        GetComponent<Rigidbody>().useGravity = false;
+        yield return new WaitForSeconds(time);
+        GetComponent<Rigidbody>().useGravity = true;
     }
 
 }
