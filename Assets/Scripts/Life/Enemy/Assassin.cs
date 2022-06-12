@@ -124,8 +124,8 @@ public class Assassin : Life, I_hp, I_EnemyControl
             {
                 if (_attackDelay < 0.06f)
                     _attackDelay += 0.06f;
-               
-                Animator.SetTrigger("Hit");
+
+                Animator.SetTrigger("Hitstart");
             }
             HP -= Cvalue * coefficient;
             return CheckLiving();

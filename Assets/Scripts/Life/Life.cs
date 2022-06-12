@@ -127,22 +127,29 @@ public class Life :MonoBehaviour
         GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
     }
 
+  
+
+
     public IEnumerator AnimStop(float time)
     {
-        yield return new WaitForSeconds(0.05f);
+       
+        yield return new WaitForSeconds(0.15f);
         GetComponentInChildren<Animator>().speed = 0;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         Debug.LogFormat("{0},애니멈춤", time);
         yield return new WaitForSeconds(time);
-      //GetComponent<Rigidbody>().velocity = Vector3.zero;
+     
         GetComponentInChildren<Animator>().speed = 1;
     }
 
     public IEnumerator GravityStop(float time)
     {
         yield return new WaitForEndOfFrame();
-        GetComponent<Rigidbody>().useGravity = false;
-        yield return new WaitForSeconds(time);
-        GetComponent<Rigidbody>().useGravity = true;
+        if (GetComponent<Rigidbody>().useGravity) { 
+            GetComponent<Rigidbody>().useGravity = false;
+            yield return new WaitForSeconds(time);
+            GetComponent<Rigidbody>().useGravity = true;
+        }
     }
 
 }
