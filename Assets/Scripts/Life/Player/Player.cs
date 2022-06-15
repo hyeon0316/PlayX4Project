@@ -770,12 +770,12 @@ public class Player : Life, I_hp
         Vector3 startpos = this.transform.position;
         Vector3 endpos = startpos + (Vector3.right * distance);
         
-       // Playerstate = PlayerstateEnum.ncSkill;
+      
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.1f);
 
         _rigid.useGravity = false;
         _rigid.velocity = Vector3.zero;
-        this.gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
+      
         for (int i = 1; i <= 16; i++)
         {
            // Playerstate = PlayerstateEnum.ncSkill;
@@ -788,9 +788,7 @@ public class Player : Life, I_hp
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
             - PlayerAnim.GetCurrentAnimatorStateInfo(0).length * (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime+0.03f));
         _rigid.useGravity = true;
-        this.gameObject.layer = LayerMask.NameToLayer("Player");
-        /*
-        Playerstate = PlayerstateEnum.Idle;*/
+
     }
 
     IEnumerator SkillTwoCor()
@@ -869,7 +867,6 @@ public class Player : Life, I_hp
     IEnumerator SkillThreeCor(List<GameObject> hitObj)
     {
         GameObject[] gameObjects = new GameObject[hitObj.Count];
-        this.gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
         _rigid.velocity = Vector3.zero;
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         for(int i = 0; i < gameObjects.Length; i++)
@@ -960,8 +957,8 @@ public class Player : Life, I_hp
         }
         PlayerAnim.SetBool("IsFail", true);
         Playerstate = PlayerstateEnum.Idle;
-        this.gameObject.layer = LayerMask.NameToLayer("Player");
-        yield return null;
+      
+      
         
     }
 
@@ -993,7 +990,7 @@ public class Player : Life, I_hp
         float Distance = 9f;
         Playerstate = PlayerstateEnum.Skill;
         _isRoll = true;
-        this.gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
+       
         CountTimeList[0] = 3f;
         for (int i = 0; i < 10; ++i)
         {
@@ -1003,7 +1000,7 @@ public class Player : Life, I_hp
         }
         Playerstate = PlayerstateEnum.Idle;
         _isRoll = false;
-        this.gameObject.layer = LayerMask.NameToLayer("Player");
+        
         CountTimeList[0] = 0.01f;
     }
 
