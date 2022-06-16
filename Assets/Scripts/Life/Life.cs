@@ -120,11 +120,14 @@ public class Life :MonoBehaviour
 
     public IEnumerator Navstop(float time)
     {
-        GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
-        GetComponent<NavMeshAgent>().enabled = false;
-        yield return new WaitForSeconds(time);
-        GetComponent<NavMeshAgent>().enabled = true;
-        GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
+        if (GetComponent<NavMeshAgent>().enabled) { 
+            GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
+            yield return new WaitForSeconds(time);
+            GetComponent<NavMeshAgent>().enabled = true;
+            GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
+        
     }
 
   
@@ -147,9 +150,9 @@ public class Life :MonoBehaviour
         yield return new WaitForEndOfFrame();
         if (GetComponent<Rigidbody>().useGravity) { 
             GetComponent<Rigidbody>().useGravity = false;
+        }
             yield return new WaitForSeconds(time);
             GetComponent<Rigidbody>().useGravity = true;
-        }
     }
 
 }
