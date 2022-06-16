@@ -118,20 +118,25 @@ public class Life :MonoBehaviour
         rigid.velocity = vector3 * Power;
     }
 
+
+    public void NA_stop(float time)
+    {
+        StartCoroutine(Navstop(0.065f * time));
+        StartCoroutine(GravityStop(0.03f * time));
+    }
+
     public IEnumerator Navstop(float time)
     {
-        if (GetComponent<NavMeshAgent>().enabled) { 
+        
             GetComponent<I_EnemyControl>()._enemystate = Enemystate.Stop;
             GetComponent<NavMeshAgent>().enabled = false;
-        }
+        
             yield return new WaitForSeconds(time);
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
         
+
     }
-
-  
-
 
     public IEnumerator AnimStop(float time)
     {
@@ -148,11 +153,12 @@ public class Life :MonoBehaviour
     public IEnumerator GravityStop(float time)
     {
         yield return new WaitForEndOfFrame();
-        if (GetComponent<Rigidbody>().useGravity) { 
-            GetComponent<Rigidbody>().useGravity = false;
-        }
-            yield return new WaitForSeconds(time);
-            GetComponent<Rigidbody>().useGravity = true;
+       
+        GetComponent<Rigidbody>().useGravity = false;
+        yield return new WaitForSeconds(time);
+        GetComponent<Rigidbody>().useGravity = true;
+        
+
     }
 
 }
