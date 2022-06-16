@@ -80,7 +80,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 36864
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 8844315804988702803}
   - component: {fileID: 7784453772358498464}
   - component: {fileID: 6482011282160307946}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: Necromancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

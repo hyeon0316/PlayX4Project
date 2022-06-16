@@ -120,7 +120,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 36864
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 9190827484140560594}
   - component: {fileID: 9190827484140560595}
   - component: {fileID: 2675074614684886086}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

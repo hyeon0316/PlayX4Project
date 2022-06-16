@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3633135599772090079}
   - component: {fileID: 3633135599772090072}
   - component: {fileID: 4936329044230520903}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: Bringer-of-Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 36864
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0

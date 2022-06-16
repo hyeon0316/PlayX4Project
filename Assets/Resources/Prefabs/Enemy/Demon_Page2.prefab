@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5674995314980268689}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 36864
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 8180084655686650007}
   - component: {fileID: 394007404350379499}
   - component: {fileID: 8931673637780769399}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: Demon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
