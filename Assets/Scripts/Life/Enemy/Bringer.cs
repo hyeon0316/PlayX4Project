@@ -140,6 +140,24 @@ public class Bringer : Life, I_hp, I_EnemyControl
     }
   }
 
+  public void SelectHit(AttackHitSoundType type)
+  {
+    switch (type)
+    {
+      case AttackHitSoundType.ZHit:
+        break;
+      case AttackHitSoundType.XHit:
+        break;
+      case AttackHitSoundType.AHit:
+        break;
+      case AttackHitSoundType.SHit:
+        FindObjectOfType<SoundManager>().Play("Player/DashAttackHit",SoundType.Effect);
+        break;
+      case AttackHitSoundType.DHit:
+        break;
+    }
+  }
+  
   public bool Gethit(float Cvalue , float coefficient)
   {
     if (Cvalue > 0)

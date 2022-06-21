@@ -202,6 +202,11 @@ public class Player : Life, I_hp
         }
     }
 
+    public void SelectHit(AttackHitSoundType type)
+    {
+        
+    }
+
     /// <summary>
     /// 플레이어의 체력값을 변경할 수 있는 함수
     /// </summary>

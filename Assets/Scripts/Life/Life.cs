@@ -180,6 +180,8 @@ public interface I_hp
     /// </summary>
     /// <returns></returns>
     bool CheckLiving();
+
+    void SelectHit(AttackHitSoundType type);
 }
 
 public enum Enemystate

@@ -2,8 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackHitSoundType
+{
+    XHit,
+    ZHit,
+    AHit,
+    SHit,
+    DHit,
+    Empty
+}
 public class PlayerAttack : MonoBehaviour
 {
+    public AttackHitSoundType Type;
     private bool _canAttack = false;
 
     public GameObject Player;
@@ -61,6 +71,18 @@ public class PlayerAttack : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 적 히트 성공시 따로 필요한 사운드 재생
+    /// </summary>
+    /// <param name="type"></param>
+    public void SelectHitSound(AttackHitSoundType type)
+    {
+        for (int i = 0; i < hitEnemyObj.Count; i++)
+        {
+            if (hitEnemyObj[i] == null) continue;
+            hitEnemyObj[i].GetComponent<I_hp>().SelectHit(type);
+        }
+    }
     public void HitEnemy(float coefficient)
     {
         bool hitBoss = false;
