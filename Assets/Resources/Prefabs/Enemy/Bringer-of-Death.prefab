@@ -225,6 +225,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 0}
+  BloodPrefab: {fileID: 8558368083341669127, guid: 46c4dfdb2eb53b14283aaf17cf9f2457,
+    type: 3}
   Animator: {fileID: 0}
   Attackcrossroad: 1.7
 --- !u!54 &1105688125231637624

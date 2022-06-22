@@ -14,7 +14,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         get { return Enemystate; }
         set { Enemystate = value; }
     }
-
+    public GameObject BloodPrefab;
 
     static public GameObject PlayerObj;
     public Animator Animator;
@@ -172,6 +172,13 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         //todo: 자신 체력 회복(전체적인 밸런스 정해지면 그때 수치 기입)
     }
     
+    private IEnumerator BloodCo()
+    {
+        GameObject obj = Instantiate(BloodPrefab, this.transform.position, Quaternion.identity);
+        obj.transform.localScale = new Vector3(1f, 1f, 1f);
+        yield return new WaitForSeconds(0.7f);
+        Destroy(obj);
+    }
     public void SelectHit(AttackHitSoundType type)
     {
         switch (type)
@@ -190,6 +197,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
                 break;
             case AttackHitSoundType.SHit:
                 FindObjectOfType<SoundManager>().Play("Player/DashAttackHit",SoundType.Effect);
+                StartCoroutine(BloodCo());
                 break;
         }
     }

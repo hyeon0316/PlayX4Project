@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Assassin : Life, I_hp, I_EnemyControl
 {
     static public GameObject PlayerObj;
-    
+    public GameObject BloodPrefab;
 
     public Enemystate Enemystate;
 
@@ -115,7 +115,13 @@ public class Assassin : Life, I_hp, I_EnemyControl
             }
         }
     }
-
+    private IEnumerator BloodCo()
+    {
+        GameObject obj = Instantiate(BloodPrefab, this.transform.position, Quaternion.identity);
+        obj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        yield return new WaitForSeconds(0.7f);
+        Destroy(obj);
+    }
     public void SelectHit(AttackHitSoundType type)
     {
         switch (type)
@@ -134,6 +140,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
                 break;
             case AttackHitSoundType.SHit:
                 FindObjectOfType<SoundManager>().Play("Player/DashAttackHit",SoundType.Effect);
+                StartCoroutine(BloodCo());
                 break;
         }
     }

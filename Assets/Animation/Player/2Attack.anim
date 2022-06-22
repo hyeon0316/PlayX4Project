@@ -806,7 +806,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 6
     messageOptions: 0
-  - time: 0.25
+  - time: 0.33333334
     functionName: SelectHitSound
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -841,7 +841,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
+  - time: 0.6666667
     functionName: SelectHitSound
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -330,6 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47620424e5088e48b8c3de70dde906f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BloodPrefab: {fileID: 8558368083341669127, guid: 46c4dfdb2eb53b14283aaf17cf9f2457,
+    type: 3}
   Enemystate: 0
   Animator: {fileID: 0}
   Attackcrossroad: 0.5

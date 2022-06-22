@@ -11,7 +11,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
     static public GameObject PlayerObj;
 
     public GameObject Skill;
-
+    public GameObject BloodPrefab;
     private Enemystate Enemystate;
 
     public Enemystate _enemystate
@@ -139,7 +139,13 @@ public class Bringer : Life, I_hp, I_EnemyControl
             }
         }
     }
-
+    private IEnumerator BloodCo()
+    {
+        GameObject obj = Instantiate(BloodPrefab, this.transform.position, Quaternion.identity);
+        obj.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        yield return new WaitForSeconds(0.7f);
+        Destroy(obj);
+    }
     public void SelectHit(AttackHitSoundType type)
     {
         switch (type)
@@ -158,6 +164,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
                 break;
             case AttackHitSoundType.SHit:
                 FindObjectOfType<SoundManager>().Play("Player/DashAttackHit", SoundType.Effect);
+                StartCoroutine(BloodCo());
                 break;
         }
     }
