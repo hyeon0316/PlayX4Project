@@ -5,10 +5,10 @@ using UnityEngine;
 public enum AttackHitSoundType
 {
     XHit,
-    ZHit,
+    ZHit1,
+    ZHit2,
     AHit,
     SHit,
-    DHit,
     Empty
 }
 public class PlayerAttack : MonoBehaviour

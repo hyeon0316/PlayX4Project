@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
         {
             float beforehp = other.GetComponent<Life>().HpRatio;
             Debug.Log("bullet 히트");
+            other.GetComponent<I_hp>().SelectHit(AttackHitSoundType.AHit);
             if (other.GetComponent<Life>().HpRatio > 0)
             {
                 other.GetComponent<Life>().NA_stop(2f);

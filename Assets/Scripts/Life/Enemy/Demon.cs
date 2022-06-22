@@ -348,16 +348,20 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         switch (type)
         {
-            case AttackHitSoundType.ZHit:
+            case AttackHitSoundType.ZHit1:
+                FindObjectOfType<SoundManager>().Play("Player/ZAttackHit1",SoundType.Effect);
+                break;
+            case AttackHitSoundType.ZHit2:
+                FindObjectOfType<SoundManager>().Play("Player/ZAttackHit2",SoundType.Effect);
                 break;
             case AttackHitSoundType.XHit:
+                FindObjectOfType<SoundManager>().Play("Player/XAttackHit",SoundType.Effect);
                 break;
             case AttackHitSoundType.AHit:
+                FindObjectOfType<SoundManager>().Play("Player/BulletHit",SoundType.Effect);
                 break;
             case AttackHitSoundType.SHit:
                 FindObjectOfType<SoundManager>().Play("Player/DashAttackHit",SoundType.Effect);
-                break;
-            case AttackHitSoundType.DHit:
                 break;
         }
     }
