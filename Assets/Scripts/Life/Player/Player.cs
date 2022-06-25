@@ -781,10 +781,10 @@ public class Player : Life, I_hp
         _rigid.useGravity = false;
         _rigid.velocity = Vector3.zero;
       
-        for (int i = 1; i <= 16; i++)
+        for (int i = 1; i <= 10; i++)
         {
            // Playerstate = PlayerstateEnum.ncSkill;
-            this.transform.position = Vector3.Slerp(startpos, endpos, i / 16);
+            this.transform.position = Vector3.Slerp(startpos, endpos, i / 10);
             yield return new WaitForEndOfFrame();
         }
         _playerEffectAnim.SetTrigger("Skill1");

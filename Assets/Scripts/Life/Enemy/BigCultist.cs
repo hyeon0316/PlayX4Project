@@ -171,11 +171,12 @@ public class BigCultist : Life, I_hp, I_EnemyControl
     {
         Living = false;
         Enemystate = Enemystate.Dead;
-        _EnemyNav.enabled = true;
+        _EnemyNav.enabled = false;
         _EnemyNav.isStopped = true;
-        _EnemyNav.path.ClearCorners();
+        
         while (true)
         {
+            _EnemyNav.path.ClearCorners();
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Big-Cultist_Death")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {

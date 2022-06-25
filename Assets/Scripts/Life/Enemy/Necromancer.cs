@@ -231,7 +231,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     public IEnumerator DeadAniPlayer()
     {
         Living = false;
-        _enemyNav.enabled = true;
+        _enemyNav.enabled = false;
         _enemyNav.isStopped = true;
         FindObjectOfType<DialogueManager>().OnDialogue(_eventSentences);
         FindObjectOfType<DialogueManager>().TalkPanel.transform.position = GameObject.Find("Demon_Page1").transform.position + new Vector3(0.7f, 0.7f, 0);
@@ -240,6 +240,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
         Animator.SetTrigger("Dead");
         while (true)
         {
+            _enemyNav.path.ClearCorners();
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {

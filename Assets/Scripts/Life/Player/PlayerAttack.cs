@@ -36,7 +36,11 @@ public class PlayerAttack : MonoBehaviour
         HitEnemy(coefficient);
         hitEnemyObj.Clear();
     }
-
+    public void AnimEventend()
+    {
+        _canAttack = false;
+        hitEnemyObj.Clear();
+    }
     public void AnimEventKnockback(AnimationEvent animationEvent)//애니메이션 이벤트가 한개만 들어간다.
     {
         

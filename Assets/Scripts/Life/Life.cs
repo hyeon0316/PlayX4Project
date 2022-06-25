@@ -29,7 +29,14 @@ public class Life :MonoBehaviour
 
     public float HpRatio
     {
-        get { return _hp / _maxhp; }
+        get {if (_hp / _maxhp < 0)
+            {
+                return 0f;
+            }
+            else {     
+            return _hp / _maxhp;
+            }
+        }
     }
 
     public float HP

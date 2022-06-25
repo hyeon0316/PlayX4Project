@@ -178,10 +178,11 @@ public class Assassin : Life, I_hp, I_EnemyControl
     {
         Enemystate = Enemystate.Dead;
         Living = false;
-        _EnemyNav.enabled = true;
+        _EnemyNav.enabled = false;
         _EnemyNav.isStopped = true;
         while (true)
         {
+            _EnemyNav.path.ClearCorners();
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Assassin_Death")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {

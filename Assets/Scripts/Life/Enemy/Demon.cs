@@ -420,10 +420,11 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         Living = false;
         PollParent.gameObject.SetActive(false);
-        _enemyNav.enabled = true;
+        _enemyNav.enabled = false;
         _enemyNav.isStopped = true;
         while (true)
         {
+            _enemyNav.path.ClearCorners();
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
