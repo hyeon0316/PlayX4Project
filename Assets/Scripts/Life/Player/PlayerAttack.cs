@@ -144,9 +144,9 @@ public class PlayerAttack : MonoBehaviour
                 
 
                 Debug.Log("넉백");
-                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().Navstop(0.065f * Power));
-                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop(0.03f * Power));
-                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().GravityStop(0.03f));
+                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().Navstop(0.14f * Power));
+                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop(0.143f * Power));
+                //StartCoroutine(hitEnemyObj[i].GetComponent<Life>().GravityStop(0.01f));
                 if(id == 0) { 
                     hitEnemyObj[i].GetComponent<Life>().KnockBackRight(Player.transform.position, Power);
                 }
@@ -167,6 +167,7 @@ public class PlayerAttack : MonoBehaviour
         {
             StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop(time));
             StartCoroutine(hitEnemyObj[i].GetComponent<Life>().GravityStop(time));
+            StartCoroutine(hitEnemyObj[i].GetComponent<Life>().Navstop(time+0.01f));
         }
     }
 

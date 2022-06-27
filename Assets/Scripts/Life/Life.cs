@@ -101,7 +101,7 @@ public class Life :MonoBehaviour
         Vector3 nomal = (this.transform.position - EnemyPos).normalized;
         Vector3 vector3 = new Vector3(nomal.x, 0.4f, 0);
         rigid.velocity = Vector3.zero;
-        rigid.velocity = vector3 * Power;
+        rigid.AddForce(vector3 * Power, ForceMode.Impulse);
     }
 
     public void KnockBackUp(Vector3 EnemyPos, float Power)
@@ -109,10 +109,10 @@ public class Life :MonoBehaviour
         Debug.Log("knockup");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
         Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
-        Vector3 vector3 = new Vector3(nomal.x * 0.2f, 1.5f, 0);
+        Vector3 vector3 = new Vector3(nomal.x * 0.3f, 1.2f, 0);
         Debug.Log(vector3);
         rigid.velocity = Vector3.zero;
-        rigid.velocity = vector3 * Power;
+        rigid.AddForce(vector3 * Power, ForceMode.Impulse);
     }
 
     public void KnockBackRightUp(Vector3 EnemyPos,float Power)
@@ -122,7 +122,7 @@ public class Life :MonoBehaviour
         Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
         Vector3 vector3 = new Vector3(nomal.x * 0.5f, 0.8f, 0);
         rigid.velocity = Vector3.zero;
-        rigid.velocity = vector3 * Power;
+        rigid.AddForce(vector3 * Power, ForceMode.Impulse);
     }
 
 
@@ -139,18 +139,20 @@ public class Life :MonoBehaviour
             GetComponent<NavMeshAgent>().enabled = false;
         
             yield return new WaitForSeconds(time);
+        if (GetComponent<I_EnemyControl>()._enemystate != Enemystate.Dead) { 
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
-        
+        }
+
+
 
     }
 
     public IEnumerator AnimStop(float time)
     {
-       
-        yield return new WaitForSeconds(0.15f);
-        GetComponentInChildren<Animator>().speed = 0;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+        yield return new WaitForSecondsRealtime(0.031f);
+        GetComponentInChildren<Animator>().speed = 0;
         Debug.LogFormat("{0},애니멈춤", time);
         yield return new WaitForSeconds(time);
      

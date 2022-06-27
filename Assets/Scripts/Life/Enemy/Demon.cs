@@ -72,6 +72,7 @@ public class Demon : Life, I_hp, I_EnemyControl
     // Update is called once per frame
     void Update()
     {
+        
         Debug.Log(_state);
         if (_state != Enemystate.Dead && !Animator.GetCurrentAnimatorStateInfo(0).IsName("Start"))
         {
@@ -420,8 +421,8 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         Living = false;
         PollParent.gameObject.SetActive(false);
+       
         _enemyNav.enabled = false;
-        _enemyNav.isStopped = true;
         while (true)
         {
             _enemyNav.path.ClearCorners();

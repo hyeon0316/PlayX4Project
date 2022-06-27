@@ -51,7 +51,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
                 EnemyMove();
             }
             if (_EnemyNav.enabled)
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+               GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
        
     }
@@ -171,9 +171,8 @@ public class BigCultist : Life, I_hp, I_EnemyControl
     {
         Living = false;
         Enemystate = Enemystate.Dead;
-        _EnemyNav.enabled = false;
-        _EnemyNav.isStopped = true;
         
+        _EnemyNav.enabled = false;
         while (true)
         {
             _EnemyNav.path.ClearCorners();

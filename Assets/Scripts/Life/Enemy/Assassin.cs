@@ -61,6 +61,10 @@ public class Assassin : Life, I_hp, I_EnemyControl
             if(_EnemyNav.enabled)
             GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
+        else
+        {
+
+        }
     }
 
     public void FindPlayer()
@@ -178,8 +182,8 @@ public class Assassin : Life, I_hp, I_EnemyControl
     {
         Enemystate = Enemystate.Dead;
         Living = false;
+        
         _EnemyNav.enabled = false;
-        _EnemyNav.isStopped = true;
         while (true)
         {
             _EnemyNav.path.ClearCorners();

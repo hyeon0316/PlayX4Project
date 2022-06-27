@@ -249,9 +249,9 @@ public class Player : Life, I_hp
         StartCoroutine(StopTime(1f));
             if(Playerstate != PlayerstateEnum.ncSkill) { 
                 Vector3 nomal = (this.transform.position - EnemyPos).normalized;
-                Vector3 vector3 = new Vector3(nomal.x, 0.8f, nomal.z);
+                Vector3 vector3 = new Vector3(nomal.x, 0.8f, 0);
                 _rigid.velocity = Vector3.zero;
-                _rigid.velocity = vector3 * 7f;
+                _rigid.velocity = vector3 * 3f;
             }
         }
     }

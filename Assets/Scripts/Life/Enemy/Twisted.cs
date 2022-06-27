@@ -180,8 +180,8 @@ public class Twisted : Life, I_hp, I_EnemyControl
     {
         Living = false;
         Enemystate = Enemystate.Dead;
+       
         _EnemyNav.enabled = false;
-        _EnemyNav.isStopped = true;
         while (true)
         {
             _EnemyNav.path.ClearCorners();

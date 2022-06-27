@@ -793,18 +793,18 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.25
-    functionName: AnimEventstartAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.25
     functionName: SelectSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 6
+    messageOptions: 0
+  - time: 0.25
+    functionName: AnimEventstartAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
     messageOptions: 0
   - time: 0.33333334
     functionName: SelectHitSound
@@ -849,17 +849,24 @@ AnimationClip:
     intParameter: 2
     messageOptions: 0
   - time: 0.6666667
-    functionName: AnimEventKnockback
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 9
-    intParameter: 1
-    messageOptions: 0
-  - time: 0.6666667
-    functionName: AnimEventendAttack
+    functionName: HitEnemy
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 2
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.75
+    functionName: AnimEventKnockback
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 5
+    intParameter: 2
+    messageOptions: 0
+  - time: 0.8333333
+    functionName: AnimEventend
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.9166667
