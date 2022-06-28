@@ -151,7 +151,8 @@ public class Life :MonoBehaviour
     public IEnumerator AnimStop(float time)
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        yield return new WaitForSeconds(0.0009f);
+        yield return new WaitForSeconds(0.023f);
+        
         GetComponentInChildren<Animator>().speed = 0;
         Debug.LogFormat("{0},애니멈춤", time);
         yield return new WaitForSeconds(time);

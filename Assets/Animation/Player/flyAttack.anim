@@ -683,6 +683,13 @@ AnimationClip:
     floatParameter: 7
     intParameter: 0
     messageOptions: 0
+  - time: 0.78333336
+    functionName: AnimEventKnockback
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 3
+    intParameter: 0
+    messageOptions: 0
   - time: 0.85
     functionName: PlayerStateIdle
     data: 

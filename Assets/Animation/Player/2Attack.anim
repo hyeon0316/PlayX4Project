@@ -859,7 +859,7 @@ AnimationClip:
     functionName: AnimEventKnockback
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 5
+    floatParameter: 8
     intParameter: 2
     messageOptions: 0
   - time: 0.8333333
