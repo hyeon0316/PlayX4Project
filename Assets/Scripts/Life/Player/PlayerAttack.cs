@@ -145,17 +145,17 @@ public class PlayerAttack : MonoBehaviour
 
                 Debug.Log("넉백");
                 StartCoroutine(hitEnemyObj[i].GetComponent<Life>().Navstop(0.14f * Power));
-                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop(0.143f * Power));
+                StartCoroutine(hitEnemyObj[i].GetComponent<Life>().AnimStop((0.133f - Time.deltaTime) * Power));
                 //StartCoroutine(hitEnemyObj[i].GetComponent<Life>().GravityStop(0.01f));
                 if(id == 0) { 
-                    hitEnemyObj[i].GetComponent<Life>().KnockBackRight(Player.transform.position, Power);
+                    hitEnemyObj[i].GetComponent<Life>().KnockBackRight(transform.localScale, Power);
                 }
                 else if(id == 1)
                 {
-                    hitEnemyObj[i].GetComponent<Life>().KnockBackUp(Player.transform.position, Power);
+                    hitEnemyObj[i].GetComponent<Life>().KnockBackUp(transform.localScale, Power);
                 }else if(id == 2)
                 {
-                    hitEnemyObj[i].GetComponent<Life>().KnockBackRightUp(Player.transform.position, Power);
+                    hitEnemyObj[i].GetComponent<Life>().KnockBackRightUp(transform.localScale, Power);
                 }
             }
         }

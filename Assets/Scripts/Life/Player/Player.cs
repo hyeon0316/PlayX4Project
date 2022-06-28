@@ -500,7 +500,7 @@ public class Player : Life, I_hp
                     PlayerAnim.SetBool("IsJump", true);
                     //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
                     gameObject.GetComponent<Rigidbody>().velocity =
-                        new Vector3(_rigid.velocity.x, 1 * 10f, _rigid.velocity.z);
+                        new Vector3(_rigid.velocity.x, 1 * 6f, _rigid.velocity.z);
                     
                    
                 }

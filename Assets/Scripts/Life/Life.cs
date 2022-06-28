@@ -98,7 +98,7 @@ public class Life :MonoBehaviour
     {
         Debug.Log("knockright");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
-        Vector3 nomal = (this.transform.position - EnemyPos).normalized;
+        Vector3 nomal = EnemyPos.x > 0 ? Vector3.right : Vector3.left;
         Vector3 vector3 = new Vector3(nomal.x, 0.4f, 0);
         rigid.velocity = Vector3.zero;
         rigid.AddForce(vector3 * Power, ForceMode.Impulse);
@@ -108,7 +108,7 @@ public class Life :MonoBehaviour
     {
         Debug.Log("knockup");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
-        Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
+        Vector3 nomal = EnemyPos.x > 0 ? Vector3.right : Vector3.left;
         Vector3 vector3 = new Vector3(nomal.x * 0.3f, 1.2f, 0);
         Debug.Log(vector3);
         rigid.velocity = Vector3.zero;
@@ -119,7 +119,7 @@ public class Life :MonoBehaviour
     {
         Debug.Log("knockrightup");
         Rigidbody rigid = this.GetComponent<Rigidbody>();
-        Vector3 nomal = ((this.transform.position - EnemyPos)).normalized;
+        Vector3 nomal = EnemyPos.x > 0 ? Vector3.right : Vector3.left;
         Vector3 vector3 = new Vector3(nomal.x * 0.5f, 0.8f, 0);
         rigid.velocity = Vector3.zero;
         rigid.AddForce(vector3 * Power, ForceMode.Impulse);
@@ -151,7 +151,7 @@ public class Life :MonoBehaviour
     public IEnumerator AnimStop(float time)
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        yield return new WaitForSecondsRealtime(0.031f);
+        yield return new WaitForSeconds(0.0009f);
         GetComponentInChildren<Animator>().speed = 0;
         Debug.LogFormat("{0},애니멈춤", time);
         yield return new WaitForSeconds(time);
