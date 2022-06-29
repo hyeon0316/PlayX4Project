@@ -132,6 +132,9 @@ public class Life :MonoBehaviour
         StartCoroutine(GravityStop(0.03f * time));
     }
 
+  
+
+
     public IEnumerator Navstop(float time)
     {
         
@@ -139,13 +142,10 @@ public class Life :MonoBehaviour
             GetComponent<NavMeshAgent>().enabled = false;
         
             yield return new WaitForSeconds(time);
-        if (GetComponent<I_EnemyControl>()._enemystate != Enemystate.Dead) { 
+        if(HP > 0) { 
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<I_EnemyControl>()._enemystate = Enemystate.Idle;
         }
-
-
-
     }
 
     public IEnumerator AnimStop(float time)

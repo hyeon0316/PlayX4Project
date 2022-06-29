@@ -182,11 +182,12 @@ public class Assassin : Life, I_hp, I_EnemyControl
     {
         Enemystate = Enemystate.Dead;
         Living = false;
-        
+        _EnemyNav.path.ClearCorners();
         _EnemyNav.enabled = false;
         while (true)
         {
             _EnemyNav.path.ClearCorners();
+            _EnemyNav.enabled = false;
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Assassin_Death")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
@@ -194,6 +195,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
+        _EnemyNav.enabled = false;
         Destroy(this.transform.gameObject,Time.deltaTime);
     }
 

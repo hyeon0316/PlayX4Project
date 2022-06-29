@@ -180,11 +180,12 @@ public class Twisted : Life, I_hp, I_EnemyControl
     {
         Living = false;
         Enemystate = Enemystate.Dead;
-       
+        _EnemyNav.path.ClearCorners();
         _EnemyNav.enabled = false;
         while (true)
         {
             _EnemyNav.path.ClearCorners();
+            _EnemyNav.enabled = false;
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Twised-Cultist_Death")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
@@ -192,6 +193,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
+        _EnemyNav.enabled = false;
         Destroy(this.transform.gameObject, Time.deltaTime);
     }
 

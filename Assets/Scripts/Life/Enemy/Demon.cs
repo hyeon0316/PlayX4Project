@@ -421,11 +421,12 @@ public class Demon : Life, I_hp, I_EnemyControl
     {
         Living = false;
         PollParent.gameObject.SetActive(false);
-       
+        _enemyNav.path.ClearCorners();
         _enemyNav.enabled = false;
         while (true)
         {
             _enemyNav.path.ClearCorners();
+            _enemyNav.enabled = false;
             if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Dead")
                 && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
@@ -433,7 +434,7 @@ public class Demon : Life, I_hp, I_EnemyControl
             }
             yield return new WaitForEndOfFrame();
         }
-
+        _enemyNav.enabled = false;
         Destroy(this.transform.gameObject, Time.deltaTime);
     }
 
