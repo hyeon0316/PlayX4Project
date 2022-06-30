@@ -40,7 +40,7 @@ public class TutorialTrigger : MonoBehaviour
 
             Vector3 pos = new Vector3(GameObject.Find("Player").transform.position.x + 2, -1.8f, GameObject.Find("Player").transform.position.z);
             Instantiate(_tutorial.PracticeEnemy, pos, this.transform.rotation);
-            FindObjectOfType<Player>().HP -= 20f;
+            FindObjectOfType<Player>().HP -= FindObjectOfType<Player>()._Maxhp / 2;
             FindObjectOfType<Inventory>().AddUsed(_tutorial.DropItem, 1);
          }
          else if (this.gameObject.name.Equals("GameStart"))

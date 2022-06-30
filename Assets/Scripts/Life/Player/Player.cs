@@ -105,7 +105,8 @@ public class Player : Life, I_hp
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody>();
         //스텟을 초기화 해주는 함수.
-        Initdata(0,100, 10, 5);
+        Initdata(0,DataManager.Instance().Data.PlayerHp, DataManager.Instance().Data.PlayerPower, DataManager.Instance().Data.PlayerSpeed);
+        Debug.Log($"현재 플레이어 체력:{DataManager.Instance().Data.PlayerHp}");
         _oriSpeed = Speed;
         _slowSpeed = _oriSpeed * 0.75f;
         Playerstate = PlayerstateEnum.Idle;

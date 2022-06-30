@@ -136,8 +136,11 @@ public class DialogueManager : MonoBehaviour
         else if (Sentences.Peek().Equals("Stop"))
         {
             CloseTalkPanel();
-            if(_gameManager.EnemyPos[4].transform.parent.gameObject.activeSelf)
-                FindObjectOfType<Necromancer>().IsCutScene = false;
+            if (SceneManager.GetActiveScene().name.Equals("Dungeon"))
+            {
+                if (_gameManager.EnemyPos[4].transform.parent.gameObject.activeSelf)
+                    FindObjectOfType<Necromancer>().IsCutScene = false;
+            }
         }
         else if (Sentences.Peek().Equals("Camera"))
         {

@@ -19,12 +19,14 @@ public class Lobby : MonoBehaviour
     private void Start()
     {
         FindObjectOfType<SoundManager>().Play("LobbyBGM",SoundType.Bgm);
+        DataManager.Instance().Save();
     }
 
     public void StartGame()
     {
         FindObjectOfType<SoundManager>().Play("Object/Button",SoundType.Effect);
         FindObjectOfType<SoundManager>().Play("TutorialBGM",SoundType.Bgm);
+        DataManager.Instance().Load();
         SceneManager.LoadScene("Tutorial");
     }
     
