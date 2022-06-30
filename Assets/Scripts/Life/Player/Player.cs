@@ -295,7 +295,7 @@ public class Player : Life, I_hp
         FindObjectOfType<GameManager>().ActivateCollider("Collider_Dungeon1");
         FindObjectOfType<CameraManager>().BackgroudUpdate();
         FindObjectOfType<CameraManager>().ChangeCameraType();
-        Initdata(0, 100, 10, 5);
+        Initdata(0,DataManager.Instance().Data.PlayerHp, DataManager.Instance().Data.PlayerPower, DataManager.Instance().Data.PlayerSpeed);
         Playerstate = PlayerstateEnum.Idle;
 
         GameManager Enemy = GameObject.Find("GameManager").GetComponent<GameManager>();
