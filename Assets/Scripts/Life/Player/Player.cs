@@ -273,7 +273,7 @@ public class Player : Life, I_hp
     {
         if (HP <= 0)
         {
-            GameObject.Find("Colliders").transform.Find("Collider_Dungeon2").transform.Find("UnderCollider").gameObject.SetActive(true);
+            GameObject.Find("Colliders").transform.Find("Collider_Dungeon3").transform.Find("UnderCollider").gameObject.SetActive(true);
             FindObjectOfType<SoundManager>().Play("Player/PlayerDead",SoundType.Effect);
             PlayerAnim.SetBool("Dead", true);
             Playerstate = PlayerstateEnum.Dead;
