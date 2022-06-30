@@ -34,7 +34,7 @@ public class Bringer : Life, I_hp, I_EnemyControl
 
     private void Awake()
     {
-        Initdata(10, 360, 5, 3); //데이터 입력
+        Initdata(10, DataManager.Instance().Data.BringerHp, DataManager.Instance().Data.BringerPower, DataManager.Instance().Data.BringerSpeed); //데이터 입력
         Enemystate = Enemystate.Idle;
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();

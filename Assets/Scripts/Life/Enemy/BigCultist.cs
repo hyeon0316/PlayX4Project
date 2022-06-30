@@ -27,7 +27,7 @@ public class BigCultist : Life, I_hp, I_EnemyControl
     // Start is called before the first frame update
     void Start()
     {
-        Initdata(3,160, 10, 2);//데이터 입력
+        Initdata(3,DataManager.Instance().Data.BigCultistHp, DataManager.Instance().Data.BigCultistPower, DataManager.Instance().Data.BigCultistSpeed);//데이터 입력
         Enemystate = Enemystate.Attack;
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();

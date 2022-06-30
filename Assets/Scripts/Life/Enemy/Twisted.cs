@@ -27,7 +27,7 @@ public class Twisted : Life, I_hp, I_EnemyControl
     // Start is called before the first frame update
     void Start()
     {
-        Initdata(4,120, 10, 2.5f);//데이터 입력
+        Initdata(4,DataManager.Instance().Data.TwistedHp, DataManager.Instance().Data.TwistedPower, DataManager.Instance().Data.TwistedSpeed);//데이터 입력
         Enemystate = Enemystate.Attack;
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();

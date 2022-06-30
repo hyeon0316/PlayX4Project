@@ -1,5 +1,5 @@
 {
-    "PlayerHp": 10,
+    "PlayerHp": 100,
     "PlayerPower": 10,
     "PlayerSpeed": 5.0,
     "CultistHp": 80,

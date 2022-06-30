@@ -32,7 +32,7 @@ public class Assassin : Life, I_hp, I_EnemyControl
 
     public void Awake()
     {
-        Initdata(1,100, 5, 3);//데이터 입력
+        Initdata(1,DataManager.Instance().Data.AssassinHp, DataManager.Instance().Data.AssassinPower, DataManager.Instance().Data.AssassinSpeed);//데이터 입력
         Enemystate = Enemystate.Attack;
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();

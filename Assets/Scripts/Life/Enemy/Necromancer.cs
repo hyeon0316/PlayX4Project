@@ -36,7 +36,7 @@ public class Necromancer : Life, I_hp, I_EnemyControl
     {
         summonTime = 10f;
         _canSpecialSummon = true;
-        Initdata(100,300, 5, 3);
+        Initdata(100,DataManager.Instance().Data.NecromancerHp, DataManager.Instance().Data.NecromancerPower, DataManager.Instance().Data.NecromancerSpeed);
         PlayerObj = GameObject.Find("Player");
         Animator = this.GetComponentInChildren<Animator>();
         _enemyNav = this.GetComponent<NavMeshAgent>();
