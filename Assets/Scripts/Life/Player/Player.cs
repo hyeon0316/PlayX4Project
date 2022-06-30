@@ -369,51 +369,20 @@ public class Player : Life, I_hp
                         }
                     }
 
-                    /*if (_isWallslide) { 
-                        //오른쪽
-                        if (this.transform.GetChild(0).localScale.x > 0)
-                        {
-                            h = Mathf.Clamp(h, 0, 1);
-                        }
-                        else
-                        {
-                            h = Mathf.Clamp(h, -1, 0);
-                        }
-                    }
-                    else
-                    {
-                        if (this.transform.GetChild(0).localScale.x > 0)
-                        {
-                            h = Mathf.Clamp(h, -1, 0);
-                        }
-                        else
-                        {
-                            h = Mathf.Clamp(h, 0, 1);
-                        }
-                    }*/
-               // }
-
                 if (_isStair)
                 {
                     transform.position += Vector3.up * 1.5f * Time.deltaTime;
                     transform.position += Vector3.right * h * 1.5f * Time.deltaTime;
-                    //_isStair = false;
                 }
                  
                 _rigid.velocity += Vector3.right * h   * Speed;
-                
                 _rigid.velocity += Vector3.forward * v * 0.5f  * Speed;
-                //  _rigid.AddForce(new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed, ForceMode.VelocityChange);
-                //_rigid.velocity = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
-                // _rigid.MovePosition(this.transform.position + movement);
             }
         }
         else
         {
             //플레이어가 idel 로 변경
             PlayerAnim.SetBool("IsRun", false);
-
-            
             if(!_isFry)
             _rigid.velocity =  new Vector3(_rigid.velocity.x * 0.75f, _rigid.velocity.y * 1f, _rigid.velocity.z * 0.75f);
         }
@@ -547,7 +516,6 @@ public class Player : Life, I_hp
             , -(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0),
             Vector3.down);
         //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
-        //Debug.Log(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.y);
         LayerMask layerMask = 1 << LayerMask.GetMask("Floor", "Wall", "InterationObj") ;
         int a = 1 << LayerMask.GetMask("Floor") | LayerMask.GetMask("Wall") | LayerMask.GetMask("InterationObj");
 
@@ -559,13 +527,7 @@ public class Player : Life, I_hp
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
              Debug.Log("stair" + Distance);
-            //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-           /* if (!_isFry && Distance > 0.25f && _rigid.velocity.y > 10f)
-            {
-                ChangeFry(true);
-                PlayerAnim.SetBool("IsJump", true);
-                PlayerAnim.SetBool("IsRun", false);
-            }*/
+            
             //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < 9.8f)
             {//낙하 애니메이션
@@ -597,14 +559,6 @@ public class Player : Life, I_hp
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-            Debug.Log("aaaa" + Distance);
-            //바닥과의 거리가 1f 이상 떨어지고 플레이어의 힘이 위쪽을 향하고 있다면
-          /*  if (!_isFry && Distance > 0.08f)
-            {
-                ChangeFry(true);
-                PlayerAnim.SetBool("IsJump", true);
-                PlayerAnim.SetBool("IsRun", false);
-            }*/
                 //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
                 if (_isFry && _rigid.velocity.y < 9.8f)
             {//낙하 애니메이션
@@ -653,10 +607,6 @@ public class Player : Life, I_hp
                
                 PlayerAnim.SetTrigger("AgainAttack");
                 CountTimeList[1] = 0.98f;
-                
-               // StartCoroutine(Zattackmove());
-
-                 
             }
             }
 
@@ -665,8 +615,7 @@ public class Player : Life, I_hp
                 PlayerAnim.SetTrigger("Attack");
                 CountTimeList[1] = 0.34f;
                 Speed = _slowSpeed;
-               // Playerstate = PlayerstateEnum.Attack;
-              
+           
             }
            
         }
@@ -849,10 +798,7 @@ public class Player : Life, I_hp
     {
 
         //이 함수를 호출하는 타이밍이 공격을 시작하고 나서이다. 그전에 공격할지 말지를 정해야 할것
-       // Playerstate = PlayerstateEnum.ncSkill;
         _rigid.velocity = Vector3.zero;
-       // PlayerAnim.SetTrigger("Skill3");
-       
         if(hitObj.Count == 0)
         {
             PlayerAnim.SetTrigger("NotFlyattack");
@@ -920,21 +866,14 @@ public class Player : Life, I_hp
             PlayerAnim.SetBool("IsJump", true);
             for (int timeline = 0; timeline < 10; timeline++)
             {
-
-
                 _rigid.useGravity = false;
                 this.transform.position += Vector3.up * 0.1f;
-
-
                 yield return new WaitForEndOfFrame();
 
             }
         }
 
         _rigid.velocity = Vector3.zero;
-
-        //yield return new WaitForSeconds(0.05f);
-
         yield return new WaitForSeconds(1f);
         Debug.LogFormat("hitobj : {0}", hitObj.Count);
         Debug.Log("wait");
@@ -951,9 +890,6 @@ public class Player : Life, I_hp
         {
             _rigid.useGravity = true;
         }
-
-       
-
         for (int i = 0; i < gameObjects.Length; i++)
         {
             if (gameObjects[i].name.Contains("Demon")) continue;
@@ -964,9 +900,6 @@ public class Player : Life, I_hp
         }
         PlayerAnim.SetBool("IsFail", true);
         Playerstate = PlayerstateEnum.Idle;
-      
-      
-        
     }
 
     public void Roll()
@@ -1032,9 +965,6 @@ public class Player : Life, I_hp
         _isFry = p_Fry;
     }
 
-
-   
-
     private void WallSlide()
     {
         Ray ray;
@@ -1048,7 +978,6 @@ public class Player : Life, I_hp
             ray = new Ray(this.transform.position + Vector3.down * (_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y
                 , Vector3.right);
         }
-
         WallSlideRaycast(ray);
     }
 
@@ -1097,8 +1026,6 @@ public class Player : Life, I_hp
             
             if (_isWallslide)
             {
-            
-                Debug.Log("벽떨어짐");
                 _isWalljump = false;
                 _isWallslide = false;
                 PlayerAnim.SetBool("WallSlide", false);
@@ -1129,9 +1056,7 @@ public class Player : Life, I_hp
         }
         if (_isFry) 
                 WallSlide();
-      //  }
-
-
+    
     }
 
     private void OnCollisionStay(Collision collision)
