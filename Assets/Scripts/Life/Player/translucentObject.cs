@@ -65,7 +65,6 @@ public class translucentObject : MonoBehaviour
         //반투명화 한것이 1개 이상이 있어야만 반투명화를 실행
         if(Lst_TransparentedRenderer.Count > 0)
         {
-
             for (int j = 0; j < Lst_TransparentedRenderer.Count; ++j)
             {
                 bool _istrigger = true;
@@ -105,21 +104,14 @@ public class translucentObject : MonoBehaviour
 
         SpriteRenderer renderer = _player.transform.GetChild(0).GetComponent<SpriteRenderer>();
         float width = (renderer.sprite.rect.width / renderer.sprite.pixelsPerUnit ) * _player.transform.localScale.x;
-      //  float height = (renderer.sprite.rect.height / renderer.sprite.pixelsPerUnit ) * _player.transform.GetChild(0).transform.localScale.y;
         Vector3 PlayerRight = _player.transform.position + Vector3.right * (width * 0.25f);
         Vector3 PlayerLeft = _player.transform.position + Vector3.left * (width * 0.25f);
-      //  Vector3 PlayerUp = _player.transform.position + Vector3.up * (height * 0.5f);
-       // Vector3 PlayerDown = _player.transform.position + Vector3.down *( height * 0.5f);
-
         Vector3 DirToCam = (_camera.transform.position - _player.transform.position).normalized;
         float Distance = (_camera.transform.position - _player.transform.position).magnitude;
         //카메라와 플레이어 사이의 오브젝트 반투명화
         HitRayTransparentObject2(_player.transform.position, DirToCam, Distance);
         HitRayTransparentObject2(PlayerRight, DirToCam, Distance);
        HitRayTransparentObject2(PlayerLeft, DirToCam, Distance);
-      //  HitRayTransparentObject2(PlayerUp, DirToCam, Distance);
-       // HitRayTransparentObject2(PlayerDown, DirToCam, Distance);
-
     }
 
     /// <summary>
@@ -196,7 +188,6 @@ public class translucentObject : MonoBehaviour
             {
                 //자식이 있다면 자식들을 투명화 하고 자식이 없다면 자기 자신을 투명화 한다.
                 //자식들을 동시에 투명화 하고 싶을 경우 자식에 collider 가 없고 부모에만 collider 가 있다.
-                //부모에만 콜리더가 있고 자식에 콜리더가 없는 경우 if 문 안쪽에 문장 실행
                 if (HitObject[i].transform.childCount > 0) {
                     for(int m = 0; m < HitObject[i].transform.childCount; m++)
                     {
@@ -212,15 +203,11 @@ public class translucentObject : MonoBehaviour
                         }
 
                         if (!checkMaterial) continue;
-
-                        Debug.LogFormat("{0}", HitObject[i].collider.name);
                         int instanceid = HitObject[i].transform.GetChild(m).gameObject.GetInstanceID();
                         AddDic_SaveOcjectInfo(HitObject[i].transform.GetChild(m).gameObject);
 
                         if (!raycastHits.Contains(HitObject[i].transform.GetChild(m).gameObject))
                             raycastHits.Add(HitObject[i].transform.GetChild(m).gameObject);
-
-
 
                         Color beforeColor = Dic_SaveObjectInfo[instanceid].Mesh_Renderer.material.color;
 
@@ -236,19 +223,14 @@ public class translucentObject : MonoBehaviour
                             }
 
                         }
-
-                        // Debug.LogFormat("color : {0}", beforeColor);
-
-
+                        //마테리얼 데이터를 변경하는 함수=> 마테리얼 자체를 변경하는것이 아닌 데이터만 변경하는것으로 
                         MaterialPropertyBlock material = new MaterialPropertyBlock();
-                        Debug.LogFormat("color {0}", material.GetFloat("_Mode"));
                         material.SetTexture("Albedo", Dic_SaveObjectInfo[instanceid].OrinMaterial.mainTexture);
                         Dic_SaveColor[instanceid] = Change_Color(Dic_SaveColor[instanceid], true);
                         material.SetColor("_Color", Dic_SaveColor[instanceid]);
 
                         Dic_SaveObjectInfo[instanceid].Mesh_Renderer.SetPropertyBlock(material);
 
-                        //반투명화 리스트에 추가
                         if (!Lst_TransparentedRenderer.Contains(Dic_SaveObjectInfo[instanceid]))
                             Lst_TransparentedRenderer.Add(Dic_SaveObjectInfo[instanceid]);
                     }
@@ -256,7 +238,6 @@ public class translucentObject : MonoBehaviour
                 } else//자기 자신만 투명하게 할려면 자기 자신에 자식이 없어야 한다. 
                 {
                 //맞은 오브젝트의 id 값을 가져와서 저장 및 수정
-              //  Debug.LogFormat("{0}", HitObject[i].collider.name);
                     bool checkMaterial = false;
                     for (int k = 0; k < origin_Material.Length; k++)
                     {
@@ -291,11 +272,7 @@ public class translucentObject : MonoBehaviour
 
                  }
 
-                // Debug.LogFormat("color : {0}", beforeColor);
-
-
                 MaterialPropertyBlock material = new MaterialPropertyBlock();
-                //Debug.LogFormat("color {0}", material.GetFloat("_Mode"));
                 material.SetTexture("Albedo", Dic_SaveObjectInfo[instanceid].OrinMaterial.mainTexture);
                 Dic_SaveColor[instanceid] = Change_Color(Dic_SaveColor[instanceid], true);
                 material.SetColor("_Color", Dic_SaveColor[instanceid]);
@@ -311,25 +288,6 @@ public class translucentObject : MonoBehaviour
         }
         
     }
-
-    private void TransparentObject(RaycastHit raycastHit) { }
-
-    private void AddDic_SaveOcjectInfoChildren(GameObject raycastHit, int index)
-    {
-        int instanceid = raycastHit.transform.GetChild(index).GetComponent<Collider>().GetInstanceID();
-        if (!Dic_SaveObjectInfo.ContainsKey(instanceid))
-        {
-            MeshRenderer obsRenderer = raycastHit.transform.GetChild(index).gameObject.GetComponent<MeshRenderer>();
-            St_ObstacleRendererInfo rendererInfo = new St_ObstacleRendererInfo();
-            rendererInfo.InstanceId = instanceid;
-            rendererInfo.Mesh_Renderer = obsRenderer;
-            rendererInfo.OrinMaterial = obsRenderer.material;
-            Dic_SaveColor.Add(instanceid, Color.white);
-
-            Dic_SaveObjectInfo[instanceid] = rendererInfo;
-        }
-    }
-
     private void AddDic_SaveOcjectInfo(GameObject raycastHit)
     {
         int instanceid = raycastHit.GetInstanceID();

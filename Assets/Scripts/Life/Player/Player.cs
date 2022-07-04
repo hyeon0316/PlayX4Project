@@ -145,7 +145,7 @@ public class Player : Life, I_hp
                     && Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
             {
                 PlayerJump();
-                // WallSlide();
+                
             }
 
             if (!IsStop && (Playerstate != PlayerstateEnum.Dead&& Playerstate != PlayerstateEnum.Skill && Playerstate != PlayerstateEnum.ncSkill))
@@ -238,8 +238,6 @@ public class Player : Life, I_hp
         }
         return false;
     }
-
-    //todo :  KnockBack함수를 Life 클래스를 수정하여 제작할지 테스트후 적용
     /// <summary>
     /// 1번째 인자 반대편으로 너백당하는 함수
     /// </summary>
@@ -334,13 +332,9 @@ public class Player : Life, I_hp
             //플레이어가 공격중이 아닐때만 이동할 수 있도록 설정
             if (Playerstate != PlayerstateEnum.Attack && !_isWalljump)
             {
-
-             //   Vector3 movement = new Vector3(h, 0, v * 0.5f) * Time.deltaTime * Speed;
-                
                 _rigid.velocity = this._rigid.velocity.y * Vector3.up;
 
-               // if (_isWall)
-               // {
+           
                    if(wallisX > 0)//오른쪽에 벽이 있음
                     {
                         h = Mathf.Clamp(h, -1, 0);
@@ -381,21 +375,17 @@ public class Player : Life, I_hp
         }
         else
         {
-            //플레이어가 idel 로 변경
             PlayerAnim.SetBool("IsRun", false);
             if(!_isFry)
             _rigid.velocity =  new Vector3(_rigid.velocity.x * 0.75f, _rigid.velocity.y * 1f, _rigid.velocity.z * 0.75f);
         }
-
-
-
     }
 
 
     public void ChangeLadder(GameObject colliderObj, bool changeLadder)
     {
         _isLadder = changeLadder;
-        //사다리 탔을 때
+       
         if (_isLadder)
         {
             if (colliderObj.transform.Find("Collider").transform.Find("Top"))
@@ -410,7 +400,7 @@ public class Player : Life, I_hp
                 ClimbLadder(colliderObj, 1f);
             }
         }
-        else//사다리에서 내릴 때 순간이동하여 다른 바닥에 착지
+        else
         {
             Ray ray = new Ray(this.transform.position, Vector3.forward);
 
@@ -454,8 +444,6 @@ public class Player : Life, I_hp
         
         this.transform.Translate(Vector3.up * v * Time.deltaTime);
     }
-
-
     private void PlayerJump()
     {
         //대화중이 아닐때만 점프
@@ -467,18 +455,13 @@ public class Player : Life, I_hp
                 if (!_isFry)
                 {
                     ChangeFry(true);
-                  //  _isFry = true;
                     PlayerAnim.SetBool("IsJump", true);
                     //플레이어가 y 축으로 올라갈 수 있도록 velocity 를 재설정
                     gameObject.GetComponent<Rigidbody>().velocity =
                         new Vector3(_rigid.velocity.x, 1 * 10f, _rigid.velocity.z);
-                    
-                   
                 }
                 else
                 {
-
-                    //벽에 슬라이드중
                     if (_isWallslide)
                     {
                                 gameObject.GetComponent<Rigidbody>().velocity =
@@ -489,9 +472,6 @@ public class Player : Life, I_hp
                             PlayerAnim.SetBool("IsJump", true);
                             PlayerAnim.SetBool("WallSlide", false);
                             Physics.gravity = Vector3.down * 25f;
-                            
-                        
-                        
                     }
                 }
 
@@ -509,31 +489,22 @@ public class Player : Life, I_hp
     {
         RaycastHit hit;
         //자신 기준 플레이어 sprite y 축 크기의 절반만큼 빼서 플레이어 발 에서 부터 ray 를 출력할 수 있도록 좌표설정
-
-
         Ray ray = new Ray(transform.position + new Vector3(_playerSprite.sprite.rect.width * 0.48f/ _playerSprite.sprite.pixelsPerUnit * this.transform.localScale.x 
             * Input.GetAxisRaw("Horizontal")
             , -(_playerSprite.sprite.rect.height / _playerSprite.sprite.pixelsPerUnit) * this.transform.localScale.y, 0),
             Vector3.down);
-        //아래 방향을로 ray 를 발사하여 Floor layer 만 충돌하도록 설정
+     
         LayerMask layerMask = 1 << LayerMask.GetMask("Floor", "Wall", "InterationObj") ;
         int a = 1 << LayerMask.GetMask("Floor") | LayerMask.GetMask("Wall") | LayerMask.GetMask("InterationObj");
-
-
-
        if (Physics.Raycast(ray,out hit,2f, LayerMask.GetMask("Stair")))
         {
 
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-             Debug.Log("stair" + Distance);
-            
-            //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
             if (_isFry && _rigid.velocity.y < 9.8f)
-            {//낙하 애니메이션
+            {
                 PlayerAnim.SetBool("IsFall", true);
             }
-            //플레이어가 땅에 도착할때
             if (_isFry && Distance < 0.25f)
             {
                 PlayerAnim.SetBool("IsFall", false);
@@ -559,12 +530,11 @@ public class Player : Life, I_hp
         {
             //바닥과 플레이어 사이의 거리
             float Distance = hit.distance;
-                //플레이어가 날고 있고 플레이어의 힘이 아래쪽으로 떨어지고 있다면
-                if (_isFry && _rigid.velocity.y < 9.8f)
-            {//낙하 애니메이션
+              
+            if (_isFry && _rigid.velocity.y < 9.8f)
+            {
                 PlayerAnim.SetBool("IsFall", true);
             }
-            //플레이어가 땅에 도착할때
             if (_isFry && Distance < 0.08f && _rigid.velocity.y < 9.8f)
             {
                
@@ -645,9 +615,7 @@ public class Player : Life, I_hp
 
     public void AllstopSkillCor()
     {
-      //  StopAllCoroutines();
-        for(int i = 0; i < enumerators.Length
-            ; i++)
+        for(int i = 0; i < enumerators.Length; i++)
         {
             if(enumerators[i] != null)
             StopCoroutine(enumerators[i]);
@@ -655,8 +623,7 @@ public class Player : Life, I_hp
     }
 
     public void Skill()
-    {
-
+    { 
         if (Input.GetKeyDown(KeyCode.S))
         {
             if (CountTimeList[2] <= 0)
@@ -698,8 +665,6 @@ public class Player : Life, I_hp
                 Roll();
             }
         }
-
-
     }
 
     public void SkillOne()
@@ -722,16 +687,11 @@ public class Player : Life, I_hp
         {
             distance = hit.distance * 0.8f;
         }
-
         Vector3 startpos = this.transform.position;
         Vector3 endpos = startpos + (Vector3.right * distance);
-        
-      
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length * 0.1f);
-
         _rigid.useGravity = false;
         _rigid.velocity = Vector3.zero;
-      
         for (int i = 1; i <= 10; i++)
         {
            // Playerstate = PlayerstateEnum.ncSkill;
@@ -739,8 +699,6 @@ public class Player : Life, I_hp
             yield return new WaitForEndOfFrame();
         }
         _playerEffectAnim.SetTrigger("Skill1");
-
-
         yield return new WaitForSeconds(PlayerAnim.GetCurrentAnimatorStateInfo(0).length 
             - PlayerAnim.GetCurrentAnimatorStateInfo(0).length * (PlayerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime+0.03f));
         _rigid.useGravity = true;
@@ -1042,13 +1000,10 @@ public class Player : Life, I_hp
 
      private void OnCollisionEnter(Collision collision)
       {
-
-       // if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
             _isWall = true;
         if(collision.transform.gameObject.layer != LayerMask.GetMask("Stair"))
         if (_isFry)
         {
-            
             if(Mathf.Abs(wallisX) < Math.Abs(collision.contacts[0].point.x - this.transform.position.x))
               wallisX = collision.contacts[0].point.x - this.transform.position.x;//양수 오른쪽에 있음, 음수 , 왼쪽에 있음
             if (Mathf.Abs(wallisZ) < Math.Abs(collision.contacts[0].point.z - this.transform.position.z))
@@ -1061,7 +1016,7 @@ public class Player : Life, I_hp
 
     private void OnCollisionStay(Collision collision)
     {
-       // if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")){
+       
             _isWall = true;
         if (collision.transform.gameObject.layer != LayerMask.GetMask("Stair"))
         if (_isFry)
@@ -1073,7 +1028,7 @@ public class Player : Life, I_hp
         }
             if (_isFry)
                 WallSlide();
-       // }
+       
     }
 
     /// <summary>

@@ -199,7 +199,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
 
     public void EnemyAttack(float coefficient)
     {
-        //적의 공격범위 콜리더가 플레이어 콜리더 범위에 들어왔을때 플레이어에게 데미지를 줌
         if (_enemyAttack.IshitPlayer)
         {
             Debug.LogFormat("{0},{1}", this.name, "hit");
@@ -207,7 +206,6 @@ public class Twisted : Life, I_hp, I_EnemyControl
         }
     }
 
-    
     public void EnemyMove()
     {
         if (Enemystate == Enemystate.Find)

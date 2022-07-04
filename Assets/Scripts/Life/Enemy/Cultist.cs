@@ -78,7 +78,6 @@ public class Cultist : Life, I_hp, I_EnemyControl
                     Enemystate = Enemystate.Idle;
                     Animator.SetBool("isWalk", false);
                 }
-
             }
         }
         else
@@ -102,7 +101,6 @@ public class Cultist : Life, I_hp, I_EnemyControl
                 }
             }
         }
-
         if (Enemystate == Enemystate.Attack)
         {
             if ((Animator.GetCurrentAnimatorStateInfo(0).IsName("Cultist_Attack") || Animator.GetCurrentAnimatorStateInfo(0).IsName("Cultist_farawayAttack"))
@@ -110,7 +108,6 @@ public class Cultist : Life, I_hp, I_EnemyControl
             {
                 Enemystate = Enemystate.Find;
             }
-
             if (_attackDelay <= 0)
             {
                 Enemystate = Enemystate.Find;
@@ -200,8 +197,6 @@ public class Cultist : Life, I_hp, I_EnemyControl
 
     public void EnemyAttack(float coefficient)
     {
-        Debug.Log("파이어볼생성");
-
         int index = FireballMemorypool();
         GameObject InsFireball = FireballMem[index];
         InsFireball.SetActive(true);
